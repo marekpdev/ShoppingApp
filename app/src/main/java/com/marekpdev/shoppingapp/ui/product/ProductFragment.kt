@@ -1,28 +1,25 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.ui.product
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.marekpdev.shoppingapp.R
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class HomeFragment : Fragment() {
+class ProductFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_product, container, false)
 
-        view.findViewById<Button>(R.id.btnProduct).setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_productFragment)
-        }
-
+//        view.findViewById<Button>(R.id.signup_btn).setOnClickListener {
+//            findNavController().navigate(R.id.action_register_to_registered)
+//        }
         return view
     }
 

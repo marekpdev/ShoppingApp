@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/favourite"
+    app:startDestination="@id/favouriteFragment">
+
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.marekpdev.shoppingapp.ui.favourite.FavouriteFragment"
+        android:label="FavouriteFragment" />
+</navigation>
