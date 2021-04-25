@@ -41,8 +41,7 @@
                 android:id="@+id/tlProductImages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="20dp"
+                android:layout_gravity="bottom|center"
                 android:layout_marginBottom="@dimen/shape_rounded_corner"
                 android:background="@android:color/transparent"
                 app:tabBackground="@drawable/tab_pager_selector"
@@ -73,18 +72,33 @@
         android:layout_marginTop="@dimen/product_card_top_overlap"
         android:background="@drawable/shape_rounded_top"
         android:overScrollMode="never"
-        android:padding="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="match_parent"
+                android:text="some button"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/tvLongText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="some really really long text" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:text="some button2"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
