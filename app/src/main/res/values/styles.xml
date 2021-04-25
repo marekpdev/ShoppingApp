@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <style name="ChipBackground" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="chipBackgroundColor">@color/white</item>
-        <item name="chipStrokeColor">@color/colorPrimaryDark</item>
-        <item name="chipStrokeWidth">1.5dp</item>
-        <item name="chipEndPadding">0dp</item>
-        <item name="textStartPadding">10dp</item>
-        <item name="android:selectableItemBackground">@drawable/circle_background</item>
-        <item name="android:textAppearance">@style/ChipTextAppearance</item>
-    </style>
-
     <style name="ChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
         <item name="fontFamily">@font/rubik_medium</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/rubik_medium</item>
     </style>
-
 
 </resources>

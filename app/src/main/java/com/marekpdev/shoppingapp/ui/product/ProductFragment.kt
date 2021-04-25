@@ -27,6 +27,7 @@ import com.marekpdev.shoppingapp.Utils
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
+import com.marekpdev.shoppingapp.views.ChipsHelper
 
 // https://medium.com/@sreeharikv112/create-introduction-screen-with-viewpager2-and-circle-indicators-no-custom-library-please-68d5b1fec8b1
 // https://github.com/sreeharikv112/ViewPagerIndicator
@@ -94,96 +95,18 @@ class ProductFragment : Fragment() {
 
 
 
-
-
-
-
-        // SIZES
-
-
-
-
-
-
-
         val chipGroupSizes = view.findViewById<ChipGroup>(R.id.chipGroupSizes)
+        val onSizeClicked: (Size) -> Unit = { size -> Log.d("FEO33", "Clicked ${size.name}")}
 
-        val sizes = (1..9).map { Size(it, "0$it") }
-        sizes.forEach { size ->
-//            val chip = LayoutInflater.from(context).inflate(R.layout.product_size_chip, null) as Chip
-//            chip.text = size.name
-//            chip.setOnClickListener {
-//                Log.d("FEO33", "You clicked ${size.name}")
-//            }
-
-            val radius = resources.getDimension(R.dimen.chip_corner_radius)
-            val strokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
-
-            val chip = Chip(context)
-            chip.text = size.name
-
-            val backgroundColor = ContextCompat.getColor(requireContext(), R.color.white)
-            val strokeColor = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-
-            //            val colorParsed = android.graphics.Color.parseColor(color.rgbHex)
-//
-            val states = arrayOf(
-                intArrayOf(android.R.attr.state_enabled),
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(-android.R.attr.state_checked),
-                intArrayOf(android.R.attr.state_pressed)
-            )
-//
-            val colorss = intArrayOf(
-                backgroundColor,
-                Utils.adjustAlpha(backgroundColor, 0.30f),
-                backgroundColor,
-                backgroundColor
-            )
-
-            val states2 = arrayOf(
-                intArrayOf(android.R.attr.state_enabled),
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(-android.R.attr.state_checked),
-                intArrayOf(android.R.attr.state_pressed)
-            )
-//
-            val colorss2 = intArrayOf(
-                strokeColor,
-                Utils.adjustAlpha(strokeColor, 0.30f),
-                strokeColor,
-                strokeColor
-            )
-
-//
-            chip.chipBackgroundColor = ColorStateList(states, colorss)
-            chip.chipStrokeColor = ColorStateList(states2, colorss2)
-            chip.chipStrokeWidth = strokeWidth
-
-
-
-
-
-            val shapeAppearanceModel = ShapeAppearanceModel()
-                .toBuilder()
-                .setAllCorners(CornerFamily.ROUNDED, radius)
-                .build()
-            chip.shapeAppearanceModel = shapeAppearanceModel
-
-
-            // some guy said
-            // yeah, can add chips to group with  chipGroup.addView(chip);
-            // please note that you should add id to each chip in order
-            // to some functionality of group work perfectly
-            // (e.g singleSelection="true" )
-            // chip.setId(ViewCompat.generateViewId());
-            // probably not needed but might be worth checking later
-            chipGroupSizes.addView(chip)
-        }
-
-
-
-
+        (1..9).map { Size(it, "0$it") }
+                .forEach { size ->
+                    ChipsHelper.createChip(
+                            requireContext(),
+                            size, onSizeClicked
+                    ).also { chip ->
+                        chipGroupSizes.addView(chip)
+                    }
+                }
 
         // COLORS
 
@@ -191,13 +114,13 @@ class ProductFragment : Fragment() {
 
 
 
-        val chipGroupColors = view.findViewById<ChipGroup>(R.id.chipGroupColors)
-        val colors = mutableListOf(
-            Color(1, "light sea green", "#17C3B2"),
-            Color(2, "CG Blue", "#227C9D"),
-            Color(3, "maximum yellow red", "#FFCB77")
-        )
-        colors.forEach { color ->
+//        val chipGroupColors = view.findViewById<ChipGroup>(R.id.chipGroupColors)
+//        val colors = mutableListOf(
+//            Color(1, "light sea green", "#17C3B2"),
+//            Color(2, "CG Blue", "#227C9D"),
+//            Color(3, "maximum yellow red", "#FFCB77")
+//        )
+//        colors.forEach { color ->
 
 //            val chip = LayoutInflater.from(context).inflate(R.layout.product_color_chip, null) as Chip
 //            val chip = Chip(context, null, R.style.ChipColor)
@@ -231,7 +154,6 @@ class ProductFragment : Fragment() {
 ////            }
 ////            chip.width = 400
 //            chipGroupColors.addView(chip)
-        }
 //        chipGroupColors.requestLayout()
 
         return view

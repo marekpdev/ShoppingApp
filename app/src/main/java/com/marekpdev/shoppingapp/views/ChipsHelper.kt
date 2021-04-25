@@ -15,16 +15,17 @@ import com.marekpdev.shoppingapp.models.Size
  */
 object ChipsHelper {
 
-    fun createChip(context: Context, size: Size): Chip{
+    fun createChip(context: Context,
+                   size: Size,
+                   onSizeClicked: (Size) -> Unit): Chip{
 
         //            val chip = LayoutInflater.from(context).inflate(R.layout.product_size_chip, null) as Chip
-//            chip.setOnClickListener {
-//                Log.d("FEO33", "You clicked ${size.name}")
-//            }
+
 
 
 
         val chip = Chip(context)
+        chip.setOnClickListener { onSizeClicked(size) }
 
         val radius = context.resources.getDimension(R.dimen.chip_corner_radius)
         val strokeWidth = context.resources.getDimension(R.dimen.chip_stroke_width)
@@ -54,7 +55,7 @@ object ChipsHelper {
             intArrayOf(-android.R.attr.state_checked),
             intArrayOf(android.R.attr.state_pressed)
         )
-//
+
         val strokeColorColors = intArrayOf(
             strokeColor,
             Utils.adjustAlpha(strokeColor, 0.30f),
@@ -62,9 +63,10 @@ object ChipsHelper {
             strokeColor
         )
 
-        chip.chipBackgroundColor = ColorStateList(states, colorss)
-        chip.chipStrokeColor = ColorStateList(states2, colorss2)
+        chip.chipBackgroundColor = ColorStateList(backgroundColorStates, backgroundColorColors)
+        chip.chipStrokeColor = ColorStateList(strokeColorStates, strokeColorColors)
         chip.chipStrokeWidth = strokeWidth
+        chip.setTextAppearance(R.style.ChipTextAppearance)
 
         val shapeAppearanceModel = ShapeAppearanceModel()
             .toBuilder()
@@ -80,9 +82,17 @@ object ChipsHelper {
         // chip.setId(ViewCompat.generateViewId());
         // probably not needed but might be worth checking later
 
+        // we had main parent style from
+        //  <style name="ChipBackground" parent="Widget.MaterialComponents.Chip.Choice">
+        // also not sure about
+        //  <item name="android:selectableItemBackground">@drawable/circle_background</item>
+
         return chip
 
     }
+
+
+
 
 
 }
