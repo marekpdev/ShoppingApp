@@ -15,6 +15,6 @@
 
 
     <dimen name="chip_corner_radius">10dp</dimen>
-
+    <dimen name="chip_stroke_width">1.5dp</dimen>
 
 </resources>

@@ -10,14 +10,20 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.Utils
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
@@ -104,11 +110,66 @@ class ProductFragment : Fragment() {
 
         val sizes = (1..9).map { Size(it, "0$it") }
         sizes.forEach { size ->
-            val chip = LayoutInflater.from(context).inflate(R.layout.product_size_chip, null) as Chip
+//            val chip = LayoutInflater.from(context).inflate(R.layout.product_size_chip, null) as Chip
+//            chip.text = size.name
+//            chip.setOnClickListener {
+//                Log.d("FEO33", "You clicked ${size.name}")
+//            }
+
+            val radius = resources.getDimension(R.dimen.chip_corner_radius)
+            val strokeWidth = resources.getDimension(R.dimen.chip_stroke_width)
+
+            val chip = Chip(context)
             chip.text = size.name
-            chip.setOnClickListener {
-                Log.d("FEO33", "You clicked ${size.name}")
-            }
+
+            val backgroundColor = ContextCompat.getColor(requireContext(), R.color.white)
+            val strokeColor = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+
+            //            val colorParsed = android.graphics.Color.parseColor(color.rgbHex)
+//
+            val states = arrayOf(
+                intArrayOf(android.R.attr.state_enabled),
+                intArrayOf(-android.R.attr.state_enabled),
+                intArrayOf(-android.R.attr.state_checked),
+                intArrayOf(android.R.attr.state_pressed)
+            )
+//
+            val colorss = intArrayOf(
+                backgroundColor,
+                Utils.adjustAlpha(backgroundColor, 0.30f),
+                backgroundColor,
+                backgroundColor
+            )
+
+            val states2 = arrayOf(
+                intArrayOf(android.R.attr.state_enabled),
+                intArrayOf(-android.R.attr.state_enabled),
+                intArrayOf(-android.R.attr.state_checked),
+                intArrayOf(android.R.attr.state_pressed)
+            )
+//
+            val colorss2 = intArrayOf(
+                strokeColor,
+                Utils.adjustAlpha(strokeColor, 0.30f),
+                strokeColor,
+                strokeColor
+            )
+
+//
+            chip.chipBackgroundColor = ColorStateList(states, colorss)
+            chip.chipStrokeColor = ColorStateList(states2, colorss2)
+            chip.chipStrokeWidth = strokeWidth
+
+
+
+
+
+            val shapeAppearanceModel = ShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, radius)
+                .build()
+            chip.shapeAppearanceModel = shapeAppearanceModel
+
 
             // some guy said
             // yeah, can add chips to group with  chipGroup.addView(chip);
