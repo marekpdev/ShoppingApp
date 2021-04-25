@@ -17,79 +17,75 @@ object ChipsHelper {
 
     fun createChip(context: Context,
                    size: Size,
-                   onSizeClicked: (Size) -> Unit): Chip{
+                   onSizeClicked: (Size) -> Unit): Chip {
 
-        //            val chip = LayoutInflater.from(context).inflate(R.layout.product_size_chip, null) as Chip
+        return Chip(context).apply {
 
+            setOnClickListener { onSizeClicked(size) }
 
+            text = size.name
 
+            val backgroundColor = ContextCompat.getColor(context, R.color.white)
+            val strokeColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
 
-        val chip = Chip(context)
-        chip.setOnClickListener { onSizeClicked(size) }
+            // todo
+            // not sure if we can reuse the states or we need to create
+            // new values for each use in ColorStateList
+            val states = arrayOf(
+                    intArrayOf(android.R.attr.state_enabled),
+                    intArrayOf(-android.R.attr.state_enabled),
+                    intArrayOf(-android.R.attr.state_checked),
+                    intArrayOf(android.R.attr.state_pressed)
+            )
 
-        val radius = context.resources.getDimension(R.dimen.chip_corner_radius)
-        val strokeWidth = context.resources.getDimension(R.dimen.chip_stroke_width)
+            chipBackgroundColor = ColorStateList(
+                    states,
+                    intArrayOf(
+                            backgroundColor,
+                            Utils.adjustAlpha(backgroundColor, 0.30f),
+                            backgroundColor,
+                            backgroundColor
+                    )
+            )
 
-        chip.text = size.name
+            chipStrokeColor = ColorStateList(
+                    states,
+                    intArrayOf(
+                            strokeColor,
+                            Utils.adjustAlpha(strokeColor, 0.30f),
+                            strokeColor,
+                            strokeColor
+                    )
+            )
 
-        val backgroundColor = ContextCompat.getColor(context, R.color.white)
-        val strokeColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
+            chipStrokeWidth = context.resources.getDimension(R.dimen.chip_stroke_width)
+            setTextAppearance(R.style.ChipTextAppearance)
 
-        val backgroundColorStates = arrayOf(
-            intArrayOf(android.R.attr.state_enabled),
-            intArrayOf(-android.R.attr.state_enabled),
-            intArrayOf(-android.R.attr.state_checked),
-            intArrayOf(android.R.attr.state_pressed)
-        )
-//
-        val backgroundColorColors = intArrayOf(
-            backgroundColor,
-            Utils.adjustAlpha(backgroundColor, 0.30f),
-            backgroundColor,
-            backgroundColor
-        )
+            shapeAppearanceModel = ShapeAppearanceModel()
+                    .toBuilder()
+                    .setAllCorners(
+                            CornerFamily.ROUNDED,
+                            context.resources.getDimension(R.dimen.chip_corner_radius)
+                    )
+                    .build()
 
-        val strokeColorStates = arrayOf(
-            intArrayOf(android.R.attr.state_enabled),
-            intArrayOf(-android.R.attr.state_enabled),
-            intArrayOf(-android.R.attr.state_checked),
-            intArrayOf(android.R.attr.state_pressed)
-        )
+            // some guy said
+            // yeah, can add chips to group with  chipGroup.addView(chip);
+            // please note that you should add id to each chip in order
+            // to some functionality of group work perfectly
+            // (e.g singleSelection="true" )
+            // chip.setId(ViewCompat.generateViewId());
+            // probably not needed but might be worth checking later
 
-        val strokeColorColors = intArrayOf(
-            strokeColor,
-            Utils.adjustAlpha(strokeColor, 0.30f),
-            strokeColor,
-            strokeColor
-        )
-
-        chip.chipBackgroundColor = ColorStateList(backgroundColorStates, backgroundColorColors)
-        chip.chipStrokeColor = ColorStateList(strokeColorStates, strokeColorColors)
-        chip.chipStrokeWidth = strokeWidth
-        chip.setTextAppearance(R.style.ChipTextAppearance)
-
-        val shapeAppearanceModel = ShapeAppearanceModel()
-            .toBuilder()
-            .setAllCorners(CornerFamily.ROUNDED, radius)
-            .build()
-        chip.shapeAppearanceModel = shapeAppearanceModel
-
-        // some guy said
-        // yeah, can add chips to group with  chipGroup.addView(chip);
-        // please note that you should add id to each chip in order
-        // to some functionality of group work perfectly
-        // (e.g singleSelection="true" )
-        // chip.setId(ViewCompat.generateViewId());
-        // probably not needed but might be worth checking later
-
-        // we had main parent style from
-        //  <style name="ChipBackground" parent="Widget.MaterialComponents.Chip.Choice">
-        // also not sure about
-        //  <item name="android:selectableItemBackground">@drawable/circle_background</item>
-
-        return chip
+            // we had main parent style from
+            //  <style name="ChipBackground" parent="Widget.MaterialComponents.Chip.Choice">
+            // also not sure about
+            //  <item name="android:selectableItemBackground">@drawable/circle_background</item>
+        }
 
     }
+
+
 
 
 
