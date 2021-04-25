@@ -85,6 +85,8 @@ object ChipsHelper {
             //  <style name="ChipBackground" parent="Widget.MaterialComponents.Chip.Choice">
             // also not sure about
             //  <item name="android:selectableItemBackground">@drawable/circle_background</item>
+//            isCheckable = true
+//            checkedIcon = null
         }
 
     }
@@ -122,6 +124,8 @@ object ChipsHelper {
 
             width = context.resources.getDimension(R.dimen.chip_color_width).toInt()
             height = context.resources.getDimension(R.dimen.chip_color_height).toInt()
+
+//            isCheckable = true
 
         }
     }

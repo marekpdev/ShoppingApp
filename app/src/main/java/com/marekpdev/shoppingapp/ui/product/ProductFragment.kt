@@ -95,7 +95,13 @@ class ProductFragment : Fragment() {
 
         // SIZES
         val chipGroupSizes = view.findViewById<ChipGroup>(R.id.chipGroupSizes)
-        val onSizeClicked: (Size) -> Unit = { size -> Log.d("FEO33", "Clicked ${size.name}")}
+        chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
+            Log.d("FEO33", "Checked changed")
+        }
+
+        val onSizeClicked: (Chip, Size) -> Unit = { chip, size ->
+            Log.d("FEO33", "Clicked ${chip.id} ${size.name} ${chip.isChecked}")
+        }
 
         (1..9).map { Size(it, "0$it") }
                 .forEach { size ->
@@ -103,7 +109,7 @@ class ProductFragment : Fragment() {
                             requireContext(),
                             size
                     ).also { chip ->
-                        chip.setOnClickListener { onSizeClicked(size) }
+                        chip.setOnClickListener { onSizeClicked(it as Chip, size) }
                         chipGroupSizes.addView(chip)
                     }
                 }
