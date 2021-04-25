@@ -4,32 +4,71 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/tvName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flow Shirt Blouse"
+        android:textColor="@color/textColorPrimary"
+        android:fontFamily="@font/rubik_medium"
+        android:textSize="24sp" />
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/tvPrice"
+        android:text="$240"
+        android:layout_marginTop="16dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+    <TextView
+        android:id="@+id/tvDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Pinstripped cornflower blue cotton blouse takes you on a walk to the park or just down the hall."
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        android:textColor="@color/black"
+        android:fontFamily="@font/rubik"
+        android:lineSpacingExtra="3dp"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/vDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/grey"
+        />
+
+
     <Button
         android:id="@+id/btn1"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vDivider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:text="some button"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/tvLongText"
-        app:layout_constraintTop_toBottomOf="@id/btn1"
-        android:layout_width="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="wrap_content"
-        android:text="some really really long text" />
-
-
-    <Button
-        android:id="@+id/btn2"
-        app:layout_constraintTop_toBottomOf="@id/tvLongText"
-        android:layout_width="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="some button2"
         android:layout_height="wrap_content"/>
 
 

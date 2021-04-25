@@ -46,11 +46,11 @@ class ProductFragment : Fragment() {
 //        view.findViewById<Button>(R.id.signup_btn).setOnClickListener {
 //            findNavController().navigate(R.id.action_register_to_registered)
 //        }
-        val tvLong = view.findViewById<TextView>(R.id.tvLongText)
-        (0..20).forEach {
-            tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
-        }
-        tvLong.text = tvLong.text.toString() + "ENDDD----------"
+//        val tvLong = view.findViewById<TextView>(R.id.tvLongText)
+//        (0..20).forEach {
+//            tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
+//        }
+//        tvLong.text = tvLong.text.toString() + "ENDDD----------"
 
 
         // there was an issue with clipping when padding == 0
