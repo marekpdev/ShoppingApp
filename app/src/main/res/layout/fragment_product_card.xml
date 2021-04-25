@@ -70,11 +70,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vDivider" />
 
-    <androidx.core.widget.NestedScrollView
+    <HorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:scrollbars="horizontal"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSelectSize">
@@ -82,93 +82,11 @@
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupSizes"
             style="@style/Widget.MaterialComponents.ChipGroup"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:singleLine="true"
-            app:singleSelection="true">
+            app:singleSelection="true" />
 
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="02"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="04"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="05"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="07"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-            <com.google.android.material.chip.Chip
-                style="@style/ChipBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08"
-                app:chipCornerRadius="@dimen/chip_corner_radius"
-                />
-
-        </com.google.android.material.chip.ChipGroup>
-
-    </androidx.core.widget.NestedScrollView>
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

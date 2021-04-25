@@ -12,9 +12,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 
 // https://medium.com/@sreeharikv112/create-introduction-screen-with-viewpager2-and-circle-indicators-no-custom-library-please-68d5b1fec8b1
@@ -73,6 +76,19 @@ class ProductFragment : Fragment() {
                 else -> false
             }
         }
+
+        val chipGroupSizes = view.findViewById<ChipGroup>(R.id.chipGroupSizes)
+
+        val sizes = (1..9).map { Size(it, "0$it") }
+        sizes.forEach { size ->
+            val chip = LayoutInflater.from(context).inflate(R.layout.product_size_chip, null) as Chip
+            chip.text = size.name
+            chip.setOnClickListener {
+                Log.d("FEO33", "You clicked ${size.name}")
+            }
+            chipGroupSizes.addView(chip)
+        }
+
 
         return view
     }
