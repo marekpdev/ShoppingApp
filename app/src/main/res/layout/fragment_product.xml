@@ -1,89 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-We needed to use two CoordinatorLayout as there was an issue with having toolbar in a fixed position
-whilst the rest would be scrollable with parallax scrolling which continues outside of window's frame.
-
-As the toolbar needed to adjust top margin to account for action bar height we needed to either
-use margin 25dp or just have some better solution which is android:fitsSystemWindows="true" but
-for some reason it didn't work for FrameLayout but only for CoordinatorLayout, hence we ended up having
-two of these - but it works great now
--->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="350dp"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:fitsSystemWindows="true">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="?attr/colorPrimaryVariant">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vpProductImages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="@android:color/transparent"
-                app:layout_scrollFlags="scroll"
-                app:statusBarScrim="?attr/colorPrimaryVariant">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_collapseMode="parallax" />
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/vpProductImages"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_collapseMode="parallax" />
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tlProductImages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="20dp"
-                    android:background="@android:color/transparent"
-                    app:tabBackground="@drawable/tab_pager_selector"
-                    app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabPaddingEnd="8dp"
-                    app:tabPaddingStart="8dp" />
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <TextView
-                android:id="@+id/tvLongText"
-                android:layout_width="match_parent"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tlProductImages"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="some really really long text" />
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                app:tabBackground="@drawable/tab_pager_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabPaddingEnd="8dp"
+                app:tabPaddingStart="8dp" />
 
-        </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/black"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="enterAlwaysCollapsed" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    <!--        <androidx.appcompat.widget.Toolbar-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="?attr/actionBarSize"-->
-    <!--            android:background="@android:color/transparent"-->
-    <!--            app:layout_collapseMode="parallax"-->
-    <!--            app:layout_scrollFlags="scroll|enterAlways" />-->
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/teal_200"
-        android:fitsSystemWindows="false"
-        android:text="Toolbar" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/tvLongText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="some really really long text" />
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
