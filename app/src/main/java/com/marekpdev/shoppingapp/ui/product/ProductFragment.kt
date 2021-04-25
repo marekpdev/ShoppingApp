@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -46,13 +47,14 @@ class ProductFragment : Fragment() {
 //            findNavController().navigate(R.id.action_register_to_registered)
 //        }
         val tvLong = view.findViewById<TextView>(R.id.tvLongText)
-        (0..100).forEach {
+        (0..30).forEach {
             tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
         }
+        tvLong.text = tvLong.text.toString() + "ENDDD----------"
 
         val scrollViewProductCard = view.findViewById<NestedScrollView>(R.id.scrollViewProductCard)
-        scrollViewProductCard.clipToOutline = true
-
+//        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
+//        scrollViewProductCard.clipToOutline = true
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->

@@ -6,16 +6,23 @@
     android:background="@color/teal_200"
     android:fitsSystemWindows="true">
 
+    <!--
+        to fix the issue with clipping scrollViewProductCard when we scrolled to the very top
+        we needed to lower elevation of both AppBarLayout and CollapsingToolbarLayout to 1
+        so scrollViewProductCard can be drawn on top of it if needed
+     -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:elevation="1dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="@android:color/transparent"
+            app:elevation="1dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@android:color/transparent">
 
@@ -59,26 +66,26 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--
-        to fix issue with clipping view when scrolled to the top we need to set
-        elevation to be higher than the AppBarLayout so we can draw on top of it if needed
-    -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollViewProductCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/product_card_top_overlap"
         android:background="@drawable/shape_rounded_top"
-        android:clipChildren="true"
-        android:clipToPadding="true"
-        android:elevation="4dp"
+        android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/tvLongText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="some really really long text" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvLongText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="some really really long text" />
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
