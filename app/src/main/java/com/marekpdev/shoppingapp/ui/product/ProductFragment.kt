@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.ui.product
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,9 +50,17 @@ class ProductFragment : Fragment() {
         }
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
-        (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
-        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayShowHomeEnabled(true)
+        toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favorite -> {
+                    Log.d("FEO33", "Clicked fav")
+                    // Handle favorite icon press
+                    true
+                }
+                else -> false
+            }
+        }
 
         return view
     }

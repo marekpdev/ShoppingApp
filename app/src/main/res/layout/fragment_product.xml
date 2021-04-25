@@ -14,9 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="?attr/colorPrimaryVariant">
+            app:statusBarScrim="@color/white">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vpProductImages"
@@ -43,11 +43,12 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/purple_200"
+                app:navigationIcon="@drawable/ic_back_arrow"
+                android:background="@android:color/transparent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_collapseMode="pin"
-                app:title=""
-                app:layout_scrollFlags="enterAlwaysCollapsed" />
+                app:layout_scrollFlags="enterAlwaysCollapsed"
+                app:menu="@menu/product_menu" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
