@@ -3,4 +3,13 @@
 
     <dimen name="indicator_size">4dp</dimen>
 
+    <dimen name="shape_rounded_corner">32dp</dimen>
+
+    <!--
+        to achieve the effect of overlapping without any
+        empty spaces need to set the offset to be the same amount
+        as the corner has dp
+      -->
+    <dimen name="product_card_top_overlap">-32dp</dimen>
+
 </resources>

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -48,6 +49,9 @@ class ProductFragment : Fragment() {
         (0..100).forEach {
             tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
         }
+
+        val scrollViewProductCard = view.findViewById<NestedScrollView>(R.id.scrollViewProductCard)
+        scrollViewProductCard.clipToOutline = true
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
