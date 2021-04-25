@@ -26,4 +26,9 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        findNavController().navigate(R.id.action_homeFragment_to_productFragment)
+    }
+
 }

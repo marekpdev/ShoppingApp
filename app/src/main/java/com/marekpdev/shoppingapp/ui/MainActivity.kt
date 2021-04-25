@@ -54,7 +54,8 @@ class MainActivity : AppCompatActivity() {
 
         // Whenever the selected controller changes, setup the action bar.
         controller.observe(this, Observer { navController ->
-            setupActionBarWithNavController(navController)
+            // todo - commented out because we are not using standard toolbar?
+//             setupActionBarWithNavController(navController)
         })
         currentNavController = controller
     }

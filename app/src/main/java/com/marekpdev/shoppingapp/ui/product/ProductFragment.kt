@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -40,6 +41,11 @@ class ProductFragment : Fragment() {
 //        view.findViewById<Button>(R.id.signup_btn).setOnClickListener {
 //            findNavController().navigate(R.id.action_register_to_registered)
 //        }
+        val tvLong = view.findViewById<TextView>(R.id.tvLongText)
+        (0..100).forEach {
+            tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
+        }
+
         return view
     }
 
