@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -26,12 +28,12 @@ class ProductFragment : Fragment() {
 
         val viewPager = view.findViewById<ViewPager2>(R.id.vpProductImages)
         viewPager.adapter = ImagesAdapter(
-            listOf(
-                R.drawable.product1,
-                R.drawable.product2,
-                R.drawable.product3,
-                R.drawable.product4,
-            )
+                listOf(
+                        R.drawable.product1,
+                        R.drawable.product2,
+                        R.drawable.product3,
+                        R.drawable.product4,
+                )
         )
 
         val tlProductImages = view.findViewById<TabLayout>(R.id.tlProductImages)
@@ -45,6 +47,11 @@ class ProductFragment : Fragment() {
         (0..100).forEach {
             tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
         }
+
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
+        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayShowHomeEnabled(true)
 
         return view
     }
