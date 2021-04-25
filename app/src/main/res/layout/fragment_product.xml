@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_200"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -14,9 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/white"
+            app:contentScrim="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="@color/white">
+            app:statusBarScrim="@android:color/transparent">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vpProductImages"
@@ -42,7 +43,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="180dp"
                 app:navigationIcon="@drawable/ic_back_arrow"
                 android:background="@android:color/transparent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -54,17 +55,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/tvLongText"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="some really really long text" />
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rounded_top"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.core.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/tvLongText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="some really really long text" />
+
+        </androidx.core.widget.NestedScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

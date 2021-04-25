@@ -55,4 +55,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.0"
 
     implementation "com.google.android.material:material:$material_version"
+
+    implementation "androidx.cardview:cardview:1.0.0"
 }
