@@ -47,7 +47,7 @@ class ProductFragment : Fragment() {
 //            findNavController().navigate(R.id.action_register_to_registered)
 //        }
         val tvLong = view.findViewById<TextView>(R.id.tvLongText)
-        (0..30).forEach {
+        (0..20).forEach {
             tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
         }
         tvLong.text = tvLong.text.toString() + "ENDDD----------"
