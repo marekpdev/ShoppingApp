@@ -4,14 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Product"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpProductImages"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="0dp"
+        android:layout_height="350dp" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlProductImages"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/vpProductImages"
+        app:layout_constraintBottom_toBottomOf="@id/vpProductImages"
+        app:tabBackground="@drawable/tab_pager_selector"
+        android:background="@android:color/transparent"
+        app:tabGravity="center"
+        app:tabPaddingStart="8dp"
+        app:tabPaddingEnd="8dp"
+        android:layout_marginEnd="20dp"
+        app:tabIndicatorHeight="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
