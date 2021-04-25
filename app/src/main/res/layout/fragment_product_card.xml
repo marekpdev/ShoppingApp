@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvName" />
 
     <View
-        android:id="@+id/vDivider"
+        android:id="@+id/vDivider1"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
@@ -68,9 +68,10 @@
         android:textColor="@color/textColorPrimary"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vDivider" />
+        app:layout_constraintTop_toBottomOf="@id/vDivider1" />
 
     <HorizontalScrollView
+        android:id="@+id/horizontalScrollViewSizes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -86,6 +87,60 @@
             android:layout_height="wrap_content"
             app:singleLine="true"
             app:singleSelection="true" />
+
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/vDivider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontalScrollViewSizes" />
+
+    <TextView
+        android:id="@+id/tvSelectColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/rubik_medium"
+        android:text="Select Color"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vDivider2" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollViewColors"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSelectColor">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupColors"
+            style="@style/Widget.MaterialComponents.ChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+<!--            <com.google.android.material.chip.Chip-->
+<!--                style="@style/Widget.MaterialComponents.Chip.Choice"-->
+<!--                android:id="@+id/color1"-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="52dp"-->
+<!--                app:chipCornerRadius="20dp"-->
+<!--                app:chipBackgroundColor="@color/textColorPrimary" />-->
+
+        </com.google.android.material.chip.ChipGroup>
 
     </HorizontalScrollView>
 
