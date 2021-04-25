@@ -73,6 +73,7 @@
         android:layout_marginTop="@dimen/product_card_top_overlap"
         android:background="@drawable/shape_rounded_top"
         android:overScrollMode="never"
+        android:padding="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout

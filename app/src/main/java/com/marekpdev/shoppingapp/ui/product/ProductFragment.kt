@@ -52,9 +52,15 @@ class ProductFragment : Fragment() {
         }
         tvLong.text = tvLong.text.toString() + "ENDDD----------"
 
+
+        // there was an issue with clipping when padding == 0
+        // (words were going beyond the shape) - for the moment it has been fixed
+        // by just applying padding == 16 but we might look at it later on if needed
         val scrollViewProductCard = view.findViewById<NestedScrollView>(R.id.scrollViewProductCard)
 //        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
 //        scrollViewProductCard.clipToOutline = true
+
+
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
