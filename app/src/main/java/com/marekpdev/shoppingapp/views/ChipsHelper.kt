@@ -8,20 +8,24 @@ import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.Utils
+import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 
 /**
  * Created by Marek Pszczolka on 25/04/2021.
+ * There was an issue with creating Chip layouts dynamically
+ * (based on the amount of data coming from API) - creating
+ * a new layout with
+ * LayoutInflater.from(context).inflate(R.layout.product_color_chip, null) as Chip
+ * for some reason didn't properly take the style attached into account.
+ * So it was far better to create Chip layouts dynamically as below
  */
 object ChipsHelper {
 
     fun createChip(context: Context,
-                   size: Size,
-                   onSizeClicked: (Size) -> Unit): Chip {
+                   size: Size): Chip {
 
         return Chip(context).apply {
-
-            setOnClickListener { onSizeClicked(size) }
 
             text = size.name
 
@@ -85,10 +89,41 @@ object ChipsHelper {
 
     }
 
+    fun createChip(context: Context,
+                   color: Color): Chip {
+        return Chip(context).apply {
 
+            val colorParsed = android.graphics.Color.parseColor(color.rgbHex)
 
+            val states = arrayOf(
+                    intArrayOf(android.R.attr.state_enabled),
+                    intArrayOf(-android.R.attr.state_enabled),
+                    intArrayOf(-android.R.attr.state_checked),
+                    intArrayOf(android.R.attr.state_pressed)
+            )
 
+            chipBackgroundColor = ColorStateList(
+                    states,
+                    intArrayOf(
+                            colorParsed,
+                            Utils.adjustAlpha(colorParsed, 0.30f),
+                            colorParsed,
+                            colorParsed
+                    )
+            )
 
+            shapeAppearanceModel = ShapeAppearanceModel()
+                    .toBuilder()
+                    .setAllCorners(
+                            CornerFamily.ROUNDED,
+                            context.resources.getDimension(R.dimen.chip_corner_radius_big)
+                    )
+                    .build()
 
+            width = context.resources.getDimension(R.dimen.chip_color_width).toInt()
+            height = context.resources.getDimension(R.dimen.chip_color_height).toInt()
+
+        }
+    }
 
 }
