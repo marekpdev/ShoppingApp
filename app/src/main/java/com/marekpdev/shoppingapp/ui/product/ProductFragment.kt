@@ -68,6 +68,11 @@ class ProductFragment : Fragment() {
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.share -> {
+                    Log.d("FEO33", "Clicked share")
+                    // Handle favorite icon press
+                    true
+                }
                 R.id.favorite -> {
                     Log.d("FEO33", "Clicked fav")
                     // Handle favorite icon press
