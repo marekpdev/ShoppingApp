@@ -162,7 +162,7 @@ class ProductFragment : Fragment() {
 //            chip.chipBackgroundColor = ColorStateList(states, colorss)
 //            chip.width = 300
 //            chip.height = 300
-            chipGroupColors.addView(chip)
+//            chipGroupColors.addView(chip)
 
 ////            chip.text = "ffff "
 ////            chip.setOnClickListener {
