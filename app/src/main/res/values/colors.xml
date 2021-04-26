@@ -18,4 +18,5 @@
     <color name="colorControlActivated">#FBB8AC</color>
     <color name="grey">@android:color/darker_gray</color>
 
+    <color name="transparent">#00000000</color>
 </resources>

@@ -27,39 +27,24 @@ object ChipsHelper {
 
         return Chip(context).apply {
 
+            isCheckable = true
+            isCheckedIconVisible = false
+
             text = size.name
 
             val backgroundColor = ContextCompat.getColor(context, R.color.white)
             val strokeColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
 
-            // todo
-            // not sure if we can reuse the states or we need to create
-            // new values for each use in ColorStateList
-            val states = arrayOf(
-                    intArrayOf(android.R.attr.state_enabled),
-                    intArrayOf(-android.R.attr.state_enabled),
-                    intArrayOf(-android.R.attr.state_checked),
-                    intArrayOf(android.R.attr.state_pressed)
+            chipBackgroundColor = ColorStateListHelper.colorStateListOf(
+                    ViewState.CHECKED to ContextCompat.getColor(context, R.color.colorAccent),
+                    ViewState.DISABLED to Utils.adjustAlpha(backgroundColor, 0.30f),
+                    ViewState.DEFAULT to backgroundColor
             )
 
-            chipBackgroundColor = ColorStateList(
-                    states,
-                    intArrayOf(
-                            backgroundColor,
-                            Utils.adjustAlpha(backgroundColor, 0.30f),
-                            backgroundColor,
-                            backgroundColor
-                    )
-            )
-
-            chipStrokeColor = ColorStateList(
-                    states,
-                    intArrayOf(
-                            strokeColor,
-                            Utils.adjustAlpha(strokeColor, 0.30f),
-                            strokeColor,
-                            strokeColor
-                    )
+            chipStrokeColor = ColorStateListHelper.colorStateListOf(
+                    ViewState.CHECKED to ContextCompat.getColor(context, R.color.colorAccent),
+                    ViewState.DISABLED to Utils.adjustAlpha(strokeColor, 0.30f),
+                    ViewState.DEFAULT to strokeColor
             )
 
             chipStrokeWidth = context.resources.getDimension(R.dimen.chip_stroke_width)
@@ -85,8 +70,6 @@ object ChipsHelper {
             //  <style name="ChipBackground" parent="Widget.MaterialComponents.Chip.Choice">
             // also not sure about
             //  <item name="android:selectableItemBackground">@drawable/circle_background</item>
-//            isCheckable = true
-//            checkedIcon = null
         }
 
     }
@@ -95,24 +78,25 @@ object ChipsHelper {
                    color: Color): Chip {
         return Chip(context).apply {
 
+            isCheckable = true
+            isCheckedIconVisible = false
+
             val colorParsed = android.graphics.Color.parseColor(color.rgbHex)
+            val strokeColor = ContextCompat.getColor(context, R.color.transparent)
 
-            val states = arrayOf(
-                    intArrayOf(android.R.attr.state_enabled),
-                    intArrayOf(-android.R.attr.state_enabled),
-                    intArrayOf(-android.R.attr.state_checked),
-                    intArrayOf(android.R.attr.state_pressed)
+            chipBackgroundColor = ColorStateListHelper.colorStateListOf(
+                    ViewState.CHECKED to colorParsed,
+                    ViewState.DISABLED to Utils.adjustAlpha(colorParsed, 0.30f),
+                    ViewState.DEFAULT to colorParsed
             )
 
-            chipBackgroundColor = ColorStateList(
-                    states,
-                    intArrayOf(
-                            colorParsed,
-                            Utils.adjustAlpha(colorParsed, 0.30f),
-                            colorParsed,
-                            colorParsed
-                    )
+            chipStrokeColor = ColorStateListHelper.colorStateListOf(
+                    ViewState.CHECKED to ContextCompat.getColor(context, R.color.black),
+                    ViewState.DISABLED to ContextCompat.getColor(context, R.color.transparent),
+                    ViewState.DEFAULT to ContextCompat.getColor(context, R.color.transparent),
             )
+
+            chipStrokeWidth = context.resources.getDimension(R.dimen.chip_stroke_width)
 
             shapeAppearanceModel = ShapeAppearanceModel()
                     .toBuilder()
@@ -124,8 +108,6 @@ object ChipsHelper {
 
             width = context.resources.getDimension(R.dimen.chip_color_width).toInt()
             height = context.resources.getDimension(R.dimen.chip_color_height).toInt()
-
-//            isCheckable = true
 
         }
     }

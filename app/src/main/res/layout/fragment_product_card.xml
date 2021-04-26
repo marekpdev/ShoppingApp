@@ -132,13 +132,13 @@
             app:singleLine="true"
             app:singleSelection="true">
 
-<!--            <com.google.android.material.chip.Chip-->
-<!--                style="@style/Widget.MaterialComponents.Chip.Choice"-->
-<!--                android:id="@+id/color1"-->
-<!--                android:layout_width="60dp"-->
-<!--                android:layout_height="52dp"-->
-<!--                app:chipCornerRadius="20dp"-->
-<!--                app:chipBackgroundColor="@color/textColorPrimary" />-->
+            <!--            <com.google.android.material.chip.Chip-->
+            <!--                style="@style/Widget.MaterialComponents.Chip.Choice"-->
+            <!--                android:id="@+id/color1"-->
+            <!--                android:layout_width="60dp"-->
+            <!--                android:layout_height="52dp"-->
+            <!--                app:chipCornerRadius="20dp"-->
+            <!--                app:chipBackgroundColor="@color/textColorPrimary" />-->
 
         </com.google.android.material.chip.ChipGroup>
 
