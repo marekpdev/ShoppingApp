@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="indicator_size">4dp</dimen>
+
+    <dimen name="shape_rounded_corner">32dp</dimen>
+
+    <!--
+        to achieve the effect of overlapping without any
+        empty spaces need to set the offset to be the same amount
+        as the corner has dp
+      -->
+    <dimen name="product_card_top_overlap">-32dp</dimen>
+
+
+
+    <dimen name="chip_corner_radius">10dp</dimen>
+    <dimen name="chip_corner_radius_big">20dp</dimen>
+    <dimen name="chip_stroke_width">1.5dp</dimen>
+
+    <dimen name="chip_color_width">60dp</dimen>
+    <dimen name="chip_color_height">52dp</dimen>
+
+</resources>
