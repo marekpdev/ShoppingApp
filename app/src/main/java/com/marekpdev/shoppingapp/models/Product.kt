@@ -5,11 +5,12 @@ package com.marekpdev.shoppingapp.models
  */
 data class Product (
     val id: Long,
-    val name: String, // Eywa Hoodie
+    val name: String,
     val description: String,
-    val price: Double, // 30.99
-    val oldPrice: Double?, // 44.99
-    val currency: String, // $
+    val price: Double,
+    val oldPrice: Double?,
+    val currency: String,
     val availableColors: List<Color>,
-    val availableSizes: List<Size>
+    val availableSizes: List<Size>,
+    val images: List<String>
 )
