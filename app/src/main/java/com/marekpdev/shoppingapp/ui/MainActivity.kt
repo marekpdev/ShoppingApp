@@ -33,17 +33,10 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.home, R.id.search, R.id.checkout, R.id.favourite, R.id.account)
         )
+
         // todo - commented out because we are not using standard toolbar?
 //        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        // fixme
-        // there is still some issue with new navigation library (tested both this app
-        // and their 'NavigationAdvancedSample'
-        // Tab 1 -> Tab 1 Details (next screen in navigation) -> Tab 2 -> Press back button on the bottom ->
-        // Goes back to Tab 1 instead of going to Tab 1 Details
-        // (everything was working before migration i.e. when using extension functions for multi backstack)
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
