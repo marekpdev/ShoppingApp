@@ -41,8 +41,8 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentProductBinding.inflate(inflater, container, false).apply {
-            binding = this
+        return FragmentProductBinding.inflate(inflater, container, false).also {
+            binding = it
             initLayout()
         }.root
     }
