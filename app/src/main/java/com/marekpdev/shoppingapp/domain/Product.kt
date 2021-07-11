@@ -1,9 +1,9 @@
-package com.marekpdev.shoppingapp.api
+package com.marekpdev.shoppingapp.domain
 
 import com.marekpdev.shoppingapp.models.Product
 
 /**
- * Created by Marek Pszczolka on 10/07/2021.
+ * Created by Marek Pszczolka on 11/07/2021.
  */
 data class ProductResponse(val product: Product)
 
