@@ -7,24 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.ColorInt
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapeAppearanceModel
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.Utils
+import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.models.Color
+import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 import com.marekpdev.shoppingapp.views.ChipsHelper
@@ -36,15 +25,30 @@ import com.marekpdev.shoppingapp.views.ChipsHelper
  */
 class ProductFragment : Fragment() {
 
+    private val product: Product = createProduct(1)
+
+    private lateinit var binding: FragmentProductBinding
+
+    private val onSizeClicked: (Chip, Size) -> Unit = { chip, size ->
+        Log.d("FEO33", "Clicked ${chip.id} ${size.name} ${chip.isChecked}")
+    }
+
+    private val onColorClicked: (Color) -> Unit = { color ->
+        Log.d("FEO33", "Clicked ${color.name}")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_product, container, false)
+    ): View {
+        return FragmentProductBinding.inflate(inflater, container, false).apply {
+            binding = this
+            initLayout()
+        }.root
+    }
 
-        val viewPager = view.findViewById<ViewPager2>(R.id.vpProductImages)
-        viewPager.adapter = ImagesAdapter(
+    private fun initLayout() = binding.apply {
+        vpProductImages.adapter = ImagesAdapter(
             listOf(
                 R.drawable.product1,
                 R.drawable.product2,
@@ -53,29 +57,8 @@ class ProductFragment : Fragment() {
             )
         )
 
-        val tlProductImages = view.findViewById<TabLayout>(R.id.tlProductImages)
+        TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
 
-        TabLayoutMediator(tlProductImages, viewPager) { tab, position ->}.attach()
-
-//        view.findViewById<Button>(R.id.signup_btn).setOnClickListener {
-//            findNavController().navigate(R.id.action_register_to_registered)
-//        }
-//        val tvLong = view.findViewById<TextView>(R.id.tvLongText)
-//        (0..20).forEach {
-//            tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
-//        }
-//        tvLong.text = tvLong.text.toString() + "ENDDD----------"
-
-
-        // there was an issue with clipping when padding == 0
-        // (words were going beyond the shape) - for the moment it has been fixed
-        // by just applying padding == 16 but we might look at it later on if needed
-        val scrollViewProductCard = view.findViewById<NestedScrollView>(R.id.scrollViewProductCard)
-//        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
-//        scrollViewProductCard.clipToOutline = true
-
-
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -93,45 +76,65 @@ class ProductFragment : Fragment() {
             }
         }
 
-        // SIZES
-        val chipGroupSizes = view.findViewById<ChipGroup>(R.id.chipGroupSizes)
-        chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
-            Log.d("FEO33", "Checked changed")
-        }
+        // there was an issue with clipping when padding == 0
+        // (words were going beyond the shape) - for the moment it has been fixed
+        // by just applying padding == 16 but we might look at it later on if needed
+//            val scrollViewProductCard = view.findViewById<NestedScrollView>(R.id.scrollViewProductCard)
+//        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
+//        scrollViewProductCard.clipToOutline = true
 
-        val onSizeClicked: (Chip, Size) -> Unit = { chip, size ->
-            Log.d("FEO33", "Clicked ${chip.id} ${size.name} ${chip.isChecked}")
-        }
+        productCard.apply {
 
-        (1..9).map { Size(it, "0$it") }
-                .forEach { size ->
+            // SIZES
+            chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
+                Log.d("FEO33", "Checked changed")
+            }
+
+            product.availableSizes.forEach { size ->
                     ChipsHelper.createChip(
-                            requireContext(),
-                            size
+                        requireContext(),
+                        size
                     ).also { chip ->
                         chip.setOnClickListener { onSizeClicked(it as Chip, size) }
                         chipGroupSizes.addView(chip)
                     }
                 }
 
-        // COLORS
-        val chipGroupColors = view.findViewById<ChipGroup>(R.id.chipGroupColors)
-        val onColorClicked: (Color) -> Unit = { color -> Log.d("FEO33", "Clicked ${color.name}")}
-        mutableListOf(
-            Color(1, "light sea green", "#17C3B2"),
-            Color(2, "CG Blue", "#227C9D"),
-            Color(3, "maximum yellow red", "#FFCB77")
-        ).forEach { color ->
-            ChipsHelper.createChip(
+            // COLORS
+            product.availableColors.forEach { color ->
+                ChipsHelper.createChip(
                     requireContext(),
                     color
-            ).also { chip ->
-                chip.setOnClickListener { onColorClicked(color) }
-                chipGroupColors.addView(chip)
+                ).also { chip ->
+                    chip.setOnClickListener { onColorClicked(color) }
+                    chipGroupColors.addView(chip)
+                }
             }
         }
 
-        return view
     }
+
+
+    // DEBUG
+    private fun createProduct(id: Long) = Product(
+        id = id,
+        name = "Product $id",
+        description = "Pinstripped cornflower blue cotton blouse takes you on a walk to the park or just down the hall.",
+        price = id * 1.11,
+        oldPrice = id * 1.44,
+        currency = "$",
+        availableColors = listOf(
+            Color(1, "light sea green", "#17C3B2"),
+            Color(2, "CG Blue", "#227C9D"),
+            Color(3, "maximum yellow red", "#FFCB77")
+        ),
+        availableSizes = (1..9).map { Size(it, "0$it") },
+        images = listOf(
+            "https://cdn.shopify.com/s/files/1/0932/1794/files/Artboard_24_370x230@2x.png?v=1605584742",
+            "https://romans-cdn.rlab.net/images/extralarge/350f24c0-9476-465b-9c8a-5e0a70b6bf62.jpg",
+            "https://cdn.foreverunique.com/products/uar212729_4205.jpg?h=480&w=",
+            "https://media.sezane.com/image/upload/c_crop,fl_progressive:semi,h_0.95333333333333,q_auto:best,w_1,x_0,y_0.023333333333333/c_scale,w_598/whb5logixhjjmnqrurfp.jpg"
+        )
+    )
 
 }

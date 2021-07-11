@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,6 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,16 +20,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val navHostFragment = supportFragmentManager.findFragmentById(
-            R.id.nav_host_container
+            R.id.navHostContainer
         ) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Setup the bottom navigation view with navController
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNavigationView.setupWithNavController(navController)
+        binding.apply {
+            // Setup the bottom navigation view with navController
+            bottomNav.setupWithNavController(navController)
+        }
 
         // Setup the ActionBar with navController and 5 top level destinations
         appBarConfiguration = AppBarConfiguration(
