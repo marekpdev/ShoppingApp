@@ -42,24 +42,24 @@ class SearchFragment : Fragment() {
     }
 
     fun getAllProducts(){
-        RetrofitProvider.getApi().getAllProducts().
-                subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess {
-                Log.d("FEO33", "Got 1products!")
-
-            }
-            .doOnError {
-                Log.d("FEO33", "Got 1ERROR! $it")
-            }
-            .subscribe(
-                {
-                    Log.d("FEO33", "Got 2products!")
-                    adapter.setData(it.products)
-                },
-                {
-                    Log.d("FEO33", "Got 2ERROR! $it")
-                }
-            )
+//        RetrofitProvider.().getAllProducts().
+//                subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .doOnSuccess {
+//                Log.d("FEO33", "Got 1products!")
+//
+//            }
+//            .doOnError {
+//                Log.d("FEO33", "Got 1ERROR! $it")
+//            }
+//            .subscribe(
+//                {
+//                    Log.d("FEO33", "Got 2products!")
+//                    adapter.setData(it.products)
+//                },
+//                {
+//                    Log.d("FEO33", "Got 2ERROR! $it")
+//                }
+//            )
     }
 }

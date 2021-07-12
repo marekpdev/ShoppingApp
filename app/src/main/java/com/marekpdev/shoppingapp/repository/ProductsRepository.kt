@@ -10,4 +10,6 @@ interface ProductsRepository {
 
     fun observeProducts(): Observable<List<Product>>
 
+    fun observeProduct(): Observable<Product>
+
 }
