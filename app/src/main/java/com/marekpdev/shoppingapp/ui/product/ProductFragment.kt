@@ -41,6 +41,10 @@ class ProductFragment : Fragment() {
     ): View {
         viewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
+        viewModel.productAddedEvent.observe(viewLifecycleOwner) {
+            // move to a different frag
+        }
+
         return FragmentProductBinding.inflate(inflater, container, false).also {
             binding = it
             initLayout(it)
