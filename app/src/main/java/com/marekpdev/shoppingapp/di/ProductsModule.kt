@@ -13,6 +13,6 @@ import javax.inject.Singleton
 abstract class ProductsModule {
 
     @Binds
-    @Singleton // TODO ???? is it needed
+    @Singleton // TODO ???? is Singleton needed
     abstract fun bindProductsRepository(repositoryImpl: ProductRepositoryImpl): ProductsRepository
 }
