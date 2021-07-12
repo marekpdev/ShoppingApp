@@ -2,7 +2,7 @@ package com.marekpdev.shoppingapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.marekpdev.shoppingapp.db.Database
+import com.marekpdev.shoppingapp.db.AppDatabase
 import com.marekpdev.shoppingapp.db.ProductsDao
 import dagger.Module
 import dagger.Provides
@@ -13,12 +13,10 @@ import dagger.Provides
 @Module
 object DatabaseModule {
 
-    // todo ??? is this how we should have data base name here? or extract it out to Database class as constant
     @Provides
-    fun provideDatabase(context: Context): Database =
-        Room.databaseBuilder(context, Database::class.java, "${Database::class.java.simpleName}.db").build()
+    fun provideDatabase(context: Context): AppDatabase = AppDatabase.getInstance(context)
 
     @Provides
-    fun provideProductsDao(db: Database): ProductsDao = db.getProductsDao()
+    fun provideProductsDao(db: AppDatabase): ProductsDao = db.getProductsDao()
 
 }
