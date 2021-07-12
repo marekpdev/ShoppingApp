@@ -1,22 +1,20 @@
 package com.marekpdev.shoppingapp.ui.product
 
-import android.content.ContextWrapper
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.models.Color
-import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 import com.marekpdev.shoppingapp.views.ChipsHelper
@@ -28,27 +26,33 @@ import com.marekpdev.shoppingapp.views.ChipsHelper
  */
 class ProductFragment : Fragment() {
 
+    private val productId = 1L
+
     private lateinit var binding: FragmentProductBinding
 
     private val sizesViewMappings = mutableMapOf<Size, Chip>()
     private val colorsViewMappings = mutableMapOf<Color, Chip>()
 
-    private lateinit var viewModel: ProductViewModel
+    private val navArgs: ProductFragmentArgs by navArgs()
+
+    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
+        binding.productViewModel = viewModel
+        binding.lifecycleOwner = this
 
         viewModel.productAddedEvent.observe(viewLifecycleOwner) {
             // move to a different frag
         }
 
-        return FragmentProductBinding.inflate(inflater, container, false).also {
-            binding = it
-            initLayout(it)
-        }.root
+        initLayout(binding)
+
+        return binding.root
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
@@ -108,7 +112,7 @@ class ProductFragment : Fragment() {
                         size
                     ).also { chip ->
                         sizesViewMappings[size] = chip
-                        chip.setOnClickListener { viewModel.onSelectSize(size) }
+                        chip.setOnClickListener { viewModel.selectSize(size) }
                         chipGroupSizes.addView(chip)
                     }
                 }
@@ -121,10 +125,14 @@ class ProductFragment : Fragment() {
                         color
                     ).also { chip ->
                         colorsViewMappings[color] = chip
-                        chip.setOnClickListener { viewModel.onSelectColor(color) }
+                        chip.setOnClickListener { viewModel.selectColor(color) }
                         chipGroupColors.addView(chip)
                     }
                 }
+            }
+
+            btnAddProduct.setOnClickListener {
+                viewModel.addProduct()
             }
         }
 

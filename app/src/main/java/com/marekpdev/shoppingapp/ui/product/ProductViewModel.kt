@@ -15,18 +15,22 @@ import javax.inject.Inject
 /**
  * Created by Marek Pszczolka on 11/07/2021.
  */
-class ProductViewModel @Inject constructor(private val productsRepository: ProductsRepository): ViewModel() {
+class ProductViewModel @Inject constructor(private val productId: Long, private val productsRepository: ProductsRepository): ViewModel() {
 
-    private val _product by lazy { MutableLiveData<Product>().also { loadProduct() } }
+    private val _product: MutableLiveData<Product> by lazy {
+        MutableLiveData<Product>().also {
+            loadProduct()
+        }
+    }
     val product: LiveData<Product> = _product
 
     // TODO need to add that whenever product is changed the selected size and color is reset?
     // TODO what about handling empty value? should i use null? or is there some better way like LiveData.EMPTY or something similar?
-    private val _selectedSize = MutableLiveData<Size>()
-    val selectedSize: LiveData<Size> = _selectedSize
+    private val _selectedSize = MutableLiveData<Size?>(null)
+    val selectedSize: LiveData<Size?> = _selectedSize
 
-    private val _selectedColor = MutableLiveData<Color>()
-    val selectedColor: LiveData<Color> = _selectedColor
+    private val _selectedColor = MutableLiveData<Color?>(null)
+    val selectedColor: LiveData<Color?> = _selectedColor
 
     private val _productAddedEvent = LiveEvent<Any>()
     val productAddedEvent: LiveData<Any> = _productAddedEvent
@@ -39,17 +43,17 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
 
     }
 
-    fun onSelectSize(size: Size){
+    fun selectSize(size: Size){
         _selectedSize.value = size
         Log.d("FEO33", "Clicked ${size.name}")
     }
 
-    fun onSelectColor(color: Color){
+    fun selectColor(color: Color){
         _selectedColor.value = color
         Log.d("FEO33", "Clicked ${color.name}")
     }
 
-    fun onAddProduct(){
+    fun addProduct(){
         _productAddedEvent.value = Any()
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marekpdev.shoppingapp.R
@@ -32,6 +33,10 @@ class SearchFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btnGetAllProducts).setOnClickListener {
             getAllProducts()
+        }
+
+        view.findViewById<Button>(R.id.btnProduct).setOnClickListener {
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(1))
         }
 
         val rvProducts = view.findViewById<RecyclerView>(R.id.rvProducts)
