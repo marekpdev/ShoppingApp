@@ -26,14 +26,11 @@ import com.marekpdev.shoppingapp.views.ChipsHelper
  */
 class ProductFragment : Fragment() {
 
-    private val productId = 1L
-
     private lateinit var binding: FragmentProductBinding
+    private val navArgs: ProductFragmentArgs by navArgs()
 
     private val sizesViewMappings = mutableMapOf<Size, Chip>()
     private val colorsViewMappings = mutableMapOf<Color, Chip>()
-
-    private val navArgs: ProductFragmentArgs by navArgs()
 
     // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
     private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
@@ -42,14 +39,8 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return (DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_product,
-            container,
-            false
-        ) as FragmentProductBinding).also {
-            binding = it
-        }.root
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
