@@ -39,18 +39,15 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+
         return FragmentProductBinding.inflate(inflater, container, false).also {
             binding = it
-
-            viewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
-
-            initLayout()
-
-
+            initLayout(it)
         }.root
     }
 
-    private fun initLayout() = binding.apply {
+    private fun initLayout(binding: FragmentProductBinding) = binding.apply {
         vpProductImages.adapter = ImagesAdapter(
             listOf(
                 R.drawable.product1,
@@ -98,7 +95,7 @@ class ProductFragment : Fragment() {
                 Log.d("FEO33", "Checked changed")
             }
 
-            viewModel.product.observe(lifecycleOwner!!) { product ->
+            viewModel.product.observe(viewLifecycleOwner) { product ->
                 // SIZES
                 chipGroupSizes.removeAllViews()
                 product.availableSizes.forEach { size ->
