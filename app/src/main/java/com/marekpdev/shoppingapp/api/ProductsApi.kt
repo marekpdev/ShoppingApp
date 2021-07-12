@@ -7,7 +7,7 @@ import retrofit2.http.GET
 /**
  * Created by Marek Pszczolka on 10/07/2021.
  */
-interface Api {
+interface ProductsApi {
 
     @GET("products/getAll")
     fun getAllProducts(): Single<ProductsResponse>
