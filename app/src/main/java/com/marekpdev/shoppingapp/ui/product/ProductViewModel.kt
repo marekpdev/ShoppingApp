@@ -15,7 +15,8 @@ import javax.inject.Inject
 /**
  * Created by Marek Pszczolka on 11/07/2021.
  */
-class ProductViewModel @Inject constructor(private val productId: Long, private val productsRepository: ProductsRepository): ViewModel() {
+class ProductViewModel @Inject constructor(private val productId: Long,
+                                           private val productsRepository: ProductsRepository): ViewModel() {
 
     private val _product: MutableLiveData<Product> by lazy {
         MutableLiveData<Product>().also {

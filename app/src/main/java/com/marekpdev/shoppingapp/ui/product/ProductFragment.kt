@@ -35,24 +35,35 @@ class ProductFragment : Fragment() {
 
     private val navArgs: ProductFragmentArgs by navArgs()
 
+    // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
     private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        return (DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_product,
+            container,
+            false
+        ) as FragmentProductBinding).also {
+            binding = it
+        }.root
+    }
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
-        binding.productViewModel = viewModel
-        binding.lifecycleOwner = this
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            lifecycleOwner = this@ProductFragment
+            productViewModel = viewModel
+            initLayout(this)
+        }
 
         viewModel.productAddedEvent.observe(viewLifecycleOwner) {
             // move to a different frag
         }
-
-        initLayout(binding)
-
-        return binding.root
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
