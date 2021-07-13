@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.product
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
+import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
+import com.marekpdev.shoppingapp.di.AppComponentProvider
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
@@ -56,6 +59,12 @@ class ProductFragment : Fragment() {
         viewModel.productAddedEvent.observe(viewLifecycleOwner) {
             // move to a different frag
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (requireActivity().application as AppComponentProvider).appComponent.inject(this)
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {

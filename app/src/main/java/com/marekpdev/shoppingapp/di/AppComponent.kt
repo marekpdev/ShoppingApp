@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.di
 
 import android.content.Context
 import com.marekpdev.shoppingapp.ui.MainActivity
+import com.marekpdev.shoppingapp.ui.product.ProductFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -26,5 +27,5 @@ interface AppComponent {
 
     // Classes that can be injected by this Component
     fun inject(activity: MainActivity)
-
+    fun inject(fragment: ProductFragment)
 }
