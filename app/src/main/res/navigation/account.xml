@@ -6,5 +6,20 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.marekpdev.shoppingapp.ui.account.AccountFragment"
-        android:label="AccountFragment" />
+        android:label="AccountFragment" >
+        <action
+            android:id="@+id/action_accountFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.marekpdev.shoppingapp.ui.login.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.marekpdev.shoppingapp.ui.registration.RegistrationFragment"
+        android:label="RegistrationFragment" />
 </navigation>
