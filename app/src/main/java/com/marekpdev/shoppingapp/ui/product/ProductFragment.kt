@@ -33,7 +33,8 @@ class ProductFragment : Fragment() {
     private val colorsViewMappings = mutableMapOf<Color, Chip>()
 
     // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
-    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
+//    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
+    private val viewModel: ProductViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

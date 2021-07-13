@@ -16,8 +16,13 @@ import javax.inject.Inject
 /**
  * Created by Marek Pszczolka on 11/07/2021.
  */
-class ProductViewModel @Inject constructor(private val productId: Long,
-                                           private val productsRepository: ProductsRepository): ViewModel() {
+class ProductViewModel @Inject constructor(
+    // todo need to use this variable in the constructor with 'assisted injection'? rather than
+    // setting it via setter
+//    private val productId: Long,
+    // need to use this with dagger
+//    private val productsRepository: ProductsRepository
+) : ViewModel() {
 
     private val _product: MutableLiveData<Product> by lazy {
         MutableLiveData<Product>().also {
