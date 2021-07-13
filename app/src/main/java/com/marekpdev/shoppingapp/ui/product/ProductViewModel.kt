@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
 import com.hadilq.liveevent.LiveEventConfig
+import com.marekpdev.shoppingapp.extensions.asLiveData
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
@@ -23,18 +24,18 @@ class ProductViewModel @Inject constructor(private val productId: Long,
             loadProduct()
         }
     }
-    val product: LiveData<Product> = _product
+    val product = _product.asLiveData()
 
     // TODO need to add that whenever product is changed the selected size and color is reset?
     // TODO what about handling empty value? should i use null? or is there some better way like LiveData.EMPTY or something similar?
     private val _selectedSize = MutableLiveData<Size?>(null)
-    val selectedSize: LiveData<Size?> = _selectedSize
+    val selectedSize = _selectedSize.asLiveData()
 
     private val _selectedColor = MutableLiveData<Color?>(null)
-    val selectedColor: LiveData<Color?> = _selectedColor
+    val selectedColor = _selectedColor.asLiveData()
 
     private val _productAddedEvent = LiveEvent<Any>()
-    val productAddedEvent: LiveData<Any> = _productAddedEvent
+    val productAddedEvent = _productAddedEvent.asLiveData()
 
     init {
 
