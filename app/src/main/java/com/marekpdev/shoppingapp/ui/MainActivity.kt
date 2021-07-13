@@ -12,8 +12,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.ActivityMainBinding
+import com.marekpdev.shoppingapp.location.LocationTracker
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var locationTracker: LocationTracker
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration

@@ -9,6 +9,12 @@ import com.marekpdev.shoppingapp.models.Product
 /**
  * Created by Marek Pszczolka on 11/07/2021.
  */
+
+// todo should i merge 'db' package with 'storage' package?
+// or should i also rename it to 'local'
+
+// also instead of 'api' should i just use names like 'remote' vs 'local'?
+
 @Database(version = 1, entities = [Product::class], exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 

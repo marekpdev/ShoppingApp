@@ -1,7 +1,7 @@
 package com.marekpdev.shoppingapp.di
 
-import com.marekpdev.shoppingapp.repository.ProductRepositoryImpl
-import com.marekpdev.shoppingapp.repository.ProductsRepository
+import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
+import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton

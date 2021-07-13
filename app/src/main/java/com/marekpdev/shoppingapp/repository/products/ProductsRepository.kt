@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.repository
+package com.marekpdev.shoppingapp.repository.products
 
 import com.marekpdev.shoppingapp.models.Product
 import io.reactivex.rxjava3.core.Observable

@@ -1,16 +1,13 @@
 package com.marekpdev.shoppingapp.ui.product
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
-import com.hadilq.liveevent.LiveEventConfig
 import com.marekpdev.shoppingapp.extensions.asLiveData
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
-import com.marekpdev.shoppingapp.repository.ProductsRepository
 import javax.inject.Inject
 
 /**

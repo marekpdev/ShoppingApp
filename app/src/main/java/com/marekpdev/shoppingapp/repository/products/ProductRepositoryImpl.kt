@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.repository
+package com.marekpdev.shoppingapp.repository.products
 
 import com.marekpdev.shoppingapp.api.ProductsApi
 import com.marekpdev.shoppingapp.db.ProductsDao
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ProductRepositoryImpl @Inject constructor(
     private val productsApi: ProductsApi,
     private val productsDao: ProductsDao
-): ProductsRepository{
+): ProductsRepository {
 
     override fun observeProducts(): Observable<List<Product>> {
         TODO("Not yet implemented")

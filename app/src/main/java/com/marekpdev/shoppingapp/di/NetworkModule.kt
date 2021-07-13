@@ -17,6 +17,8 @@ object NetworkModule {
     @Provides
     fun provideGson(): Gson = GsonBuilder().setLenient().create()
 
+    // todo shouldn't we just skip having retrofit provider and have all internal workflow
+    // added in NetworkModule directly?
     @Provides
     fun provideRetrofit(retrofitProvider: RetrofitProvider): Retrofit = retrofitProvider.getRetrofit()
 
