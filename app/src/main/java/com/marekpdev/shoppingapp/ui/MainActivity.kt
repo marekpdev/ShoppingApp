@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.ActivityMainBinding
+import com.marekpdev.shoppingapp.di.AppComponentProvider
 import com.marekpdev.shoppingapp.location.LocationTracker
 import javax.inject.Inject
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Ask Dagger to inject our dependencies
-        (application as MyApplication).appComponent.inject(this)
+        (application as AppComponentProvider).appComponent.inject(this)
 
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
