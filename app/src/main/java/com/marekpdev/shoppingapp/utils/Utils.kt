@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp
+package com.marekpdev.shoppingapp.utils
 
 import android.graphics.Color
 import androidx.annotation.ColorInt

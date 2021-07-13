@@ -8,6 +8,7 @@ import dagger.Component
 /**
  * Created by Marek Pszczolka on 13/07/2021.
  */
+@AppScope
 @Component(modules = [
     DatabaseModule::class,
     NetworkModule::class,

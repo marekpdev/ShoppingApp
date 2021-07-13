@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.repository.products
 
 import com.marekpdev.shoppingapp.api.ProductsApi
 import com.marekpdev.shoppingapp.db.ProductsDao
+import com.marekpdev.shoppingapp.di.AppScope
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
@@ -12,6 +13,7 @@ import javax.inject.Inject
  * Created by Marek Pszczolka on 12/07/2021.
  */
 
+@AppScope
 class ProductRepositoryImpl @Inject constructor(
     private val productsApi: ProductsApi,
     private val productsDao: ProductsDao

@@ -10,6 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.ActivityMainBinding
 import com.marekpdev.shoppingapp.location.LocationTracker
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Ask Dagger to inject our dependencies
+        (application as MyApplication).appComponent.inject(this)
+
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
