@@ -18,5 +18,6 @@ data class Product (
     val currency: String,
     val availableColors: List<Color>,
     val availableSizes: List<Size>,
-    val images: List<String>
+    val images: List<String>,
+    val categoryId: Long
 ) : Parcelable

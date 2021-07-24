@@ -6,6 +6,5 @@ package com.marekpdev.shoppingapp.models
 data class Category (
     val id: Long,
     val name: String,
-    val productIds: List<Long>,
     val image: String
 )

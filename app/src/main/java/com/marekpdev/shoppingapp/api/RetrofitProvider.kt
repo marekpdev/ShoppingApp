@@ -13,7 +13,7 @@ import javax.inject.Singleton
 /**
  * Created by Marek Pszczolka on 10/07/2021.
  */
-@Singleton
+@Singleton // todo change to AppScope?
 class RetrofitProvider @Inject constructor(private val gson: Gson) {
 
     companion object {
