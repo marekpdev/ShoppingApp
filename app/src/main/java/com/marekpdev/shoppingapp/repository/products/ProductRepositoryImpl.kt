@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @AppScope
 class ProductRepositoryImpl @Inject constructor(
-    private val productsApi: ProductsApi,
-    private val productsDao: ProductsDao
+   // private val productsApi: ProductsApi,
+    //private val productsDao: ProductsDao
 ): ProductsRepository {
 
     override fun observeProducts(): Observable<List<Product>> {
@@ -28,7 +28,7 @@ class ProductRepositoryImpl @Inject constructor(
     }
 
     // DEBUG
-    private fun createProduct(id: Long) = Product(
+     fun createProduct(id: Long) = Product(
         id = id,
         name = "Product $id",
         description = "Pinstripped cornflower blue cotton blouse takes you on a walk to the park or just down the hall.",
@@ -46,6 +46,7 @@ class ProductRepositoryImpl @Inject constructor(
             "https://romans-cdn.rlab.net/images/extralarge/350f24c0-9476-465b-9c8a-5e0a70b6bf62.jpg",
             "https://cdn.foreverunique.com/products/uar212729_4205.jpg?h=480&w=",
             "https://media.sezane.com/image/upload/c_crop,fl_progressive:semi,h_0.95333333333333,q_auto:best,w_1,x_0,y_0.023333333333333/c_scale,w_598/whb5logixhjjmnqrurfp.jpg"
-        )
+        ),
+        categoryId = 1L
     )
 }

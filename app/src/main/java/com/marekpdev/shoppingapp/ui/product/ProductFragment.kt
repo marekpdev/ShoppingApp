@@ -19,6 +19,7 @@ import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.di.AppComponentProvider
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
+import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 import com.marekpdev.shoppingapp.views.ChipsHelper
 
@@ -115,8 +116,9 @@ class ProductFragment : Fragment() {
                 Log.d("FEO33", "Checked changed")
             }
 
-            viewModel.product.observe(viewLifecycleOwner) { product ->
+           //viewModel.product.observe(viewLifecycleOwner) { product ->
                 // SIZES
+            val product = ProductRepositoryImpl().createProduct(1L)
                 chipGroupSizes.removeAllViews()
                 product.availableSizes.forEach { size ->
                     ChipsHelper.createChip(
@@ -141,7 +143,7 @@ class ProductFragment : Fragment() {
                         chipGroupColors.addView(chip)
                     }
                 }
-            }
+           // }
 
             btnAddProduct.setOnClickListener {
                 viewModel.addProduct()
