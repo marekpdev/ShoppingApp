@@ -5,24 +5,41 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.databinding.FragmentAccountBinding
+import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
 class AccountFragment : Fragment() {
+    private lateinit var binding: FragmentAccountBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_account, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
+        return binding.root
+    }
 
-//        view.findViewById<Button>(R.id.signup_btn).setOnClickListener {
-//            findNavController().navigate(R.id.action_register_to_registered)
-//        }
-        return view
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            lifecycleOwner = this@AccountFragment
+//            productViewModel = viewModel
+            btnLogin.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
+            }
+
+            btnRegistration.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
+            }
+        }
     }
 
 }

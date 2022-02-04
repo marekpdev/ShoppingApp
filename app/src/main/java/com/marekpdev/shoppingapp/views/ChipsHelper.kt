@@ -1,13 +1,12 @@
 package com.marekpdev.shoppingapp.views
 
 import android.content.Context
-import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.Utils
+import com.marekpdev.shoppingapp.utils.Utils
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 

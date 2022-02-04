@@ -19,16 +19,12 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        view.findViewById<Button>(R.id.btnProduct).setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_productFragment)
-        }
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        findNavController().navigate(R.id.action_homeFragment_to_productFragment)
+//        findNavController().navigate(R.id.action_homeFragment_to_productFragment)
     }
 
 }

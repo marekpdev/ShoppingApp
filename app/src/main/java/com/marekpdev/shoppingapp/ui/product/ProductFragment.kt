@@ -1,29 +1,22 @@
 package com.marekpdev.shoppingapp.ui.product
 
-import android.content.ContextWrapper
-import android.content.res.ColorStateList
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.ColorInt
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.widget.NestedScrollView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapeAppearanceModel
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.Utils
+import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
+import com.marekpdev.shoppingapp.di.AppComponentProvider
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
@@ -36,15 +29,46 @@ import com.marekpdev.shoppingapp.views.ChipsHelper
  */
 class ProductFragment : Fragment() {
 
+    private lateinit var binding: FragmentProductBinding
+    private val navArgs: ProductFragmentArgs by navArgs()
+
+    private val sizesViewMappings = mutableMapOf<Size, Chip>()
+    private val colorsViewMappings = mutableMapOf<Color, Chip>()
+
+    // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
+//    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
+    private val viewModel: ProductViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_product, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
+        return binding.root
+    }
 
-        val viewPager = view.findViewById<ViewPager2>(R.id.vpProductImages)
-        viewPager.adapter = ImagesAdapter(
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            lifecycleOwner = this@ProductFragment
+            productViewModel = viewModel
+            initLayout(this)
+        }
+
+        viewModel.productAddedEvent.observe(viewLifecycleOwner) {
+            // move to a different frag
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (requireActivity().application as AppComponentProvider).appComponent.inject(this)
+    }
+
+    private fun initLayout(binding: FragmentProductBinding) = binding.apply {
+        vpProductImages.adapter = ImagesAdapter(
             listOf(
                 R.drawable.product1,
                 R.drawable.product2,
@@ -53,29 +77,8 @@ class ProductFragment : Fragment() {
             )
         )
 
-        val tlProductImages = view.findViewById<TabLayout>(R.id.tlProductImages)
+        TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
 
-        TabLayoutMediator(tlProductImages, viewPager) { tab, position ->}.attach()
-
-//        view.findViewById<Button>(R.id.signup_btn).setOnClickListener {
-//            findNavController().navigate(R.id.action_register_to_registered)
-//        }
-//        val tvLong = view.findViewById<TextView>(R.id.tvLongText)
-//        (0..20).forEach {
-//            tvLong.text = tvLong.text.toString() + "ejgregre\nregreger\n\njgjgnjegrer"
-//        }
-//        tvLong.text = tvLong.text.toString() + "ENDDD----------"
-
-
-        // there was an issue with clipping when padding == 0
-        // (words were going beyond the shape) - for the moment it has been fixed
-        // by just applying padding == 16 but we might look at it later on if needed
-        val scrollViewProductCard = view.findViewById<NestedScrollView>(R.id.scrollViewProductCard)
-//        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
-//        scrollViewProductCard.clipToOutline = true
-
-
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -93,45 +96,58 @@ class ProductFragment : Fragment() {
             }
         }
 
-        // SIZES
-        val chipGroupSizes = view.findViewById<ChipGroup>(R.id.chipGroupSizes)
-        chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
-            Log.d("FEO33", "Checked changed")
-        }
+        // there was an issue with clipping when padding == 0
+        // (words were going beyond the shape) - for the moment it has been fixed
+        // by just applying padding == 16 but we might look at it later on if needed
+//            val scrollViewProductCard = view.findViewById<NestedScrollView>(R.id.scrollViewProductCard)
+//        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
+//        scrollViewProductCard.clipToOutline = true
 
-        val onSizeClicked: (Chip, Size) -> Unit = { chip, size ->
-            Log.d("FEO33", "Clicked ${chip.id} ${size.name} ${chip.isChecked}")
-        }
+        productCard.apply {
 
-        (1..9).map { Size(it, "0$it") }
-                .forEach { size ->
+            // SIZES
+            chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
+                Log.d("FEO33", "Checked changed")
+            }
+
+            // COLORS
+            chipGroupColors.setOnCheckedChangeListener { group, checkedId ->
+                Log.d("FEO33", "Checked changed")
+            }
+
+            viewModel.product.observe(viewLifecycleOwner) { product ->
+                // SIZES
+                chipGroupSizes.removeAllViews()
+                product.availableSizes.forEach { size ->
                     ChipsHelper.createChip(
-                            requireContext(),
-                            size
+                        requireContext(),
+                        size
                     ).also { chip ->
-                        chip.setOnClickListener { onSizeClicked(it as Chip, size) }
+                        sizesViewMappings[size] = chip
+                        chip.setOnClickListener { viewModel.selectSize(size) }
                         chipGroupSizes.addView(chip)
                     }
                 }
 
-        // COLORS
-        val chipGroupColors = view.findViewById<ChipGroup>(R.id.chipGroupColors)
-        val onColorClicked: (Color) -> Unit = { color -> Log.d("FEO33", "Clicked ${color.name}")}
-        mutableListOf(
-            Color(1, "light sea green", "#17C3B2"),
-            Color(2, "CG Blue", "#227C9D"),
-            Color(3, "maximum yellow red", "#FFCB77")
-        ).forEach { color ->
-            ChipsHelper.createChip(
-                    requireContext(),
-                    color
-            ).also { chip ->
-                chip.setOnClickListener { onColorClicked(color) }
-                chipGroupColors.addView(chip)
+                // COLORS
+                chipGroupColors.removeAllViews()
+                product.availableColors.forEach { color ->
+                    ChipsHelper.createChip(
+                        requireContext(),
+                        color
+                    ).also { chip ->
+                        colorsViewMappings[color] = chip
+                        chip.setOnClickListener { viewModel.selectColor(color) }
+                        chipGroupColors.addView(chip)
+                    }
+                }
+            }
+
+            btnAddProduct.setOnClickListener {
+                viewModel.addProduct()
             }
         }
 
-        return view
     }
 
 }

@@ -2,65 +2,56 @@ package com.marekpdev.shoppingapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.extensions.setupWithNavController
+import com.marekpdev.shoppingapp.databinding.ActivityMainBinding
+import com.marekpdev.shoppingapp.di.AppComponentProvider
+import com.marekpdev.shoppingapp.location.LocationTracker
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    private var currentNavController: LiveData<NavController>? = null
+    @Inject
+    lateinit var locationTracker: LocationTracker
+
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Ask Dagger to inject our dependencies
+        (application as AppComponentProvider).appComponent.inject(this)
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            setupBottomNavigationBar()
-        } // Else, need to wait for onRestoreInstanceState
-    }
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        // Now that BottomNavigationBar has restored its instance state
-        // and its selectedItemId, we can proceed with setting up the
-        // BottomNavigationBar with Navigation
-        setupBottomNavigationBar()
-    }
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.navHostContainer
+        ) as NavHostFragment
+        navController = navHostFragment.navController
 
-    /**
-     * Called on first creation and when restoring state.
-     */
-    private fun setupBottomNavigationBar() {
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        binding.apply {
+            // Setup the bottom navigation view with navController
+            bottomNav.setupWithNavController(navController)
+        }
 
-        val navGraphIds = listOf(
-            R.navigation.home,
-            R.navigation.search,
-            R.navigation.checkout,
-            R.navigation.favourite,
-            R.navigation.account
+        // Setup the ActionBar with navController and 5 top level destinations
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.home, R.id.search, R.id.checkout, R.id.favourite, R.id.account)
         )
 
-        // Setup the bottom navigation view with a list of navigation graphs
-        val controller = bottomNavigationView.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_container,
-            intent = intent
-        )
-
-        // Whenever the selected controller changes, setup the action bar.
-        controller.observe(this, Observer { navController ->
-            // todo - commented out because we are not using standard toolbar?
-//             setupActionBarWithNavController(navController)
-        })
-        currentNavController = controller
+        // todo - commented out because we are not using standard toolbar?
+//        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return currentNavController?.value?.navigateUp() ?: false
+        return navController.navigateUp(appBarConfiguration)
     }
 }
