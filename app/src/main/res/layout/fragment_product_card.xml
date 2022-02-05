@@ -150,15 +150,15 @@
 
         </HorizontalScrollView>
 
-        <Button
-            android:id="@+id/btnAddProduct"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+<!--        btnAddProductAnchor needs to have the same height as button itself -->
+        <View
+            android:id="@+id/btnAddProductAnchor"
             android:layout_marginTop="20dp"
-            android:text="Add product"
+            android:layout_height="@dimen/btn_add_product_height"
+            android:layout_width="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontalScrollViewColors" />
+            app:layout_constraintTop_toBottomOf="@id/horizontalScrollViewColors"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,14 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
-import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.di.AppComponentProvider
@@ -106,6 +105,11 @@ class ProductFragment : Fragment() {
 
         productCard.apply {
 
+
+            //var desc = ""
+            //(1..2).forEach { desc += "this is the very second line of $it" }
+            //tvDescription.setText(desc)
+
             // SIZES
             chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
                 Log.d("FEO33", "Checked changed")
@@ -148,6 +152,10 @@ class ProductFragment : Fragment() {
             btnAddProduct.setOnClickListener {
                 viewModel.addProduct()
             }
+
+            (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =
+                StickyBottomBehavior(btnAddProductAnchor, resources.getDimensionPixelOffset(R.dimen.btn_add_product_margins));
+
         }
 
     }
