@@ -49,4 +49,8 @@ class ProductRepositoryImpl @Inject constructor(
         ),
         categoryId = 1L
     )
+
+    fun getProducts(count: Int): List<Product>{
+        return (1..count).map { createProduct(it.toLong()) }
+    }
 }
