@@ -20,10 +20,19 @@ class ProductGridVH (view: View): RecyclerView.ViewHolder(view) {
 
     private var tvProductName: TextView = view.findViewById(R.id.tvProductName)
     private var ivProductImage: ImageView = view.findViewById(R.id.ivProductImage)
+    private var ivFavouriteToggle: ImageView = view.findViewById(R.id.ivFavouriteToggle)
 
     fun bind(product: Product) {
         tvProductName.text = product.name
-        ivProductImage.setImageResource(R.drawable.product1)
+
+        ivProductImage.setImageResource(
+            when(product.id.toInt() % 4){
+                1 -> R.drawable.product1
+                2 -> R.drawable.product2
+                3 ->  R.drawable.product3
+                else -> R.drawable.product4
+            }
+        )
 
         ivProductImage.clipToOutline = true
     }

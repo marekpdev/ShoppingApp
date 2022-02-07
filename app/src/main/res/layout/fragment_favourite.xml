@@ -20,8 +20,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFavourites"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scrollbarSize="2dp"
