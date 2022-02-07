@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/teal_200"
+        android:background="@color/background_2"
         android:fitsSystemWindows="true">
 
         <TextView
@@ -20,6 +20,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFavourites"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scrollbarSize="2dp"
