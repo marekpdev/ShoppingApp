@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.favourite
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -35,6 +36,9 @@ class ProductGridVH (view: View): RecyclerView.ViewHolder(view) {
         )
 
         ivProductImage.clipToOutline = true
+
+        ivFavouriteToggle.setOnClickListener { Log.d("FEO33", "Log") }
+        ivFavouriteToggle.clipToOutline = true
     }
 
 }

@@ -29,8 +29,8 @@
         android:layout_margin="8dp"
         android:padding="4dp"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_favourite_1_red"
-        app:tint="@color/red_heart"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_favourite_2_red_filled"
         android:background="@drawable/shape_circle"
         android:layout_height="wrap_content"/>
 
