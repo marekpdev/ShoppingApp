@@ -16,7 +16,7 @@ class ProductVH (view: View): RecyclerView.ViewHolder(view){
 
     companion object{
         @LayoutRes
-        val layout = R.layout.product_vh
+        val layout = R.layout.vh_product
     }
 
     fun bind(product: Product) {

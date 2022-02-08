@@ -16,7 +16,7 @@ class ProductGridVH (view: View): RecyclerView.ViewHolder(view) {
 
     companion object {
         @LayoutRes
-        val layout = R.layout.product_grid_vh
+        val layout = R.layout.vh_product_grid
     }
 
     private var tvProductName: TextView = view.findViewById(R.id.tvProductName)
