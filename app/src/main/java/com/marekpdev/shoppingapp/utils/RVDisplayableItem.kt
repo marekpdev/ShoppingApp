@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.utils
 
 /**
  * Created by Marek Pszczolka on 08/02/2022.

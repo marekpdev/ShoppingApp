@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.ui.home.banner
 
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -7,6 +7,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.ui.home.banner.adapter.HomeBannerAdapter
+
 /**
  * Created by Marek Pszczolka on 08/02/2022.
  */

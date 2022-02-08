@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.utils
 
 import android.view.View
 import androidx.annotation.LayoutRes

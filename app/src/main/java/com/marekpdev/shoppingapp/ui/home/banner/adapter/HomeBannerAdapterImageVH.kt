@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.ui.home.banner.adapter
 
 import android.view.View
 import android.widget.ImageView
@@ -9,7 +9,7 @@ import com.marekpdev.shoppingapp.R
 /**
  * Created by Marek Pszczolka on 08/02/2022.
  */
-class BannerImageVH(view: View) : RecyclerView.ViewHolder(view) {
+class HomeBannerAdapterImageVH(view: View) : RecyclerView.ViewHolder(view) {
 
     companion object {
         @LayoutRes

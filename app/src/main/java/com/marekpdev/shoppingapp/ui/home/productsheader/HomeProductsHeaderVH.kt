@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.ui.home.productsheader
 
 import android.view.View
 import android.widget.ImageView
