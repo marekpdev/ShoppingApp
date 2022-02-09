@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.ui.favourite.ProductGridVH
 import com.marekpdev.shoppingapp.utils.EmptyVH
 import com.marekpdev.shoppingapp.utils.RVDisplayableItem
@@ -29,7 +28,7 @@ class HomeProductsRVAdapter(private val products: List<Product>): RecyclerView.A
         val layoutInflater = LayoutInflater.from(parent.context)
         return when(viewType){
             VH_TYPE_PRODUCT -> ProductGridVH(
-                view = layoutInflater.inflate(ProductGridVH.layout, parent, false),
+                view = layoutInflater.inflate(ProductGridVH.layout_height_constraint, parent, false),
             )
             VH_TYPE_SHOW_MORE -> HomeShowMoreVH(
                 view = layoutInflater.inflate(HomeShowMoreVH.layout, parent, false)

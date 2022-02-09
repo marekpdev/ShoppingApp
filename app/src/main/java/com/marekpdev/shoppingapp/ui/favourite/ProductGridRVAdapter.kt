@@ -3,7 +3,6 @@ package com.marekpdev.shoppingapp.ui.favourite
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.models.Product
 
 /**
@@ -15,7 +14,7 @@ class ProductGridRVAdapter(private val products: List<Product>) : RecyclerView.A
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ProductGridVH {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(ProductGridVH.layout, viewGroup, false)
+            .inflate(ProductGridVH.layout_width_constraint, viewGroup, false)
 
         return ProductGridVH(view)
     }
