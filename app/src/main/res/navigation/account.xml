@@ -13,6 +13,27 @@
         <action
             android:id="@+id/action_accountFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_editProfileFragment2"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_paymentMethodsFragment"
+            app:destination="@id/paymentMethodsFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_loginFragment2"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -22,4 +43,24 @@
         android:id="@+id/registrationFragment"
         android:name="com.marekpdev.shoppingapp.ui.registration.RegistrationFragment"
         android:label="RegistrationFragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.marekpdev.shoppingapp.ui.editprofile.EditProfileFragment"
+        android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.marekpdev.shoppingapp.ui.orders.OrdersFragment"
+        android:label="OrdersFragment" />
+    <fragment
+        android:id="@+id/addressesFragment"
+        android:name="com.marekpdev.shoppingapp.ui.addresses.AddressesFragment"
+        android:label="AddressesFragment" />
+    <fragment
+        android:id="@+id/paymentMethodsFragment"
+        android:name="com.marekpdev.shoppingapp.ui.paymentmethods.PaymentMethodsFragment"
+        android:label="PaymentMethodsFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.marekpdev.shoppingapp.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
