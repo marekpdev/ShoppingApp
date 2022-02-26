@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.account
+package com.marekpdev.shoppingapp.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,18 +11,19 @@ import androidx.navigation.fragment.findNavController
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentAccountBinding
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
+import com.marekpdev.shoppingapp.databinding.FragmentSettingsBinding
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class AccountFragment : Fragment() {
-    private lateinit var binding: FragmentAccountBinding
+class SettingsFragment : Fragment() {
+    private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
         return binding.root
     }
 
@@ -30,7 +31,7 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            lifecycleOwner = this@AccountFragment
+            lifecycleOwner = this@SettingsFragment
 //            productViewModel = viewModel
 //            btnLogin.setOnClickListener {
 //                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)

@@ -6,38 +6,53 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvAccount"
+            android:id="@+id/userLabel"
+            android:text="Name Surname"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Account"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/btnRegistration"
+            android:id="@+id/btnEditProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registration"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAccount" />
+            android:text="Edit Profile" />
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnOrders"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnRegistration" />
+            android:text="Orders" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnAddresses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Addresses" />
+
+        <Button
+            android:id="@+id/btnPaymentMethods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment methods" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log out" />
+
+    </LinearLayout>
 </layout>
