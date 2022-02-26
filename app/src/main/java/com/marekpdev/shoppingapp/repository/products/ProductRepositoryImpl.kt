@@ -3,9 +3,7 @@ package com.marekpdev.shoppingapp.repository.products
 import com.marekpdev.shoppingapp.api.ProductsApi
 import com.marekpdev.shoppingapp.db.ProductsDao
 import com.marekpdev.shoppingapp.di.AppScope
-import com.marekpdev.shoppingapp.models.Color
-import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.models.Size
+import com.marekpdev.shoppingapp.models.*
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
@@ -53,4 +51,23 @@ class ProductRepositoryImpl @Inject constructor(
     fun getProducts(count: Int): List<Product>{
         return (1..count).map { createProduct(it.toLong()) }
     }
+
+    fun getOrders(count: Int): List<Order>{
+        return (1..count).map { createOrder(it.toLong()) }
+    }
+
+    fun createOrder(id: Long) = Order(
+        1,
+        listOf(createProduct(1), createProduct(2)),
+        (10 * id).toDouble(),
+        createAddress(id)
+    )
+
+    fun createAddress(id: Long) = Address (
+        "line1 $id",
+        "line2 $id",
+        "postcode $id",
+        "city $id",
+        "country $id"
+    )
 }
