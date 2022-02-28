@@ -13,33 +13,19 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progressOrderStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="25"
-            app:trackCornerRadius="2dp" />
-
         <TextView
-            android:id="@+id/tvOrderId"
+            android:id="@+id/tvCardProvider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order Id"
+            android:text="Card Provider"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/tvOrderStatus"
+            android:id="@+id/tvCardNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order status"
+            android:text="Card number"
             android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btnViewDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Details" />
 
     </LinearLayout>
 
