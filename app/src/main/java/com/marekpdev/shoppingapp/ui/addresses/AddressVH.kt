@@ -14,7 +14,7 @@ import com.marekpdev.shoppingapp.models.PaymentCard
  * Created by Marek Pszczolka on 08/02/2022.
  */
 
-class AddressVH (view: View): RecyclerView.ViewHolder(view) {
+class AddressVH (view: View, private val onItemClickListener: (Address) -> Unit): RecyclerView.ViewHolder(view) {
 
     companion object {
         @LayoutRes
@@ -28,6 +28,8 @@ class AddressVH (view: View): RecyclerView.ViewHolder(view) {
     private var tvCountry: TextView = view.findViewById(R.id.tvCountry)
 
     fun bind(address: Address) {
+        itemView.setOnClickListener { onItemClickListener(address) }
+
         tvAddressLine1.text = address.line1
         tvAddressLine2.text = address.line2
         tvPostcode.text = address.postcode

@@ -22,7 +22,7 @@ import com.marekpdev.shoppingapp.utils.RVDisplayableItem
 /**
  * Created by Marek Pszczolka on 08/02/2022.
  */
-class AddressesRVAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class AddressesRVAdapter(private val onItemClickListener: (Address) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     companion object {
         private const val VH_TYPE_EMPTY = 0
@@ -40,7 +40,8 @@ class AddressesRVAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         val layoutInflater = LayoutInflater.from(parent.context)
         return when(viewType){
             VH_ADDRESS -> AddressVH(
-                view = layoutInflater.inflate(AddressVH.layout, parent, false)
+                view = layoutInflater.inflate(AddressVH.layout, parent, false),
+                onItemClickListener
             )
             else -> EmptyVH(
                 view = layoutInflater.inflate(EmptyVH.layout, parent, false)

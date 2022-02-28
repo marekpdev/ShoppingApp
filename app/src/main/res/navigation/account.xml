@@ -54,7 +54,11 @@
     <fragment
         android:id="@+id/addressesFragment"
         android:name="com.marekpdev.shoppingapp.ui.addresses.AddressesFragment"
-        android:label="AddressesFragment" />
+        android:label="AddressesFragment" >
+        <action
+            android:id="@+id/action_addressesFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/paymentMethodsFragment"
         android:name="com.marekpdev.shoppingapp.ui.paymentmethods.PaymentMethodsFragment"
@@ -63,4 +67,8 @@
         android:id="@+id/settingsFragment"
         android:name="com.marekpdev.shoppingapp.ui.settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.marekpdev.shoppingapp.ui.addresses.AddressFragment"
+        android:label="AddressFragment" />
 </navigation>
