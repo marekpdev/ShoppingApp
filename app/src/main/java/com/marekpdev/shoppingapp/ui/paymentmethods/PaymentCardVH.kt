@@ -24,8 +24,8 @@ class PaymentCardVH (view: View): RecyclerView.ViewHolder(view) {
     private var tvCardNumber: TextView = view.findViewById(R.id.tvCardNumber)
 
     fun bind(paymentCard: PaymentCard) {
-        tvCardProvider.setText("VISA")
-        tvCardNumber.setText("**** **** **** 4343")
+        tvCardProvider.text = paymentCard.provider
+        tvCardNumber.text = paymentCard.number
     }
 
 }
