@@ -11,6 +11,7 @@ import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
 import com.marekpdev.shoppingapp.ui.home.banner.items.BannerImageAdapterDelegate
+import com.marekpdev.shoppingapp.ui.home.banner.old.HomeBannerAdapter
 
 /**
  * Created by Marek Pszczolka on 01/03/2022.
@@ -27,8 +28,17 @@ class HomeBannerAdapterDelegate(private val onBannerClicked: () -> Unit) :
         holder.bind {
             root.setOnClickListener { onBannerClicked() }
 
-            vpHomeBanner.adapter = adapter
-            adapter.replaceData(item.images)
+            // NEW WORKFLOW
+//            vpHomeBanner.adapter = adapter
+//            adapter.replaceData(item.images)
+            // OLD WORKFLOW
+            vpHomeBanner.adapter = HomeBannerAdapter(
+                listOf(
+                    R.drawable.home_banner_1,
+                    R.drawable.home_banner_2,
+                    R.drawable.home_banner_3
+                )
+            )
 
             TabLayoutMediator(tlHomeBanner, vpHomeBanner) { tab, position ->}.attach()
         }
