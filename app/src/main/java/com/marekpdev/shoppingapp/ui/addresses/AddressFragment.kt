@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.*
+import com.marekpdev.shoppingapp.models.Address
+import com.marekpdev.shoppingapp.utils.RVDisplayableItem
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
