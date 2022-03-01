@@ -8,7 +8,6 @@ import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerDisplayableItem
 import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerVH
 import com.marekpdev.shoppingapp.ui.home.products.HomeProductsDisplayableItem
 import com.marekpdev.shoppingapp.ui.home.products.HomeProductsVH
-import com.marekpdev.shoppingapp.ui.home.products.adapter.HomeProductDisplayableItem
 import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeaderDisplayableItem
 import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeaderVH
 import com.marekpdev.shoppingapp.utils.EmptyVH
