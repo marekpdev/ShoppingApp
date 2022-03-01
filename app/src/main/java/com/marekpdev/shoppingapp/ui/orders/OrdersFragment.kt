@@ -15,13 +15,29 @@ import com.marekpdev.shoppingapp.databinding.FragmentAccountBinding
 import com.marekpdev.shoppingapp.databinding.FragmentHomeBinding
 import com.marekpdev.shoppingapp.databinding.FragmentOrdersBinding
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
+import com.marekpdev.shoppingapp.models.Order
+import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
+import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
+import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.rvutils.FallbackAdapterDelegate
 import com.marekpdev.shoppingapp.ui.home.HomeContentRVAdapter
+import com.marekpdev.shoppingapp.utils.RVDisplayableItem
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
 class OrdersFragment : Fragment() {
     private lateinit var binding: FragmentOrdersBinding
+
+    private val onOrderClicked: (Order) -> Unit = {
+        Log.d("FEO33", "Clicked order")
+    }
+
+    private val adapter = BaseAdapter(
+        delegatesManager = AdapterDelegatesManager()
+            .addDelegate(OrdersHeaderAdapterDelegate())
+            .addDelegate(OrderAdapterDelegate(onOrderClicked))
+        )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +67,37 @@ class OrdersFragment : Fragment() {
     private fun initLayout(binding: FragmentOrdersBinding) = binding.apply {
         Log.d("FEO33", "initLayout")
         rvOrders.layoutManager = LinearLayoutManager(context)
-        rvOrders.adapter = OrdersRVAdapter()
+        rvOrders.adapter = adapter
+        adapter.replaceData(items)
+    }
+
+    private val items = mutableListOf<Any>().apply {
+        val repo = ProductRepositoryImpl()
+        val thisWeekCount = 3
+
+        add("This week $thisWeekCount")
+        (1..thisWeekCount).forEach {
+            val order = repo.createOrder(it.toLong())
+            add(order)
+        }
+
+        val lastWeekCount = 5
+
+        add("Last week $lastWeekCount")
+        (1..lastWeekCount).forEach {
+            val order = repo.createOrder(it.toLong())
+            add(order)
+        }
+
+        val lastMonthCount = 5
+
+        add("Last month $lastMonthCount")
+        (1..lastMonthCount).forEach {
+            val order = repo.createOrder(it.toLong())
+            add(order)
+        }
+
+        Log.d("FEO33", "Added some items")
     }
 
 }
