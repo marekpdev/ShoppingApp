@@ -17,11 +17,10 @@ class HomeBannerAdapterImageVH(view: View) : RecyclerView.ViewHolder(view) {
 
     }
 
-    val ivBannerImage: ImageView
+    private val ivBannerImage: ImageView = view.findViewById(R.id.ivBannerImage)
 
     init {
         // Define click listener for the ViewHolder's View.
-        ivBannerImage = view.findViewById(R.id.ivBannerImage)
     }
 
     fun bind(imageRes: Int) {
