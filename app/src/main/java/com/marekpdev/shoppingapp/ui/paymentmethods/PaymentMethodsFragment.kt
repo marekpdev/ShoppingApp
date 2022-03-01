@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentPaymentMethodsBinding
 import com.marekpdev.shoppingapp.models.PaymentCard
-import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.search.ProductAdapterDelegate
-import com.marekpdev.shoppingapp.utils.RVDisplayableItem
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.

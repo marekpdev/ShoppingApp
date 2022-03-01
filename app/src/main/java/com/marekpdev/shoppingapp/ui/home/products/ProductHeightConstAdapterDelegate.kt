@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.ui.home.products
 
 import android.util.Log
 import android.view.LayoutInflater

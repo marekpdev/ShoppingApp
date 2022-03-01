@@ -4,14 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentHomeBinding
-import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
+import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
+import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
+import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.home.banner.HomeBanner
+import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerAdapterDelegate
+import com.marekpdev.shoppingapp.ui.home.products.HomeProducts
+import com.marekpdev.shoppingapp.ui.home.products.HomeProductsAdapterDelegate
+import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeader
+import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeaderAdapterDelegate
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
@@ -19,6 +25,13 @@ import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+
+    private val adapter = BaseAdapter(
+        delegatesManager = AdapterDelegatesManager()
+            .addDelegate(HomeBannerAdapterDelegate {})
+            .addDelegate(HomeProductsHeaderAdapterDelegate {})
+            .addDelegate(HomeProductsAdapterDelegate {})
+    )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,7 +50,20 @@ class HomeFragment : Fragment() {
 
     private fun initLayout(binding: FragmentHomeBinding) = binding.apply {
         rvHomeContent.layoutManager = LinearLayoutManager(context)
-        rvHomeContent.adapter = HomeContentRVAdapter()
+        rvHomeContent.adapter = adapter
+        adapter.replaceData(items)
+    }
+
+    private val items = mutableListOf<Any>().apply {
+        val repo = ProductRepositoryImpl()
+
+        add(HomeBanner("banner"))
+        add(HomeProductsHeader("Best sellers"))
+        add(HomeProducts(repo.getProducts(5)))
+        add(HomeProductsHeader("Just arrived"))
+        add(HomeProducts(repo.getProducts(8)))
+        add(HomeProductsHeader("Discover more"))
+        add(HomeProducts(repo.getProducts(4)))
     }
 
 }

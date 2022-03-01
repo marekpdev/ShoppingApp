@@ -12,12 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.models.Address
-import com.marekpdev.shoppingapp.models.Order
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.orders.OrderAdapterDelegate
-import com.marekpdev.shoppingapp.ui.orders.OrdersHeaderAdapterDelegate
-import com.marekpdev.shoppingapp.utils.RVDisplayableItem
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
