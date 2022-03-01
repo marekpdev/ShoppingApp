@@ -5,16 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.VhHomeBannerBinding
 import com.marekpdev.shoppingapp.databinding.VhHomeProductsBinding
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
-import com.marekpdev.shoppingapp.ui.home.banner.adapter.HomeBannerAdapter
+import com.marekpdev.shoppingapp.ui.home.products.items.HomeShowMoreAdapterDelegate
+import com.marekpdev.shoppingapp.ui.home.products.items.ProductHeightConstAdapterDelegate
 
 /**
  * Created by Marek Pszczolka on 01/03/2022.

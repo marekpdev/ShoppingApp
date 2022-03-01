@@ -12,8 +12,8 @@ import com.marekpdev.shoppingapp.databinding.FragmentHomeBinding
 import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.home.banner.HomeBanner
 import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerAdapterDelegate
+import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerImages
 import com.marekpdev.shoppingapp.ui.home.products.HomeProducts
 import com.marekpdev.shoppingapp.ui.home.products.HomeProductsAdapterDelegate
 import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeader
@@ -57,7 +57,11 @@ class HomeFragment : Fragment() {
     private val items = mutableListOf<Any>().apply {
         val repo = ProductRepositoryImpl()
 
-        add(HomeBanner("banner"))
+        add(HomeBannerImages(listOf(
+            R.drawable.home_banner_1,
+            R.drawable.home_banner_2,
+            R.drawable.home_banner_3))
+        )
         add(HomeProductsHeader("Best sellers"))
         add(HomeProducts(repo.getProducts(5)))
         add(HomeProductsHeader("Just arrived"))

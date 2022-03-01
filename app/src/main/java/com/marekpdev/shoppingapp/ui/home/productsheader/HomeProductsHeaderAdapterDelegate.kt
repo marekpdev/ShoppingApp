@@ -3,13 +3,10 @@ package com.marekpdev.shoppingapp.ui.home.productsheader
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.VhHomeBannerBinding
 import com.marekpdev.shoppingapp.databinding.VhHomeProductsHeaderBinding
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
-import com.marekpdev.shoppingapp.ui.home.banner.adapter.HomeBannerAdapter
 
 /**
  * Created by Marek Pszczolka on 01/03/2022.

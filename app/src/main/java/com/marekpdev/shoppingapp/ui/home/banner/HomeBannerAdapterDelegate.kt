@@ -6,27 +6,29 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.VhHomeBannerBinding
+import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
+import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
-import com.marekpdev.shoppingapp.ui.home.banner.adapter.HomeBannerAdapter
+import com.marekpdev.shoppingapp.ui.home.banner.items.BannerImageAdapterDelegate
 
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class HomeBannerAdapterDelegate(private val onBannerClicked: (HomeBanner) -> Unit) :
-    BaseAdapterDelegate<HomeBanner, BaseViewHolder<VhHomeBannerBinding>>(HomeBanner::class.java){
+class HomeBannerAdapterDelegate(private val onBannerClicked: () -> Unit) :
+    BaseAdapterDelegate<HomeBannerImages, BaseViewHolder<VhHomeBannerBinding>>(HomeBannerImages::class.java){
 
-    override fun bindViewHolder(item: HomeBanner, holder: BaseViewHolder<VhHomeBannerBinding>) {
+    private val adapter = BaseAdapter(
+        delegatesManager = AdapterDelegatesManager()
+            .addDelegate(BannerImageAdapterDelegate())
+    )
+
+    override fun bindViewHolder(item: HomeBannerImages, holder: BaseViewHolder<VhHomeBannerBinding>) {
         holder.bind {
-            root.setOnClickListener { onBannerClicked(item) }
+            root.setOnClickListener { onBannerClicked() }
 
-            vpHomeBanner.adapter = HomeBannerAdapter(
-                listOf(
-                    R.drawable.home_banner_1,
-                    R.drawable.home_banner_2,
-                    R.drawable.home_banner_3
-                )
-            )
+            vpHomeBanner.adapter = adapter
+            adapter.replaceData(item.images)
 
             TabLayoutMediator(tlHomeBanner, vpHomeBanner) { tab, position ->}.attach()
         }
