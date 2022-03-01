@@ -21,7 +21,7 @@ class HomeBannerAdapterImageVH(view: View) : RecyclerView.ViewHolder(view) {
 
     init {
         // Define click listener for the ViewHolder's View.
-        ivBannerImage = view.findViewById(R.id.ivBannerImageOld)
+        ivBannerImage = view.findViewById(R.id.ivBannerImage)
     }
 
     fun bind(imageRes: Int) {
