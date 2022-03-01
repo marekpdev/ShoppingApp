@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home.banner.old
+package com.marekpdev.shoppingapp.ui.home.banner.items.old
 
 import android.view.View
 import android.widget.ImageView
