@@ -14,7 +14,6 @@ class HomeBannerAdapterImageVH(view: View) : RecyclerView.ViewHolder(view) {
     companion object {
         @LayoutRes
         val layout = R.layout.vh_banner_image_old
-
     }
 
     private val ivBannerImage: ImageView = view.findViewById(R.id.ivBannerImage)
