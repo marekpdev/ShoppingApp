@@ -75,4 +75,11 @@ object Data {
 
     fun getUser() = User("myemail@gmail.com", "MyName", "MySurname")
 
+    fun getMenu(): Pair<List<Category>, List<Product>> {
+        val categories = mutableListOf<Category>()
+        val products = mutableListOf<Product>()
+
+        return categories to products
+    }
+
 }

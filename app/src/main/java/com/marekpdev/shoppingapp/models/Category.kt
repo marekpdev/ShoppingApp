@@ -5,9 +5,10 @@ package com.marekpdev.shoppingapp.models
  */
 data class Category (
     val id: Int,
-    val parentCategoryId: Int = ROOT_CATEGORY_ID,
+    val parentCategoryId: Int,
     val name: String,
     val image: String
 )
 
 const val ROOT_CATEGORY_ID = 0
+const val NO_CATEGORY_ID = 0
