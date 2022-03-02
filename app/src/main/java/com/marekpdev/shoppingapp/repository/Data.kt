@@ -93,12 +93,34 @@ object Data {
         return categories to products
     }
 
-    fun getColors() = listOf(
+    var currentPriceIndex = 0
+    var prices = listOf(10.3, 15.0, 18.0, 22.0, 5.0, 3.5, 12.0)
+    fun getPrice(): Double {
+        return prices[currentPriceIndex++ % prices.size]
+    }
+
+    var currentColorIndex = 0
+    val colors2 = mutableListOf(
         Color(1, "light sea green", "#17C3B2"),
         Color(2, "CG Blue", "#227C9D"),
-        Color(3, "maximum yellow red", "#FFCB77")
+        Color(3, "maximum yellow red", "#FFCB77"),
+        Color(4, "winter blue", "#398AB9"),
+        Color(5, "Retro black", "#19282F"),
+        Color(6, "Night navy", "#21325E"),
     )
+    fun getColors(): List<Color> {
+        currentColorIndex++
+        return when(currentColorIndex % colors2.size){
+            1 -> listOf(colors2[0], colors2[1], colors2[2])
+            2 -> listOf(colors2[2], colors2[3], colors2[4])
+            3 -> listOf(colors2[4], colors2[5])
+            4 -> listOf(colors2[1], colors2[5], colors2[2])
+            5 -> listOf(colors2[2], colors2[3])
+            else -> listOf(colors2[4])
+        }
+    }
 
+    var currentSizeIndex = 0
     fun getSizes() = (1..9).map { Size(it, "0$it") }
 
     fun getImages() = listOf(
