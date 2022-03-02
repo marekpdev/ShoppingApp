@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentOrdersBinding
-import com.marekpdev.shoppingapp.models.Order
+import com.marekpdev.shoppingapp.models.order.Order
+import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
@@ -69,7 +70,7 @@ class OrdersFragment : Fragment() {
 
         add("This week $thisWeekCount")
         (1..thisWeekCount).forEach {
-            val order = repo.createOrder(it.toLong())
+            val order = Data.getOrder(it.toLong())
             add(order)
         }
 
@@ -77,7 +78,7 @@ class OrdersFragment : Fragment() {
 
         add("Last week $lastWeekCount")
         (1..lastWeekCount).forEach {
-            val order = repo.createOrder(it.toLong())
+            val order = Data.getOrder(it.toLong())
             add(order)
         }
 
@@ -85,7 +86,7 @@ class OrdersFragment : Fragment() {
 
         add("Last month $lastMonthCount")
         (1..lastMonthCount).forEach {
-            val order = repo.createOrder(it.toLong())
+            val order = Data.getOrder(it.toLong())
             add(order)
         }
 

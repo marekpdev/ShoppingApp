@@ -2,13 +2,9 @@ package com.marekpdev.shoppingapp.ui.paymentmethods
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.VhOrderBinding
-import com.marekpdev.shoppingapp.databinding.VhOrdersHeaderBinding
 import com.marekpdev.shoppingapp.databinding.VhPaymentCardBinding
-import com.marekpdev.shoppingapp.models.Order
 import com.marekpdev.shoppingapp.models.PaymentCard
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder

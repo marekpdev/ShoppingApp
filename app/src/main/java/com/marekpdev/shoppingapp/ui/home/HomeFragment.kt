@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentHomeBinding
+import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
@@ -55,7 +56,7 @@ class HomeFragment : Fragment() {
     }
 
     private val items = mutableListOf<Any>().apply {
-        val repo = ProductRepositoryImpl()
+
 
         add(HomeBannerImages(listOf(
             R.drawable.home_banner_1,
@@ -63,11 +64,11 @@ class HomeFragment : Fragment() {
             R.drawable.home_banner_3))
         )
         add(HomeProductsHeader("Best sellers"))
-        add(HomeProducts(repo.getProducts(5)))
+        add(HomeProducts(Data.getProducts(5)))
         add(HomeProductsHeader("Just arrived"))
-        add(HomeProducts(repo.getProducts(8)))
+        add(HomeProducts(Data.getProducts(8)))
         add(HomeProductsHeader("Discover more"))
-        add(HomeProducts(repo.getProducts(4)))
+        add(HomeProducts(Data.getProducts(4)))
     }
 
 }

@@ -18,6 +18,7 @@ import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.di.AppComponentProvider
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
+import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 import com.marekpdev.shoppingapp.views.ChipsHelper
@@ -122,7 +123,7 @@ class ProductFragment : Fragment() {
 
            //viewModel.product.observe(viewLifecycleOwner) { product ->
                 // SIZES
-            val product = ProductRepositoryImpl().createProduct(1L)
+            val product = Data.getProduct(1L)
                 chipGroupSizes.removeAllViews()
                 product.availableSizes.forEach { size ->
                     ChipsHelper.createChip(

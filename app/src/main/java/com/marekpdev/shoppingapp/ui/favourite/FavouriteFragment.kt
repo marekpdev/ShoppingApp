@@ -15,6 +15,7 @@ import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentFavouriteBinding
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.models.Product
+import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
@@ -60,5 +61,5 @@ class FavouriteFragment : Fragment() {
         adapter.replaceData(items)
     }
 
-    private val items = ProductRepositoryImpl().getProducts(10)
+    private val items = Data.getProducts(10)
 }

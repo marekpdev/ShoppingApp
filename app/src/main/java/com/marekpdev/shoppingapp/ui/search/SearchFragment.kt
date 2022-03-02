@@ -17,6 +17,7 @@ import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.models.Product
+import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
@@ -76,6 +77,6 @@ class SearchFragment : Fragment() {
         adapter.replaceData(items)
     }
 
-    private val items = ProductRepositoryImpl().getProducts(5)
+    private val items = Data.getProducts(5)
 
 }

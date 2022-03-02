@@ -2,14 +2,10 @@ package com.marekpdev.shoppingapp.ui.addresses
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.VhAddressBinding
-import com.marekpdev.shoppingapp.databinding.VhOrderBinding
-import com.marekpdev.shoppingapp.databinding.VhOrdersHeaderBinding
 import com.marekpdev.shoppingapp.models.Address
-import com.marekpdev.shoppingapp.models.Order
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
 

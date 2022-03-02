@@ -8,8 +8,8 @@ import io.reactivex.rxjava3.core.Observable
  */
 interface ProductsRepository {
 
-    fun observeProducts(): Observable<List<Product>>
-
-    fun observeProduct(): Observable<Product>
+//    fun observeProducts(): Observable<List<Product>>
+//
+//    fun observeProduct(): Observable<Product>
 
 }
