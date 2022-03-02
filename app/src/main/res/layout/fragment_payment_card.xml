@@ -13,38 +13,24 @@
         android:padding="16dp">
 
         <EditText
-            android:id="@+id/tvAddressLine1"
+            android:id="@+id/tvCardNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Address Line 1"
+            android:hint="card number"
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/tvAddressLine2"
+            android:id="@+id/tvExpiryDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Address Line 2"
+            android:hint="expiry date"
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/tvPostcode"
+            android:id="@+id/tvCVC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Postcode"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/tvCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="City"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/tvCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Country"
+            android:hint="cvc"
             android:textSize="20sp" />
 
         <Button

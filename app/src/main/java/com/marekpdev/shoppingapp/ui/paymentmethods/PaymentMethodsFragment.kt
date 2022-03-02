@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentPaymentMethodsBinding
@@ -22,6 +23,7 @@ class PaymentMethodsFragment : Fragment() {
 
     private val onPaymentCardClicked: (PaymentCard) -> Unit = {
         Log.d("FEO33", "Clicked payment card")
+        findNavController().navigate(R.id.action_paymentMethodsFragment_to_paymentCardFragment)
     }
 
     private val adapter = BaseAdapter(
