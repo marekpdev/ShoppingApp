@@ -61,10 +61,9 @@ class PaymentMethodsFragment : Fragment() {
         adapter.replaceData(items)
     }
 
-    private val items = mutableListOf<Any>().apply {
-        add(PaymentCard("VISA", "3443434343"))
-        add(PaymentCard("VISA", "122121212"))
-        add(PaymentCard("VISA", "654654554"))
+    private val items = (1..4).map { id ->
+        PaymentCard(id, "hash$id", "VISA", "123${id}")
     }
+
 
 }

@@ -20,7 +20,7 @@ class PaymentCardAdapterDelegate(private val onPaymentCardClicked: (PaymentCard)
             root.setOnClickListener { onPaymentCardClicked(item) }
 
             tvCardProvider.text = item.provider
-            tvCardNumber.text = item.number
+            tvCardNumber.text = item.last4Digits
         }
     }
 
