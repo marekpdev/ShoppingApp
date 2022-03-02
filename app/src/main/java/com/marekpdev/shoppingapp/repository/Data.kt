@@ -18,18 +18,9 @@ object Data {
         price = id * 1.11,
         oldPrice = id * 1.44,
         currency = "$",
-        availableColors = listOf(
-            Color(1, "light sea green", "#17C3B2"),
-            Color(2, "CG Blue", "#227C9D"),
-            Color(3, "maximum yellow red", "#FFCB77")
-        ),
-        availableSizes = (1..9).map { Size(it, "0$it") },
-        images = listOf(
-            "https://cdn.shopify.com/s/files/1/0932/1794/files/Artboard_24_370x230@2x.png?v=1605584742",
-            "https://romans-cdn.rlab.net/images/extralarge/350f24c0-9476-465b-9c8a-5e0a70b6bf62.jpg",
-            "https://cdn.foreverunique.com/products/uar212729_4205.jpg?h=480&w=",
-            "https://media.sezane.com/image/upload/c_crop,fl_progressive:semi,h_0.95333333333333,q_auto:best,w_1,x_0,y_0.023333333333333/c_scale,w_598/whb5logixhjjmnqrurfp.jpg"
-        ),
+        availableColors = getColors(),
+        availableSizes = getSizes(),
+        images = getImages(),
         categoryId = 1
     )
 
@@ -79,7 +70,42 @@ object Data {
         val categories = mutableListOf<Category>()
         val products = mutableListOf<Product>()
 
+        val root = Category(ROOT_CATEGORY_ID, NO_CATEGORY_ID, "ROOT")
+        val womenCategory = Category(1000, ROOT_CATEGORY_ID, "Woman")
+        val manCategory = Category(2000, ROOT_CATEGORY_ID, "Man")
+        val accessoriesCategory = Category(3000, ROOT_CATEGORY_ID, "Accessories")
+
+        val womanCatLabels = listOf(
+            "Blouses","Shirts", "Trousers", "Jeans", "Shorts", "Skirts", "Dresses", "Jumpers"
+        )
+
+        val manCatLabels = listOf(
+            "Jumpers", "Hoodies", "T-shirts", "Polo Shirts", "Suits"
+        )
+
+        val accessoriesCatLabels = listOf(
+            "Bags", "Hats", "Gloves", "Jewellery", "Belts", "Sunglasses"
+        )
+
+
+
+
         return categories to products
     }
+
+    fun getColors() = listOf(
+        Color(1, "light sea green", "#17C3B2"),
+        Color(2, "CG Blue", "#227C9D"),
+        Color(3, "maximum yellow red", "#FFCB77")
+    )
+
+    fun getSizes() = (1..9).map { Size(it, "0$it") }
+
+    fun getImages() = listOf(
+        "https://cdn.shopify.com/s/files/1/0932/1794/files/Artboard_24_370x230@2x.png?v=1605584742",
+        "https://romans-cdn.rlab.net/images/extralarge/350f24c0-9476-465b-9c8a-5e0a70b6bf62.jpg",
+        "https://cdn.foreverunique.com/products/uar212729_4205.jpg?h=480&w=",
+        "https://media.sezane.com/image/upload/c_crop,fl_progressive:semi,h_0.95333333333333,q_auto:best,w_1,x_0,y_0.023333333333333/c_scale,w_598/whb5logixhjjmnqrurfp.jpg"
+    )
 
 }

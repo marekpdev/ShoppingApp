@@ -6,8 +6,7 @@ package com.marekpdev.shoppingapp.models
 data class Category (
     val id: Int,
     val parentCategoryId: Int,
-    val name: String,
-    val image: String
+    val name: String
 )
 
 const val ROOT_CATEGORY_ID = 0
