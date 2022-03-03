@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.checkout.basket
+package com.marekpdev.shoppingapp.ui.checkout.orderdetails
 
 import android.os.Bundle
 import android.util.Log
@@ -7,23 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.FragmentBasketBinding
+import com.marekpdev.shoppingapp.databinding.FragmentCheckoutOrderDetailsBinding
 import com.marekpdev.shoppingapp.models.Product
+import com.marekpdev.shoppingapp.models.order.PaymentMethod
 import com.marekpdev.shoppingapp.repository.Basket
+import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.checkout.CheckoutDeliveryAddressDelegate
+import com.marekpdev.shoppingapp.ui.checkout.CheckoutPaymentMethodDelegate
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutProductAdapterDelegate
+
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class BasketFragment : Fragment() {
+class CheckoutOrderDetailsFragment : Fragment() {
 
-    private lateinit var binding: FragmentBasketBinding
+    private lateinit var binding: FragmentCheckoutOrderDetailsBinding
 
     private val onProductClicked: (Product) -> Unit = {
         Log.d("FEO33", "Clicked Product")
@@ -35,6 +39,8 @@ class BasketFragment : Fragment() {
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
+            .addDelegate(CheckoutDeliveryAddressDelegate {})
+            .addDelegate(CheckoutPaymentMethodDelegate {})
             .addDelegate(CheckoutProductAdapterDelegate(onProductClicked, onProductLongClicked))
     )
 
@@ -42,7 +48,7 @@ class BasketFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_basket, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_checkout_order_details, container, false)
         return binding.root
     }
 
@@ -50,7 +56,7 @@ class BasketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            lifecycleOwner = this@BasketFragment
+            lifecycleOwner = this@CheckoutOrderDetailsFragment
 //            productViewModel = viewModel
 //            btnLogin.setOnClickListener {
 //                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
@@ -63,18 +69,16 @@ class BasketFragment : Fragment() {
         }
     }
 
-    private fun initLayout(binding: FragmentBasketBinding) = binding.apply {
+    private fun initLayout(binding: FragmentCheckoutOrderDetailsBinding) = binding.apply {
         Log.d("FEO33", "initLayout")
-        val items = Basket.basketItems
-        Log.d("FEO33", "Basket items: ${items.size}")
+        val items = mutableListOf<Any>()
+        items.add(Data.getAddress())
+        items.add(PaymentMethod("VISA - **** **** **** 4342"))
+        items.addAll(Basket.basketItems)
 
-        rvBasketProducts.layoutManager = LinearLayoutManager(context)
-        rvBasketProducts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        rvBasketProducts.adapter = adapter
+        rvOrderDetails.layoutManager = LinearLayoutManager(context)
+        rvOrderDetails.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        rvOrderDetails.adapter = adapter
         adapter.replaceData(items)
-
-        btnContinue.setOnClickListener {
-            findNavController().navigate(R.id.action_checkoutFragment_to_checkoutOrderDetailsFragment)
-        }
     }
 }

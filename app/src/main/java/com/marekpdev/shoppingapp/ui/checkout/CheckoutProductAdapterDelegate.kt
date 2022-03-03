@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.checkout.basket
+package com.marekpdev.shoppingapp.ui.checkout
 
 import android.util.Log
 import android.view.LayoutInflater
