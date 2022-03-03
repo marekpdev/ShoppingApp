@@ -64,11 +64,11 @@ class HomeFragment : Fragment() {
             R.drawable.home_banner_3))
         )
         add(HomeProductsHeader("Best sellers"))
-        add(HomeProducts(Data.getProducts(5)))
+        add(HomeProducts(Data.getMenu().second))
         add(HomeProductsHeader("Just arrived"))
-        add(HomeProducts(Data.getProducts(8)))
+        add(HomeProducts(Data.getMenu().second))
         add(HomeProductsHeader("Discover more"))
-        add(HomeProducts(Data.getProducts(4)))
+        add(HomeProducts(Data.getMenu().second))
     }
 
 }

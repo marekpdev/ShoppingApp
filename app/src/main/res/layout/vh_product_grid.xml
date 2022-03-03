@@ -54,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/rubik_medium"
-            android:text="$300.00"
             android:textColor="@color/orange_style"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

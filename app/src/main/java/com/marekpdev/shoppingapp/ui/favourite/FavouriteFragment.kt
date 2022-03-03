@@ -61,5 +61,5 @@ class FavouriteFragment : Fragment() {
         adapter.replaceData(items)
     }
 
-    private val items = Data.getProducts(10)
+    private val items = Data.getMenu().second
 }

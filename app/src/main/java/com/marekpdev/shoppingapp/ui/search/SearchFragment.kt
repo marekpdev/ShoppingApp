@@ -68,6 +68,6 @@ class SearchFragment : Fragment() {
         adapter.replaceData(items)
     }
 
-    private val items = Data.getProducts(5)
+    private val items = Data.getMenu().second
 
 }

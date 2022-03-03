@@ -9,6 +9,7 @@ import com.marekpdev.shoppingapp.databinding.VhProductGridWidthConstraintBinding
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
+import com.squareup.picasso.Picasso
 
 /**
  * Created by Marek Pszczolka on 01/03/2022.
@@ -23,15 +24,9 @@ class ProductWidthConstAdapterDelegate(private val onProductClicked: (Product) -
 
             productLayout.apply {
                 tvProductName.text = item.name
+                tvProductPrice.text = item.currency + "" + item.price
 
-                ivProductImage.setImageResource(
-                    when(item.id.toInt() % 4){
-                        1 -> R.drawable.product1
-                        2 -> R.drawable.product2
-                        3 ->  R.drawable.product3
-                        else -> R.drawable.product4
-                    }
-                )
+                Picasso.get().load(item.images.first()).into(ivProductImage)
 
                 ivProductImage.clipToOutline = true
 

@@ -69,7 +69,7 @@ class ProductFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
-        val product = Data.getProduct(1)
+        val product = Data.getProduct(1, 1)
         vpProductImages.adapter = ImagesAdapter(product.images)
 
         TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
@@ -117,7 +117,7 @@ class ProductFragment : Fragment() {
 
            //viewModel.product.observe(viewLifecycleOwner) { product ->
                 // SIZES
-            val product = Data.getProduct(1L)
+            val product = Data.getProduct(1L, 1)
                 chipGroupSizes.removeAllViews()
                 product.availableSizes.forEach { size ->
                     ChipsHelper.createChip(
