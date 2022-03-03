@@ -69,14 +69,8 @@ class ProductFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
-        vpProductImages.adapter = ImagesAdapter(
-            listOf(
-                R.drawable.product1,
-                R.drawable.product2,
-                R.drawable.product3,
-                R.drawable.product4,
-            )
-        )
+        val product = Data.getProduct(1)
+        vpProductImages.adapter = ImagesAdapter(product.images)
 
         TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
 
