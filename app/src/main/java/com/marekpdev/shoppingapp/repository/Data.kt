@@ -89,6 +89,12 @@ object Data {
 
     val images = Randomizer(
         listOf(
+            "https://oldnavy.gap.com/Asset_Archive/ONWeb/content/0028/280/679/assets/211225_60-M6165_W_DP_NewArrivals.jpg",
+            "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1620399389-best-amazon-dresses-for-women-ruffle-dress-1620399361.png?crop=0.786xw:0.985xh;0.101xw,0.0150xh&resize=480:*",
+            "https://img.ltwebstatic.com/images3_pi/2021/05/08/16204416771a563dba0f844785d5e25f2dcb369cd3_thumbnail_600x.webp",
+            "https://img.ltwebstatic.com/images3_pi/2020/10/17/160290647269304c85654dd69e3abf0f15f8351cdf_thumbnail_600x.webp",
+            "https://img.ltwebstatic.com/images3_pi/2021/06/30/1625046216f42f94994c13312f8deb738e54d025d8_thumbnail_600x.webp",
+            "https://cdn-img.prettylittlething.com/a/9/a/6/a9a6c9a4c66800a9e0f3e95389853804be76f986_cmv8179_1.jpg?imwidth=400",
             "https://cdn.shopify.com/s/files/1/0932/1794/files/Artboard_24_370x230@2x.png?v=1605584742",
             "https://romans-cdn.rlab.net/images/extralarge/350f24c0-9476-465b-9c8a-5e0a70b6bf62.jpg",
             "https://cdn.foreverunique.com/products/uar212729_4205.jpg?h=480&w=",
@@ -141,7 +147,7 @@ object Data {
 
         val cat = listOf(
             "Woman" to listOf("Blouses","Shirts", "Trousers", "Jeans", "Shorts", "Skirts", "Dresses", "Jumpers"),
-            "Man" to listOf("Jumpers", "Hoodies", "T-shirts", "Polo Shirts", "Suits"),
+            "Woman 2" to listOf("Jumpers", "Hoodies", "T-shirts", "Polo Shirts", "Suits"),
             "Accessories" to listOf("Bags", "Hats", "Gloves", "Jewellery", "Belts", "Sunglasses")
         )
 

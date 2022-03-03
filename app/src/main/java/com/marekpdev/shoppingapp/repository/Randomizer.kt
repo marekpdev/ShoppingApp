@@ -22,7 +22,7 @@ class Randomizer<T>(val items: List<T> = listOf()) {
             toReturn.add(getRandomItem())
         }
 
-        return toReturn.shuffled()
+        return toReturn
     }
 
     fun getRandomItem(): T {
