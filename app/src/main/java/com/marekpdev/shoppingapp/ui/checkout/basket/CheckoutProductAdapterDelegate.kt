@@ -2,9 +2,7 @@ package com.marekpdev.shoppingapp.ui.checkout.basket
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import com.marekpdev.shoppingapp.R
@@ -12,6 +10,7 @@ import com.marekpdev.shoppingapp.databinding.VhCheckoutProductBinding
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
+import com.marekpdev.shoppingapp.ui.utils.SpinnerItemListener
 import com.squareup.picasso.Picasso
 
 /**
@@ -34,41 +33,25 @@ class CheckoutProductAdapterDelegate(private val onProductClicked: (Product) -> 
 
             Picasso.get().load(item.images.first()).into(ivProductImage)
 
-            val sizesSpinnerAdapter = ArrayAdapter(holder.context, R.layout.support_simple_spinner_dropdown_item, item.availableSizes.map { it.name })
-            spProductSize.adapter = sizesSpinnerAdapter
-
-            spProductSize.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val color = item.availableSizes[position]
-                    Log.d("FEO33", "Selected $color")
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    Log.d("FEO33", "onNothingSelected")
+            spProductSize.apply {
+                adapter = ArrayAdapter(
+                    holder.context,
+                    R.layout.support_simple_spinner_dropdown_item,
+                    item.availableSizes.map { it.name }
+                )
+                onItemSelectedListener = SpinnerItemListener(item.availableSizes) { size ->
+                    Log.d("FEO33", "Selected $size")
                 }
             }
 
-            val colorsSpinnerAdapter = ArrayAdapter(holder.context, R.layout.support_simple_spinner_dropdown_item, item.availableColors.map { it.name })
-            spProductColor.adapter = colorsSpinnerAdapter
-
-            spProductColor.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val size = item.availableSizes[position]
-                    Log.d("FEO33", "Selected $size")
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    Log.d("FEO33", "onNothingSelected")
+            spProductColor.apply {
+                adapter = ArrayAdapter(
+                    holder.context,
+                    R.layout.support_simple_spinner_dropdown_item,
+                    item.availableColors.map { it.name }
+                )
+                onItemSelectedListener = SpinnerItemListener(item.availableColors) { color ->
+                    Log.d("FEO33", "Selected $color")
                 }
             }
 
