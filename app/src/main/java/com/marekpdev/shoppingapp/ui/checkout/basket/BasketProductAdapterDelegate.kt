@@ -13,8 +13,8 @@ import com.squareup.picasso.Picasso
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class CheckoutBasketProductAdapterDelegate(private val onProductClicked: (Product) -> Unit,
-                                           private val onProductLongClicked: (Product) -> Unit) :
+class BasketProductAdapterDelegate(private val onProductClicked: (Product) -> Unit,
+                                   private val onProductLongClicked: (Product) -> Unit) :
     BaseAdapterDelegate<Product, BaseViewHolder<VhBasketProductBinding>>(Product::class.java){
 
     override fun bindViewHolder(item: Product, holder: BaseViewHolder<VhBasketProductBinding>) {
