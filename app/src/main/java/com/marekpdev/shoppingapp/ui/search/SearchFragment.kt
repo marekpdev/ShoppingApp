@@ -21,6 +21,10 @@ import com.marekpdev.shoppingapp.rvutils.BaseAdapter
  */
 class SearchFragment : Fragment() {
 
+    // todo
+    // need to add
+    // FILTER and SORT workflows
+
     private lateinit var binding: FragmentSearchBinding
 
     private val onProductClicked: (Product) -> Unit = {

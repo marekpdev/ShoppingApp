@@ -56,19 +56,18 @@ class HomeFragment : Fragment() {
     }
 
     private val items = mutableListOf<Any>().apply {
-
-
         add(HomeBannerImages(listOf(
             R.drawable.home_banner_1,
             R.drawable.home_banner_2,
             R.drawable.home_banner_3))
         )
+
         add(HomeProductsHeader("Best sellers"))
-        add(HomeProducts(Data.getMenu().second))
+        add(HomeProducts(Data.getMenu().second.shuffled().take(8)))
         add(HomeProductsHeader("Just arrived"))
-        add(HomeProducts(Data.getMenu().second))
+        add(HomeProducts(Data.getMenu().second.shuffled().take(3)))
         add(HomeProductsHeader("Discover more"))
-        add(HomeProducts(Data.getMenu().second))
+        add(HomeProducts(Data.getMenu().second.shuffled().take(5)))
     }
 
 }
