@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/checkoutFragment"
-        android:name="com.marekpdev.shoppingapp.ui.checkout.CheckoutFragment"
+        android:name="com.marekpdev.shoppingapp.ui.checkout.basket.BasketFragment"
         android:label="CheckoutFragment" />
 </navigation>

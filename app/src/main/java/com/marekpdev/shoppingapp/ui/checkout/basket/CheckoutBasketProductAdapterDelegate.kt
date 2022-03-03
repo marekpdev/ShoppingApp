@@ -1,12 +1,10 @@
-package com.marekpdev.shoppingapp.ui.checkout
+package com.marekpdev.shoppingapp.ui.checkout.basket
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.VhAddressBinding
 import com.marekpdev.shoppingapp.databinding.VhBasketProductBinding
-import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
@@ -15,8 +13,8 @@ import com.squareup.picasso.Picasso
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class BasketProductAdapterDelegate(private val onProductClicked: (Product) -> Unit,
-                                   private val onProductLongClicked: (Product) -> Unit) :
+class CheckoutBasketProductAdapterDelegate(private val onProductClicked: (Product) -> Unit,
+                                           private val onProductLongClicked: (Product) -> Unit) :
     BaseAdapterDelegate<Product, BaseViewHolder<VhBasketProductBinding>>(Product::class.java){
 
     override fun bindViewHolder(item: Product, holder: BaseViewHolder<VhBasketProductBinding>) {
