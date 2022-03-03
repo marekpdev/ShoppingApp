@@ -32,7 +32,7 @@ class BasketFragment : Fragment() {
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(BasketProductAdapterDelegate(onProductClicked, onProductLongClicked))
+            .addDelegate(CheckoutProductAdapterDelegate(onProductClicked, onProductLongClicked))
     )
 
     override fun onCreateView(
