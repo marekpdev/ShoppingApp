@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,8 @@ class SearchFragment : Fragment() {
     // todo
     // need to add
     // FILTER and SORT workflows
+
+    private lateinit var viewModel: SearchViewModel
 
     private lateinit var binding: FragmentSearchBinding
 
@@ -51,8 +55,11 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
+
         binding.apply {
             lifecycleOwner = this@SearchFragment
+
 //            productViewModel = viewModel
 //            btnLogin.setOnClickListener {
 //                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
@@ -69,11 +76,26 @@ class SearchFragment : Fragment() {
         Log.d("FEO33", "initLayout")
         rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         rvProducts.adapter = adapter
-        adapter.replaceData(items)
 
-        tvSummary.text = "Showing 10 items"
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter.replaceData(it)
+        }
+
+        viewModel.summaryText.observe(viewLifecycleOwner) {
+            tvSummary.text = it
+        }
+
+        viewModel.searchLoading.observe(viewLifecycleOwner) { loading ->
+            pbSearch.visibility = when(loading){
+                true -> View.VISIBLE
+                else -> View.GONE
+            }
+        }
+
+        etSearch.doAfterTextChanged {
+            viewModel.onNewSearch(it.toString())
+        }
+
     }
-
-    private val items = Data.getMenu().second
 
 }

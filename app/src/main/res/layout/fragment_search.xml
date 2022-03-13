@@ -26,6 +26,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/actionBarSpace" />
 
+        <ProgressBar
+            android:id="@+id/pbSearch"
+            app:layout_constraintTop_toTopOf="@id/etSearch"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintEnd_toEndOf="@id/etSearch"
+            android:layout_width="0dp"
+            android:visibility="invisible"
+            android:layout_height="24dp"/>
+
         <TextView
             android:id="@+id/tvSummary"
             android:layout_width="0dp"
