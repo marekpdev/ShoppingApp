@@ -68,6 +68,9 @@ class OrdersFragment : Fragment() {
         val repo = ProductRepositoryImpl()
         val thisWeekCount = 3
 
+        // regarding headers and items
+        // https://github.com/google/iosched/blob/main/mobile/src/main/java/com/google/samples/apps/iosched/ui/agenda/AgendaHeaderIndexer.kt
+        // probably here is a good example on how to structure headers + list items
         add("This week $thisWeekCount")
         (1..thisWeekCount).forEach {
             val order = Data.getOrder(it.toLong())
