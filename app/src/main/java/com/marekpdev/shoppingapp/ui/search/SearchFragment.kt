@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
@@ -15,6 +16,7 @@ import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.favourite.ProductWidthConstAdapterDelegate
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
@@ -29,11 +31,13 @@ class SearchFragment : Fragment() {
 
     private val onProductClicked: (Product) -> Unit = {
         Log.d("FEO33", "Clicked product")
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(1))
     }
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(ProductAdapterDelegate(onProductClicked))
+//            .addDelegate(ProductAdapterDelegate(onProductClicked))
+            .addDelegate(ProductWidthConstAdapterDelegate(onProductClicked))
     )
 
     override fun onCreateView(
@@ -63,13 +67,11 @@ class SearchFragment : Fragment() {
 
     private fun initLayout(binding: FragmentSearchBinding) = binding.apply {
         Log.d("FEO33", "initLayout")
-        btnProduct.setOnClickListener {
-            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(1))
-        }
-
-        rvProducts.layoutManager = LinearLayoutManager(context)
+        rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         rvProducts.adapter = adapter
         adapter.replaceData(items)
+
+        tvSummary.text = "Showing 10 items"
     }
 
     private val items = Data.getMenu().second
