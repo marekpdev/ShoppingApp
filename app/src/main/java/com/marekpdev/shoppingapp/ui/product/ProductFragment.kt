@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,7 +39,10 @@ class ProductFragment : Fragment() {
 
     // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
 //    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
-    private val viewModel: ProductViewModel by viewModels()
+//    private val viewModel: ProductViewModel by viewModels()
+
+    private lateinit var viewModel: ProductViewModel
+    private lateinit var viewModelFactory: ProductViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +54,11 @@ class ProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val productId = navArgs.productId
+
+        viewModelFactory = ProductViewModelFactory(productId)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductViewModel::class.java)
 
         binding.apply {
             lifecycleOwner = this@ProductFragment

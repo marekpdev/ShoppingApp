@@ -35,7 +35,7 @@ class SearchFragment : Fragment() {
 
     private val onProductClicked: (Product) -> Unit = {
         Log.d("FEO33", "Clicked product")
-        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(1))
+        viewModel.onProductClicked(it)
     }
 
     private val adapter = BaseAdapter(
@@ -56,6 +56,18 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
+
+        // https://developer.android.com/codelabs/kotlin-android-training-live-data#4
+        // here there is some info so might need to add observers in onCreateView instead
+//        Why use viewLifecycleOwner?
+//        Fragment views get destroyed when a user navigates away from a fragment,
+//        even though the fragment itself is not destroyed. This essentially creates
+//        two lifecycles, the lifecycle of the fragment, and the lifecycle of the
+//        fragment's view. Referring to the fragment's lifecycle instead of the
+//        fragment view's lifecycle can cause subtle bugs when updating the fragment's
+//        view. Therefore, when setting up observers that affect the fragment's view you should:
+//        1. Set up the observers in onCreateView()
+//        2. Pass in viewLifecycleOwner to observers
 
         binding.apply {
             lifecycleOwner = this@SearchFragment
@@ -89,6 +101,13 @@ class SearchFragment : Fragment() {
             pbSearch.visibility = when(loading){
                 true -> View.VISIBLE
                 else -> View.GONE
+            }
+        }
+
+        viewModel.goToProductDetailsEvent.observe(viewLifecycleOwner) { product ->
+            if(product != null) {
+//                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = product.id))
+                viewModel.goToProductDetailsEventFinished()
             }
         }
 

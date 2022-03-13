@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
@@ -23,15 +24,20 @@ class SearchViewModel: ViewModel() {
     val searchLoading: LiveData<Boolean>
         get() = _searchLoading
 
-    private val _summaryText = MutableLiveData<String>()
+    private val _summaryText = Transformations.map(_items) {
+        "Showing ${it.size} items"
+    }
     val summaryText: LiveData<String>
         get() = _summaryText
+
+    private val _goToProductDetailsEvent = MutableLiveData<Product?>()
+    val goToProductDetailsEvent: LiveData<Product?>
+        get() = _goToProductDetailsEvent
 
     init {
         _items.value = Data.getMenu().second!!
         _searchQuery.value = ""
         _searchLoading.value = false
-        _summaryText.value = "Showing 10 items"
     }
 
     override fun onCleared() {
@@ -39,7 +45,11 @@ class SearchViewModel: ViewModel() {
     }
 
     fun onProductClicked(product: Product){
+        _goToProductDetailsEvent.value = product
+    }
 
+    fun goToProductDetailsEventFinished(){
+        _goToProductDetailsEvent.value = null
     }
 
     fun onNewSearch(text: String){
