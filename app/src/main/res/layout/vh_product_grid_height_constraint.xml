@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:maxHeight="400dp">
+
+        <include
+            android:id="@+id/productLayout"
+            layout="@layout/vh_product_grid" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

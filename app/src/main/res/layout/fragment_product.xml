@@ -94,5 +94,13 @@
 
         </androidx.core.widget.NestedScrollView>
 
+        <Button
+            android:id="@+id/btnAddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_add_product_height"
+            android:text="Add product"
+            android:fitsSystemWindows="true"
+            android:layout_gravity="center_horizontal|bottom" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

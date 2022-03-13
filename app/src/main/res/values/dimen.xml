@@ -21,4 +21,7 @@
     <dimen name="chip_color_width">60dp</dimen>
     <dimen name="chip_color_height">52dp</dimen>
 
+
+    <dimen name="btn_add_product_margins">16dp</dimen>
+    <dimen name="btn_add_product_height">56dp</dimen>
 </resources>

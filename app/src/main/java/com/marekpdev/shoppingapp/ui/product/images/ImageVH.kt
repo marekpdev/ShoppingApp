@@ -1,10 +1,12 @@
 package com.marekpdev.shoppingapp.ui.product.images
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.marekpdev.shoppingapp.R
+import com.squareup.picasso.Picasso
 
 /**
  * Created by Marek Pszczolka on 25/04/2021.
@@ -24,7 +26,8 @@ class ImageVH(view: View) : RecyclerView.ViewHolder(view) {
         ivProductImage = view.findViewById(R.id.ivProductImage)
     }
 
-    fun bind(imageRes: Int) {
-        ivProductImage.setImageResource(imageRes)
+    fun bind(imagePath: String) {
+        Log.d("FEO33", "Load $imagePath")
+        Picasso.get().load(imagePath).into(ivProductImage)
     }
 }

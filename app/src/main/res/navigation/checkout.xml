@@ -5,6 +5,14 @@
 
     <fragment
         android:id="@+id/checkoutFragment"
-        android:name="com.marekpdev.shoppingapp.ui.checkout.CheckoutFragment"
-        android:label="CheckoutFragment" />
+        android:name="com.marekpdev.shoppingapp.ui.checkout.basket.BasketFragment"
+        android:label="CheckoutFragment" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_checkoutOrderDetailsFragment"
+            app:destination="@id/checkoutOrderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutOrderDetailsFragment"
+        android:name="com.marekpdev.shoppingapp.ui.checkout.orderdetails.CheckoutOrderDetailsFragment"
+        android:label="CheckoutOrderDetailsFragment" />
 </navigation>

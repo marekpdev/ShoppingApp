@@ -15,7 +15,7 @@ import com.marekpdev.shoppingapp.models.Product
 
 // also instead of 'api' should i just use names like 'remote' vs 'local'?
 
-@Database(version = 1, entities = [Product::class], exportSchema = false)
+//@Database(version = 1, entities = [Product::class], exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {

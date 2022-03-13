@@ -32,12 +32,23 @@ class AccountFragment : Fragment() {
         binding.apply {
             lifecycleOwner = this@AccountFragment
 //            productViewModel = viewModel
-            btnLogin.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
+            btnEditProfile.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_editProfileFragment)
             }
-
-            btnRegistration.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
+            btnOrders.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_ordersFragment)
+            }
+            btnAddresses.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_addressesFragment)
+            }
+            btnPaymentMethods.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_paymentMethodsFragment)
+            }
+            btnSettings.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_settingsFragment)
+            }
+            btnLogout.setOnClickListener {
+                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
             }
         }
     }

@@ -6,19 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
-import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.di.AppComponentProvider
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
+import com.marekpdev.shoppingapp.repository.Data
+import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 import com.marekpdev.shoppingapp.views.ChipsHelper
 
@@ -68,14 +69,8 @@ class ProductFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
-        vpProductImages.adapter = ImagesAdapter(
-            listOf(
-                R.drawable.product1,
-                R.drawable.product2,
-                R.drawable.product3,
-                R.drawable.product4,
-            )
-        )
+        val product = Data.getProduct(1, 1)
+        vpProductImages.adapter = ImagesAdapter(product.images)
 
         TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
 
@@ -105,6 +100,11 @@ class ProductFragment : Fragment() {
 
         productCard.apply {
 
+
+            //var desc = ""
+            //(1..2).forEach { desc += "this is the very second line of $it" }
+            //tvDescription.setText(desc)
+
             // SIZES
             chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
                 Log.d("FEO33", "Checked changed")
@@ -115,8 +115,9 @@ class ProductFragment : Fragment() {
                 Log.d("FEO33", "Checked changed")
             }
 
-            viewModel.product.observe(viewLifecycleOwner) { product ->
+           //viewModel.product.observe(viewLifecycleOwner) { product ->
                 // SIZES
+            val product = Data.getProduct(1L, 1)
                 chipGroupSizes.removeAllViews()
                 product.availableSizes.forEach { size ->
                     ChipsHelper.createChip(
@@ -141,11 +142,15 @@ class ProductFragment : Fragment() {
                         chipGroupColors.addView(chip)
                     }
                 }
-            }
+           // }
 
             btnAddProduct.setOnClickListener {
                 viewModel.addProduct()
             }
+
+            (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =
+                StickyBottomBehavior(btnAddProductAnchor, resources.getDimensionPixelOffset(R.dimen.btn_add_product_margins));
+
         }
 
     }

@@ -19,4 +19,10 @@
     <color name="grey">@android:color/darker_gray</color>
 
     <color name="transparent">#00000000</color>
+
+    <color name="background_1">#F9F9F9</color>
+    <color name="background_2">#FBF8F3</color>
+
+    <color name="orange_style">#DE7866</color>
+    <color name="red_heart">#D54138</color>
 </resources>
