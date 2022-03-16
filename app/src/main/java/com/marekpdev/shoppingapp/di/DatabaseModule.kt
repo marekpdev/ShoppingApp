@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.di
 
 import android.content.Context
-import androidx.room.Room
 import com.marekpdev.shoppingapp.db.AppDatabase
 import com.marekpdev.shoppingapp.db.ProductsDao
 import dagger.Module
