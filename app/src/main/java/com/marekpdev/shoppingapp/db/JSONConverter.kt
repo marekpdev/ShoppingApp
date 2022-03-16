@@ -10,22 +10,24 @@ import com.marekpdev.shoppingapp.models.Size
 /**
  * Created by Marek Pszczolka on 16/03/2022.
  */
-open class ListConverter<T> {
+open class JSONConverter<T> {
+
+    private val gson by lazy { Gson() }
 
     @TypeConverter
     fun toString(value: List<T>): String {
-        return Gson().toJson(value)
+        return gson.toJson(value)
     }
 
     @TypeConverter
     fun toList(value: String): List<T> {
         val type = object : TypeToken<List<T>>() {}.type
-        return Gson().fromJson(value, type)
+        return gson.fromJson(value, type)
     }
 
 }
 
-class ProductConverter: ListConverter<Product>()
-class ColorConverter: ListConverter<Color>()
-class SizeConverter: ListConverter<Size>()
-class StringListConverter: ListConverter<String>()
+class ProductListConverter: JSONConverter<Product>()
+class ColorListConverter: JSONConverter<Color>()
+class SizeListConverter: JSONConverter<Size>()
+class StringListConverter: JSONConverter<String>()

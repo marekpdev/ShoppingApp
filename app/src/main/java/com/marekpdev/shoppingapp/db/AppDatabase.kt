@@ -18,9 +18,9 @@ import com.marekpdev.shoppingapp.models.Product
 
 @Database(entities = [Product::class], version = 1, exportSchema = false)
 @TypeConverters(
-    ProductConverter::class,
-    ColorConverter::class,
-    SizeConverter::class,
+    ProductListConverter::class,
+    ColorListConverter::class,
+    SizeListConverter::class,
     StringListConverter::class,
 )
 abstract class AppDatabase : RoomDatabase() {
