@@ -58,4 +58,7 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     abstract fun getProductsDao(): ProductsDao
+    // todo should it be
+    // abstract val productsDao: ProductsDao
+    // ??
 }

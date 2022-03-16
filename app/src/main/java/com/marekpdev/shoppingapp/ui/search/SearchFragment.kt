@@ -29,7 +29,9 @@ class SearchFragment : Fragment() {
     // need to add
     // FILTER and SORT workflows
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by lazy {
+        ViewModelProviders.of(this).get(SearchViewModel::class.java)
+    }
 
     private lateinit var binding: FragmentSearchBinding
 
@@ -54,8 +56,6 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
 
         // https://developer.android.com/codelabs/kotlin-android-training-live-data#4
         // here there is some info so might need to add observers in onCreateView instead
