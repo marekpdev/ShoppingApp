@@ -66,8 +66,6 @@ object Data {
         return (1..count).map { getOrder(it.toLong()) }
     }
 
-    fun getUser() = User("myemail@gmail.com", "MyName", "MySurname")
-
     val prices = Randomizer(
         listOf(10.5, 15.0, 18.0, 22.0, 5.0, 3.5, 12.0)
     )

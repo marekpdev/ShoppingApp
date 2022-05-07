@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.user
 
+import com.marekpdev.shoppingapp.models.User
 import com.marekpdev.shoppingapp.storage.Storage
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,16 +13,11 @@ import javax.inject.Singleton
  */
 @Singleton
 class UserManagerImpl @Inject constructor(private val storage: Storage): UserManager {
-    override val username: String
-        get() = "myusername"
 
-    override fun isUserLoggedIn() {
+    override var user: User? = null
 
+    override fun isUserLoggedIn(): Boolean {
+        return user != null
     }
-
-    override fun isUserRegistered() {
-
-    }
-
 
 }
