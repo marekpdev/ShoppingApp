@@ -14,7 +14,8 @@ import dagger.Component
     DatabaseModule::class,
     NetworkModule::class,
     ProductsModule::class,
-    StorageModule::class
+    StorageModule::class,
+    UserModule::class
 ])
 interface AppComponent {
 
