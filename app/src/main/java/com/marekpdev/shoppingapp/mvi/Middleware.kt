@@ -5,6 +5,6 @@ package com.marekpdev.shoppingapp.mvi
  */
 interface Middleware<S: ViewState, A: Action> {
 
-    fun dispatch(action: A)
+    fun process(action: A, currentState: S, store: Store<S, A>)
 
 }

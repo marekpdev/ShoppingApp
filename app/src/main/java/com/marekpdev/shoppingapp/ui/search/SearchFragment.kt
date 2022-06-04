@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -35,7 +36,7 @@ class SearchFragment : Fragment() {
 
     private val onProductClicked: (Product) -> Unit = {
         Log.d("FEO33", "Clicked product")
-        viewModel.dispatch(SearchAction.GoToProductDetailsScreen(it.id))
+        viewModel.dispatch(SearchAction.ProductClicked(it.id))
     }
 
     private val adapter = BaseAdapter(
@@ -82,15 +83,16 @@ class SearchFragment : Fragment() {
         viewModel.commands.observe(viewLifecycleOwner) { onCommand(it) }
 
         etSearch.doAfterTextChanged {
-            viewModel.dispatch(SearchAction.SearchAction(it.toString()))
+            viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
 
     }
 
     private fun render(state: SearchViewState) = binding.apply {
+        etSearch.setTextIfDifferent(state.searchQuery)
         adapter.replaceData(state.products)
         tvSummary.text = state.searchSummary
-        pbSearch.visibility = when(state.searchLoading){
+        pbSearch.visibility = when(state.searchInProgress){
             true -> View.VISIBLE
             else -> View.GONE
         }
@@ -104,5 +106,10 @@ class SearchFragment : Fragment() {
         }
     }
 
+    private fun EditText.setTextIfDifferent(text: String){
+        if(getText().toString() != text){
+            setText(text)
+        }
+    }
 
 }
