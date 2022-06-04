@@ -11,11 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.favourite.ProductWidthConstAdapterDelegate
@@ -37,7 +35,7 @@ class SearchFragment : Fragment() {
 
     private val onProductClicked: (Product) -> Unit = {
         Log.d("FEO33", "Clicked product")
-        viewModel.onProductClicked(it)
+        viewModel.dispatch(SearchAction.GoToProductDetailsScreen(it.id))
     }
 
     private val adapter = BaseAdapter(
@@ -71,15 +69,6 @@ class SearchFragment : Fragment() {
 
         binding.apply {
             lifecycleOwner = this@SearchFragment
-
-//            productViewModel = viewModel
-//            btnLogin.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-//            }
-//
-//            btnRegistration.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
-//            }
             initLayout(this)
         }
     }
@@ -89,32 +78,31 @@ class SearchFragment : Fragment() {
         rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         rvProducts.adapter = adapter
 
-        viewModel.items.observe(viewLifecycleOwner) {
-            adapter.replaceData(it)
-        }
-
-        viewModel.summaryText.observe(viewLifecycleOwner) {
-            tvSummary.text = it
-        }
-
-        viewModel.searchLoading.observe(viewLifecycleOwner) { loading ->
-            pbSearch.visibility = when(loading){
-                true -> View.VISIBLE
-                else -> View.GONE
-            }
-        }
-
-        viewModel.goToProductDetailsEvent.observe(viewLifecycleOwner) { product ->
-            if(product != null) {
-//                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = product.id))
-                viewModel.goToProductDetailsEventFinished()
-            }
-        }
+        viewModel.viewState.observe(viewLifecycleOwner) { render(it) }
+        viewModel.commands.observe(viewLifecycleOwner) { onCommand(it) }
 
         etSearch.doAfterTextChanged {
-            viewModel.onNewSearch(it.toString())
+            viewModel.dispatch(SearchAction.SearchAction(it.toString()))
         }
 
     }
+
+    private fun render(state: SearchViewState) = binding.apply {
+        adapter.replaceData(state.products)
+        tvSummary.text = state.searchSummary
+        pbSearch.visibility = when(state.searchLoading){
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
+    }
+
+    private fun onCommand(command: Command){
+        when(command){
+            is Command.GoToProductDetailsScreen -> {
+                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))
+            }
+        }
+    }
+
 
 }

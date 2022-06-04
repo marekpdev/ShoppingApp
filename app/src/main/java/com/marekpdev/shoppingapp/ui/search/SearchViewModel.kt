@@ -2,57 +2,37 @@ package com.marekpdev.shoppingapp.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.repository.Data
+import com.hadilq.liveevent.LiveEvent
+import com.marekpdev.shoppingapp.extensions.asLiveData
 
 /**
  * Created by Marek Pszczolka on 13/03/2022.
  */
 class SearchViewModel: ViewModel() {
 
-    private val _items = MutableLiveData<List<Product>>()
-    val items: LiveData<List<Product>>
-        get() = _items
+    private val store = SearchStore(
+        SearchViewState("", false, "", emptyList()),
+        listOf(SearchMiddleware()),
+        SearchReducer()
+    )
 
-    private val _searchQuery = MutableLiveData<String>()
-    val searchQuery: LiveData<String>
-        get() = _searchQuery
+    private val _viewState = MutableLiveData<SearchViewState>()
+    val viewState: LiveData<SearchViewState>
+        get() = _viewState
 
-    private val _searchLoading = MutableLiveData<Boolean>()
-    val searchLoading: LiveData<Boolean>
-        get() = _searchLoading
-
-    private val _summaryText = Transformations.map(_items) {
-        "Showing ${it.size} items"
-    }
-    val summaryText: LiveData<String>
-        get() = _summaryText
-
-    private val _goToProductDetailsEvent = MutableLiveData<Product?>()
-    val goToProductDetailsEvent: LiveData<Product?>
-        get() = _goToProductDetailsEvent
+    private val _commands = LiveEvent<Command>()
+    val commands = _commands.asLiveData()
 
     init {
-        _items.value = Data.getMenu().second!!
-        _searchQuery.value = ""
-        _searchLoading.value = false
+
     }
 
     override fun onCleared() {
         super.onCleared()
     }
 
-    fun onProductClicked(product: Product){
-        _goToProductDetailsEvent.value = product
-    }
-
-    fun goToProductDetailsEventFinished(){
-        _goToProductDetailsEvent.value = null
-    }
-
-    fun onNewSearch(text: String){
-        _searchQuery.value = text
+    fun dispatch(action: SearchAction){
+        store.dispatch(action)
     }
 }
