@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import android.widget.SearchView
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.mvi.Store
@@ -36,36 +37,18 @@ class SearchMiddleware: Middleware<SearchViewState, SearchAction> {
         store: Store<SearchViewState, SearchAction>
     ) {
 
-        getProducts()
-            .observeOn(AndroidSchedulers.mainThread())
-            .map { products ->
-                products.filter { it.name.contains(action.query) }
-            }.doOnNext {
-                store.dispatch(SearchAction.SearchSuccess(it))
-            }.doOnError {
-                store.dispatch(SearchAction.SearchError(it))
+        // not sure if it should look like this
+        Observable.just(action)
+            .flatMap {
+                getProducts()
+                    .map { it.filter { product -> product.name.contains(action.query) } }
+                    .map<SearchAction>{ result -> SearchAction.SearchSuccess(result)}
+                    .onErrorReturn { e -> SearchAction.SearchError(e) }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .startWithItem(SearchAction.SearchStarted)
+            }.subscribe {
+                store.dispatch(it)
             }
-            //.startWith(SearchAction.SearchStarted)
-//            .startWith {  ???
-//                store.dispatch(SearchAction.SearchStarted)
-//            }
-
-            .subscribe {
-
-            }
-
-//        Observable.just(action)
-//            .flatMap {
-//                getProducts()
-//                    .map { it.filter { product -> product.name.contains(action.query) } }
-//                    .map<SearchAction>{ result -> SearchAction.SearchSuccess(result)}
-//                    .onErrorReturn { e -> SearchAction.SearchError(e) }
-//                    .observeOn(AndroidSchedulers.mainThread())
-//            }
-
-
-
-
     }
 
     private fun getProducts(): Observable<List<Product>>{
