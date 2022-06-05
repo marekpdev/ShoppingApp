@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.mvi
 
+import android.util.Log
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -37,6 +38,7 @@ open class Store <S: State, A: Action, C: Command> (
      * We cannot receive actions from UI but only from external sources (such as middleware)
      */
     private fun dispatch(command: C){
+        Log.d("FEO34", "Dispatching command $command")
         commands.accept(command)
     }
 
@@ -65,7 +67,7 @@ open class Store <S: State, A: Action, C: Command> (
     }
 
     private fun bindCommands(onCommand: (C) -> Unit): Disposable {
-        return commands.subscribe(onCommand)
+        return commands.observeOn(AndroidSchedulers.mainThread()).subscribe(onCommand)
     }
 
 }

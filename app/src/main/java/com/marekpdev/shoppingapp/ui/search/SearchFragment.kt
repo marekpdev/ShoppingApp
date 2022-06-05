@@ -15,14 +15,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Product
+import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.favourite.ProductWidthConstAdapterDelegate
+import com.marekpdev.shoppingapp.utils.setTextIfDifferent
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
 
     // todo
     // need to add
@@ -75,40 +77,37 @@ class SearchFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentSearchBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
         rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         rvProducts.adapter = adapter
 
-        viewModel.viewState.observe(viewLifecycleOwner) { render(it) }
-        viewModel.commands.observe(viewLifecycleOwner) { onCommand(it) }
+        viewModel.bind(viewLifecycleOwner, this@SearchFragment)
 
         etSearch.doAfterTextChanged {
+            Log.d("FEO33", "text changed ${it.toString()}")
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
 
     }
 
-    private fun render(state: SearchViewState) = binding.apply {
-        etSearch.setTextIfDifferent(state.searchQuery)
-        adapter.replaceData(state.products)
-        tvSummary.text = state.searchSummary
-        pbSearch.visibility = when(state.searchInProgress){
-            true -> View.VISIBLE
-            else -> View.GONE
-        }
-    }
-
-    private fun onCommand(command: Command){
-        when(command){
-            is Command.GoToProductDetailsScreen -> {
-                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))
+    override fun render(state: SearchState) {
+        binding.apply {
+            etSearch.setTextIfDifferent(state.searchQuery)
+            adapter.replaceData(state.products)
+            tvSummary.text = state.searchSummary
+            Log.d("FEO33", "Search ${state.searchInProgress}")
+            pbSearch.visibility = when (state.searchInProgress) {
+                true -> View.VISIBLE
+                else -> View.GONE
             }
         }
     }
 
-    private fun EditText.setTextIfDifferent(text: String){
-        if(getText().toString() != text){
-            setText(text)
+    override fun onCommand(command: SearchCommand) {
+        Log.d("FEO34", "Command: $command")
+        when(command){
+            is SearchCommand.GoToProductDetailsScreen -> {
+                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))
+            }
         }
     }
 

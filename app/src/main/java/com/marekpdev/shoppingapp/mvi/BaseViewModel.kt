@@ -1,5 +1,7 @@
 package com.marekpdev.shoppingapp.mvi
 
+import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
@@ -24,7 +26,12 @@ open class BaseViewModel <S: State, A: Action, C: Command>(private val store: St
     private val compositeDisposable = CompositeDisposable()
 
     init {
-
+        compositeDisposable.add(
+            store.bind(
+                { newState ->  _viewState.value = newState},
+                { command -> _commands.value = command}
+            )
+        )
     }
 
     override fun onCleared() {
@@ -36,8 +43,11 @@ open class BaseViewModel <S: State, A: Action, C: Command>(private val store: St
         store.dispatch(action)
     }
 
-    fun onNewState(state: S) {
-        _viewState.value = state
+    fun bind(owner: LifecycleOwner,
+             mviView: MviView<S, C>){
+        viewState.observe(owner, mviView::render)
+        commands.observe(owner, mviView::onCommand)
     }
+
 }
 

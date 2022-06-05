@@ -6,7 +6,7 @@ import com.marekpdev.shoppingapp.mvi.State
 /**
  * Created by Marek Pszczolka on 04/06/2022.
  */
-data class SearchViewState(
+data class SearchState(
     val searchQuery: String,
     val searchInProgress: Boolean,
     val searchSummary: String,

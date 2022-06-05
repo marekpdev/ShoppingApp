@@ -9,7 +9,7 @@ import com.marekpdev.shoppingapp.mvi.Action
 sealed class SearchAction : Action {
 
     class SearchQueryChanged(val query: String): SearchAction()
-    object SearchStarted: SearchAction()
+    class SearchStarted(val query: String): SearchAction()
     class SearchSuccess(val products: List<Product>): SearchAction()
     class SearchError(val error: Throwable?): SearchAction()
 

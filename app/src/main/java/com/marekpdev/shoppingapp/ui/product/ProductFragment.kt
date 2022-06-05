@@ -41,13 +41,14 @@ class ProductFragment : Fragment() {
 //    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
 //    private val viewModel: ProductViewModel by viewModels()
 
-    private lateinit var viewModel: ProductViewModel
-    private lateinit var viewModelFactory: ProductViewModelFactory
+//    private lateinit var viewModel: ProductViewModel
+//    private lateinit var viewModelFactory: ProductViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("FEO36", "product fragment")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
         return binding.root
     }
@@ -56,26 +57,26 @@ class ProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val productId = navArgs.productId
-
-        viewModelFactory = ProductViewModelFactory(productId)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductViewModel::class.java)
-
+//
+//        viewModelFactory = ProductViewModelFactory(productId)
+//        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductViewModel::class.java)
+//
         binding.apply {
             lifecycleOwner = this@ProductFragment
-            productViewModel = viewModel
+//            productViewModel = viewModel
             initLayout(this)
         }
-
-        viewModel.productAddedEvent.observe(viewLifecycleOwner) {
-            // move to a different frag
-        }
+//
+//        viewModel.productAddedEvent.observe(viewLifecycleOwner) {
+//            // move to a different frag
+//        }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (requireActivity().application as AppComponentProvider).appComponent.inject(this)
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//
+//        (requireActivity().application as AppComponentProvider).appComponent.inject(this)
+//    }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
         val product = Data.getProduct(1, 1)
@@ -134,7 +135,9 @@ class ProductFragment : Fragment() {
                         size
                     ).also { chip ->
                         sizesViewMappings[size] = chip
-                        chip.setOnClickListener { viewModel.selectSize(size) }
+                        chip.setOnClickListener {
+//                            viewModel.selectSize(size)
+                        }
                         chipGroupSizes.addView(chip)
                     }
                 }
@@ -147,14 +150,16 @@ class ProductFragment : Fragment() {
                         color
                     ).also { chip ->
                         colorsViewMappings[color] = chip
-                        chip.setOnClickListener { viewModel.selectColor(color) }
+                        chip.setOnClickListener {
+//                            viewModel.selectColor(color)
+                        }
                         chipGroupColors.addView(chip)
                     }
                 }
            // }
 
             btnAddProduct.setOnClickListener {
-                viewModel.addProduct()
+//                viewModel.addProduct()
             }
 
             (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =

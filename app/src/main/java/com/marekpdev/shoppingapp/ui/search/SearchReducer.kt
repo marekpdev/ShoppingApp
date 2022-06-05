@@ -5,14 +5,14 @@ import com.marekpdev.shoppingapp.mvi.Reducer
 /**
  * Created by Marek Pszczolka on 04/06/2022.
  */
-class SearchReducer: Reducer<SearchViewState, SearchAction> {
-    override fun reduce(currentState: SearchViewState, action: SearchAction): SearchViewState {
+class SearchReducer: Reducer<SearchState, SearchAction> {
+    override fun reduce(currentState: SearchState, action: SearchAction): SearchState {
         return when(action){
             is SearchAction.SearchQueryChanged -> {
                 currentState.copy(searchQuery = action.query)
             }
             is SearchAction.SearchStarted -> {
-                currentState.copy(searchInProgress = true)
+                currentState.copy(searchQuery = action.query, searchInProgress = true)
             }
             is SearchAction.SearchSuccess -> {
                 currentState.copy(

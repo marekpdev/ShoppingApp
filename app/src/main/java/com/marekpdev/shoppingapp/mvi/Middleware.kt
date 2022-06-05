@@ -7,8 +7,8 @@ interface Middleware<S: State, A: Action, C: Command> {
 
     fun process(action: A,
                 currentState: S,
-                onRequestAction: (A) -> Unit,
-                onRequestCommand: (C) -> Unit
+                requestAction: (A) -> Unit,
+                requestCommand: (C) -> Unit
     )
 
 }
