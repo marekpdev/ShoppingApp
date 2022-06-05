@@ -10,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by Marek Pszczolka on 07/05/2022.
  */
-open class BaseViewModel @Inject constructor(): ViewModel() {
+open class BaseViewModelOld @Inject constructor(): ViewModel() {
 
     private val inProgress = LiveEvent<Boolean>()
 
