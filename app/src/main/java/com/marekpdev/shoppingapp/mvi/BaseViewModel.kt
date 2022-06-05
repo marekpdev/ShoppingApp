@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.mvi
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hadilq.liveevent.LiveEvent
@@ -19,6 +20,10 @@ open class BaseViewModel <S: State, A: Action, C: Command>(private val store: St
 
     private val _viewState = MutableLiveData<S>()
     val viewState = _viewState.asLiveData()
+
+    // todo
+    // can use something like ?
+    // LiveDataReactiveStreams.fromPublisher(viewData.toFlowable(BackpressureStrategy.LATEST))
 
     private val _commands = LiveEvent<C>()
     val commands = _commands.asLiveData()

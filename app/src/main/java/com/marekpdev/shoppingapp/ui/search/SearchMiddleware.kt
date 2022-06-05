@@ -36,6 +36,10 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         requestAction: (SearchAction) -> Unit
     ) {
 
+        // 1. todo need to add these calls to disposable somehow
+        // 2. todo need to cancel previous request (by using switchMap?)
+        // see more info here
+        // https://blog.mindorks.com/implement-search-using-rxjava-operators-c8882b64fe1d
         getProducts()
             .map { it.filter { product -> product.name.contains(action.query, true) } }
             .subscribeOn(Schedulers.io())
