@@ -7,7 +7,6 @@ import com.marekpdev.shoppingapp.repository.Data
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by Marek Pszczolka on 05/06/2022.

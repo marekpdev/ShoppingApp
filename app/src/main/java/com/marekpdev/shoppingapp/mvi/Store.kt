@@ -1,9 +1,8 @@
 package com.marekpdev.shoppingapp.mvi
 
-import android.util.Log
-import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
@@ -16,9 +15,18 @@ open class Store <S: State, A: Action, C: Command> (
     private val reducer: Reducer<S, A>
 ) {
 
-    private val state = BehaviorRelay.createDefault(initialState)
     private val actions = PublishRelay.create<A>()
     private val commands = PublishRelay.create<C>()
+
+    private val state = actions.toFlowable(BackpressureStrategy.BUFFER).scan(
+        initialState
+    ) { state, action ->
+        middlewares.forEach { it.process(action, state, this::dispatch, this::dispatch) }
+        reducer.reduce(state, action)
+    }
+        .distinctUntilChanged()
+        .replay(1)
+        .autoConnect(0)
 
     // todo need to change
     // disposable.add()
@@ -54,15 +62,7 @@ open class Store <S: State, A: Action, C: Command> (
     }
 
     private fun bindActions(): Disposable {
-        return actions.withLatestFrom(state) { action, state ->
-            for(middleware in middlewares){
-                middleware.process(action, state, this::dispatch, this::dispatch)
-            }
-
-            reducer.reduce(state, action)
-        }
-            .distinctUntilChanged()
-            .subscribe(state::accept)
+        return actions.subscribe()
     }
 
     private fun bindCommands(onCommand: (C) -> Unit): Disposable {

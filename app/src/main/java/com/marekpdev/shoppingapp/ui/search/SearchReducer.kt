@@ -31,4 +31,5 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             else -> currentState
         }
     }
+
 }
