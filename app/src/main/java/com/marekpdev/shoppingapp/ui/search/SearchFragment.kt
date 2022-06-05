@@ -106,4 +106,5 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         }
     }
 
+
 }
