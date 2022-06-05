@@ -37,7 +37,6 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
     private lateinit var binding: FragmentSearchBinding
 
     private val onProductClicked: (Product) -> Unit = {
-        Log.d("FEO33", "Clicked product")
         viewModel.dispatch(SearchAction.ProductClicked(it.id))
     }
 
@@ -83,10 +82,8 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         viewModel.bind(viewLifecycleOwner, this@SearchFragment)
 
         etSearch.doAfterTextChanged {
-            Log.d("FEO33", "text changed ${it.toString()}")
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
-
     }
 
     override fun render(state: SearchState) {
@@ -94,7 +91,6 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
             etSearch.setTextIfDifferent(state.searchQuery)
             adapter.replaceData(state.products)
             tvSummary.text = state.searchSummary
-            Log.d("FEO33", "Search ${state.searchInProgress}")
             pbSearch.visibility = when (state.searchInProgress) {
                 true -> View.VISIBLE
                 else -> View.GONE
@@ -103,7 +99,6 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
     }
 
     override fun onCommand(command: SearchCommand) {
-        Log.d("FEO34", "Command: $command")
         when(command){
             is SearchCommand.GoToProductDetailsScreen -> {
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))

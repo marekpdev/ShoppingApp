@@ -38,7 +38,6 @@ open class Store <S: State, A: Action, C: Command> (
      * We cannot receive actions from UI but only from external sources (such as middleware)
      */
     private fun dispatch(command: C){
-        Log.d("FEO34", "Dispatching command $command")
         commands.accept(command)
     }
 

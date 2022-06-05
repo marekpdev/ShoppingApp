@@ -6,6 +6,7 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.Data
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 /**
@@ -36,23 +37,42 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         requestAction: (SearchAction) -> Unit
     ) {
 
-        // not sure if it should look like this
-        Observable.just(action)
-            .flatMap {
-                getProducts()
-                    .map { it.filter { product -> product.name.contains(action.query, true) } }
-                    .map<SearchAction>{ result -> SearchAction.SearchSuccess(result)}
-                    .onErrorReturn { e -> SearchAction.SearchError(e) }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .startWithItem(SearchAction.SearchStarted(action.query))
+        getProducts()
+            .map { it.filter { product -> product.name.contains(action.query, true) } }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map<SearchAction> {
+                SearchAction.SearchSuccess(it)
             }
+            .startWithItem(SearchAction.SearchStarted(action.query))
+            .onErrorReturn { e -> SearchAction.SearchError(e) }
             .subscribe {
                 requestAction(it)
             }
+
+        // not sure if it should look like this
+//        Observable.just(action)
+//            .flatMap {
+//                getProducts()
+//                    .map { it.filter { product -> product.name.contains(action.query, true) } }
+//                    .map<SearchAction>{ result -> SearchAction.SearchSuccess(result)}
+//                    .onErrorReturn { e -> SearchAction.SearchError(e) }
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .startWithItem(SearchAction.SearchStarted(action.query))
+//            }
+//            .subscribe {
+//                requestAction(it)
+//            }
     }
 
     private fun getProducts(): Observable<List<Product>> {
-        return Observable.just(allProducts)
-            //.delay(2, TimeUnit.SECONDS)
+//        return Observable.just(allProducts)
+//            //.delay(2, TimeUnit.SECONDS)
+        return Observable.create { emitter ->
+            Thread.sleep(2000)
+            emitter.onNext(allProducts)
+            emitter.onComplete()
+        }
     }
+
 }
