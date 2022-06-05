@@ -12,12 +12,16 @@ class SearchStore(initialState: SearchState,
                   reducer: SearchReducer) : Store<SearchState, SearchAction, SearchCommand>(initialState, middlewares, reducer) {
 
     companion object {
+
         // TODO need to use DI
-        fun getInstance() = SearchStore(
-            SearchState("", false, "", emptyList()),
-            listOf(SearchMiddleware(), SearchNavigationMiddleware()),
-            SearchReducer()
-        )
+        val INSTANCE by lazy {
+            SearchStore(
+                SearchState("", false, "", emptyList()),
+                listOf(SearchMiddleware(), SearchNavigationMiddleware()),
+                SearchReducer()
+            )
+        }
+
     }
 
 }

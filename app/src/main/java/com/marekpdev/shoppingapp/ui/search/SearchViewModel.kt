@@ -8,4 +8,4 @@ import javax.inject.Inject
  */
 
 // todo use DI
-class SearchViewModel @Inject constructor(): BaseViewModel<SearchState, SearchAction, SearchCommand>(SearchStore.getInstance())
+class SearchViewModel @Inject constructor(): BaseViewModel<SearchState, SearchAction, SearchCommand>(SearchStore.INSTANCE)
