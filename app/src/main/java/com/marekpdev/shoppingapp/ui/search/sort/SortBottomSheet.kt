@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.BottomSheetSortBinding
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.mvi.MviView
+import com.marekpdev.shoppingapp.ui.search.SearchAction
 import com.marekpdev.shoppingapp.ui.search.SearchCommand
 import com.marekpdev.shoppingapp.ui.search.SearchState
 import com.marekpdev.shoppingapp.ui.search.SearchViewModel
@@ -44,16 +46,22 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
             lifecycleOwner = this@SortBottomSheet
             initLayout(this)
         }
+
+
     }
 
     private fun initLayout(binding: BottomSheetSortBinding) = binding.apply {
         viewModel.bind(viewLifecycleOwner, this@SortBottomSheet)
 
-        val sb = StringBuilder()
-        (1..20).forEachIndexed { index, number ->
-            sb.append("$index some really really nice text \n")
+        BottomSheetBehavior.from(binding.llBottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+
+        rbPriceLowestFirst.setOnClickListener {
+            viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_LOWEST_FIRST))
         }
-        tvModal.text = sb.toString()
+        rbPriceHighestFirst.setOnClickListener {
+            viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_HIGHEST_FIRST))
+        }
+
     }
 
     companion object {
@@ -63,6 +71,10 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
     override fun render(state: SearchState) {
         binding.apply {
             Log.d("FEO50", "Current state is $state")
+            when(state.sortType) {
+                SortType.PRICE_LOWEST_FIRST -> rbPriceLowestFirst.isSelected = true
+                SortType.PRICE_HIGHEST_FIRST -> rbPriceHighestFirst.isSelected = true
+            }
         }
     }
 
