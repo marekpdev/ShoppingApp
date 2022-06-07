@@ -25,7 +25,7 @@ class ViewModelFactory @Inject constructor(
      * A provider function must exist, annotated with @[ViewModelMapKey] for the given [type].
      * Otherwise, an [IllegalStateException] will be thrown upon `ViewModel` instance creation.
      */
-    override fun <T : ViewModel?> create(type: Class<T>): T =
+    override fun <T : ViewModel> create(type: Class<T>): T =
         viewModels[type]?.get()
             ?.takeIf { type.isInstance(it) }
             ?.let { type.cast(it) }
