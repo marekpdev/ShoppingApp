@@ -8,5 +8,6 @@ import com.marekpdev.shoppingapp.mvi.Command
 sealed class SearchCommand: Command {
 
     class GoToProductDetailsScreen(val productId: Long): SearchCommand()
+    object ShowSortBottomSheet : SearchCommand()
 
 }

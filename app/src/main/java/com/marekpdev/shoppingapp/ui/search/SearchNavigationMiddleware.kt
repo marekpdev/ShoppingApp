@@ -17,6 +17,9 @@ class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCo
             is SearchAction.ProductClicked -> {
                 requestCommand(SearchCommand.GoToProductDetailsScreen(action.productId))
             }
+            is SearchAction.SortClicked -> {
+                requestCommand(SearchCommand.ShowSortBottomSheet)
+            }
             else -> {
 
             }

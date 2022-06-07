@@ -22,18 +22,39 @@
             android:id="@+id/etSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivSort"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/actionBarSpace" />
 
         <ProgressBar
             android:id="@+id/pbSearch"
-            app:layout_constraintTop_toTopOf="@id/etSearch"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/etSearch"
             app:layout_constraintEnd_toEndOf="@id/etSearch"
-            android:layout_width="0dp"
-            android:visibility="invisible"
-            android:layout_height="24dp"/>
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
+
+        <ImageView
+            android:id="@+id/ivSort"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_baseline_sort_24"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintEnd_toStartOf="@id/ivFilter"
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
+
+        <ImageView
+            android:id="@+id/ivFilter"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_baseline_filter_alt_24"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
 
         <TextView
             android:id="@+id/tvSummary"

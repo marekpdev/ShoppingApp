@@ -1,11 +1,9 @@
 package com.marekpdev.shoppingapp.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,6 +17,7 @@ import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.favourite.ProductWidthConstAdapterDelegate
+import com.marekpdev.shoppingapp.ui.search.sort.SortBottomSheet
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
 
 /**
@@ -79,6 +78,9 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         rvProducts.adapter = adapter
 
+        ivSort.setOnClickListener { viewModel.dispatch(SearchAction.SortClicked) }
+        ivFilter.setOnClickListener { showFilterModal() }
+
         viewModel.bind(viewLifecycleOwner, this@SearchFragment)
 
         etSearch.doAfterTextChanged {
@@ -103,7 +105,15 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
             is SearchCommand.GoToProductDetailsScreen -> {
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))
             }
+            is SearchCommand.ShowSortBottomSheet -> {
+                val modalBottomSheet = SortBottomSheet()
+                modalBottomSheet.show(parentFragmentManager, SortBottomSheet.TAG)
+            }
         }
+    }
+
+    private fun showFilterModal() {
+
     }
 
 

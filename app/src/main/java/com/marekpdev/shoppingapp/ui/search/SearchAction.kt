@@ -14,5 +14,6 @@ sealed class SearchAction : Action {
     class SearchError(val error: Throwable?): SearchAction()
 
     class ProductClicked(val productId: Long): SearchAction()
+    object SortClicked: SearchAction()
 
 }
