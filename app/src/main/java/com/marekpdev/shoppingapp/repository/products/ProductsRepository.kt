@@ -12,4 +12,6 @@ interface ProductsRepository {
 //
 //    fun observeProduct(): Observable<Product>
 
+    fun getProduct(id: Long): Product
+
 }

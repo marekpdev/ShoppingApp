@@ -9,17 +9,20 @@ import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.repository.Data
+import com.marekpdev.shoppingapp.repository.products.ProductsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
  * Created by Marek Pszczolka on 11/07/2021.
  */
-class ProductViewModel constructor(
+@HiltViewModel
+class ProductViewModel @Inject constructor(
     // todo need to use this variable in the constructor with 'assisted injection'? rather than
     // setting it via setter
-    private val productId: Long,
+    //private val productId: Long,
     // need to use this with dagger
-//    private val productsRepository: ProductsRepository
+    private val productsRepository: ProductsRepository
 ) : ViewModel() {
 
     private val _product: MutableLiveData<Product> by lazy {
@@ -41,11 +44,11 @@ class ProductViewModel constructor(
     val productAddedEvent = _productAddedEvent.asLiveData()
 
     init {
-
+        Log.d("FEO33", "Product id")
     }
 
     private fun loadProduct() {
-        _product.value = Data.getMenu().second.find { it.id == productId }
+       // _product.value = Data.getMenu().second.find { it.id == productId }
     }
 
     fun selectSize(size: Size){

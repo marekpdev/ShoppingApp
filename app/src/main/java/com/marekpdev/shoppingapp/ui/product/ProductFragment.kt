@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
@@ -18,13 +19,16 @@ import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
+import com.marekpdev.shoppingapp.ui.search.SearchViewModel
 import com.marekpdev.shoppingapp.views.ChipsHelper
+import dagger.hilt.android.AndroidEntryPoint
 
 // https://medium.com/@sreeharikv112/create-introduction-screen-with-viewpager2-and-circle-indicators-no-custom-library-please-68d5b1fec8b1
 // https://github.com/sreeharikv112/ViewPagerIndicator
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
+@AndroidEntryPoint
 class ProductFragment : Fragment() {
 
     private lateinit var binding: FragmentProductBinding
@@ -36,9 +40,7 @@ class ProductFragment : Fragment() {
     // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
 //    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
 //    private val viewModel: ProductViewModel by viewModels()
-
-//    private lateinit var viewModel: ProductViewModel
-//    private lateinit var viewModelFactory: ProductViewModelFactory
+    private val viewModel by viewModels<ProductViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

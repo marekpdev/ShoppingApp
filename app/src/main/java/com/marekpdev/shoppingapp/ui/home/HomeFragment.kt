@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentHomeBinding
 import com.marekpdev.shoppingapp.repository.Data
-import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerAdapterDelegate
