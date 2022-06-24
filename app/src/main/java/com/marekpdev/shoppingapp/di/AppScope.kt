@@ -7,7 +7,7 @@ import javax.inject.Scope
  *
  * Created custom AppScope to avoid misleading @Singleton annotation
  */
-@Scope
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class AppScope
+//@Scope
+//@MustBeDocumented
+//@Retention(AnnotationRetention.RUNTIME)
+//annotation class AppScope
