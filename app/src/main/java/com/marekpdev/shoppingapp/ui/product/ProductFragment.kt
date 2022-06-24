@@ -22,6 +22,7 @@ import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 import com.marekpdev.shoppingapp.ui.search.SearchViewModel
 import com.marekpdev.shoppingapp.views.ChipsHelper
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 // https://medium.com/@sreeharikv112/create-introduction-screen-with-viewpager2-and-circle-indicators-no-custom-library-please-68d5b1fec8b1
 // https://github.com/sreeharikv112/ViewPagerIndicator
@@ -37,10 +38,18 @@ class ProductFragment : Fragment() {
     private val sizesViewMappings = mutableMapOf<Size, Chip>()
     private val colorsViewMappings = mutableMapOf<Color, Chip>()
 
+    @Inject
+    lateinit var productViewModelFactory: ProductViewModel.Factory
+
     // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
 //    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
 //    private val viewModel: ProductViewModel by viewModels()
-    private val viewModel by viewModels<ProductViewModel>()
+    private val viewModel by viewModels<ProductViewModel> {
+        ProductViewModel.provideFactory(
+            assistedFactory = productViewModelFactory,
+            productId = 123L
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +65,7 @@ class ProductFragment : Fragment() {
 
         val productId = navArgs.productId
 //
+        viewModel.foo()
 //        viewModelFactory = ProductViewModelFactory(productId)
 //        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductViewModel::class.java)
 //
