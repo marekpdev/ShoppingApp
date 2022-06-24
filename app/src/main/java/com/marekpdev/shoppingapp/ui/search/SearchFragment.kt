@@ -17,6 +17,7 @@ import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.favourite.ProductWidthConstAdapterDelegate
+import com.marekpdev.shoppingapp.ui.search.filter.FilterBottomSheet
 import com.marekpdev.shoppingapp.ui.search.sort.SortBottomSheet
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,7 +80,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         rvProducts.adapter = adapter
 
         ivSort.setOnClickListener { viewModel.dispatch(SearchAction.SortClicked) }
-        ivFilter.setOnClickListener { showFilterModal() }
+        ivFilter.setOnClickListener { viewModel.dispatch(SearchAction.FilterClicked) }
 
         viewModel.bind(viewLifecycleOwner, this@SearchFragment)
 
@@ -106,15 +107,12 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))
             }
             is SearchCommand.ShowSortBottomSheet -> {
-                val modalBottomSheet = SortBottomSheet()
-                modalBottomSheet.show(parentFragmentManager, SortBottomSheet.TAG)
+                SortBottomSheet().show(parentFragmentManager, SortBottomSheet.TAG)
+            }
+            is SearchCommand.ShowFilterBottomSheet -> {
+                FilterBottomSheet().show(parentFragmentManager, FilterBottomSheet.TAG)
             }
         }
     }
-
-    private fun showFilterModal() {
-
-    }
-
 
 }

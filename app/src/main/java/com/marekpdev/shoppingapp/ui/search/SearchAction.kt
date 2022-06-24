@@ -16,6 +16,7 @@ sealed class SearchAction : Action {
 
     class ProductClicked(val productId: Long): SearchAction()
     object SortClicked: SearchAction()
+    object FilterClicked: SearchAction()
 
     data class SelectSortType(val sortType: SortType): SearchAction()
 

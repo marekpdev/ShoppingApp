@@ -9,5 +9,6 @@ sealed class SearchCommand: Command {
 
     class GoToProductDetailsScreen(val productId: Long): SearchCommand()
     object ShowSortBottomSheet : SearchCommand()
+    object ShowFilterBottomSheet : SearchCommand()
 
 }

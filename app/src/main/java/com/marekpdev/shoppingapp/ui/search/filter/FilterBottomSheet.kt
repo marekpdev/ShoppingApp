@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.search.sort
+package com.marekpdev.shoppingapp.ui.search.filter
 
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.databinding.BottomSheetFilterBinding
 import com.marekpdev.shoppingapp.databinding.BottomSheetSortBinding
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.mvi.MviView
@@ -26,17 +27,17 @@ import java.lang.StringBuilder
  * Created by Marek Pszczolka on 07/06/2022.
  */
 @AndroidEntryPoint
-class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchCommand> {
+class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchCommand> {
 
-    private val viewModel by viewModels<SortBottomSheetViewModel>()
+    private val viewModel by viewModels<FilterBottomSheetViewModel>()
 
-    private lateinit var binding: BottomSheetSortBinding
+    private lateinit var binding: BottomSheetFilterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_sort, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_filter, container, false)
         return binding.root
     }
 
@@ -44,38 +45,30 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            lifecycleOwner = this@SortBottomSheet
+            lifecycleOwner = this@FilterBottomSheet
             initLayout(this)
         }
 
 
     }
 
-    private fun initLayout(binding: BottomSheetSortBinding) = binding.apply {
-        viewModel.bind(viewLifecycleOwner, this@SortBottomSheet)
+    private fun initLayout(binding: BottomSheetFilterBinding) = binding.apply {
+        viewModel.bind(viewLifecycleOwner, this@FilterBottomSheet)
 
         BottomSheetBehavior.from(binding.llBottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
 
-        rbPriceLowestFirst.setOnClickListener {
-            viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_LOWEST_FIRST))
-        }
-        rbPriceHighestFirst.setOnClickListener {
-            viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_HIGHEST_FIRST))
-        }
-
+        rangeSliderPrice.valueFrom = 0f
+        rangeSliderPrice.valueTo = 100f
+        rangeSliderPrice.values = listOf(10f, 30f)
     }
 
     companion object {
-        const val TAG = "ModalBottomSheet"
+        const val TAG = "ModalBottomSheetFilter"
     }
 
     override fun render(state: SearchState) {
         binding.apply {
-            Log.d("FEO60", "SORT Current state is $state")
-            when(state.sortType) {
-                SortType.PRICE_LOWEST_FIRST -> rbPriceLowestFirst.isSelected = true
-                SortType.PRICE_HIGHEST_FIRST -> rbPriceHighestFirst.isSelected = true
-            }
+            Log.d("FEO60", "FILTER Current state is $state")
         }
     }
 

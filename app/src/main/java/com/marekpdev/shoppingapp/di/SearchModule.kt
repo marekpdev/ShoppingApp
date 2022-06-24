@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 /**
  * Created by Marek Pszczolka on 24/06/2022.
@@ -15,6 +16,7 @@ import dagger.hilt.components.SingletonComponent
 class SearchModule {
 
     @Provides
+    @Singleton
     fun provideSearchStore(): SearchStore {
         return SearchStore(
             SearchState("", false, "", emptyList(), SortType.PRICE_LOWEST_FIRST),
