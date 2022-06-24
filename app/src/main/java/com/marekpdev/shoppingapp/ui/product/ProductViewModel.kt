@@ -72,7 +72,7 @@ class ProductViewModel @AssistedInject constructor(
     val productAddedEvent = _productAddedEvent.asLiveData()
 
     init {
-        Log.d("FEO56", "Product id = $productId")
+        Log.d("FEO56", "Product id = $productId, and from repo " + productsRepository.getProduct(1).name)
     }
 
     fun foo() {

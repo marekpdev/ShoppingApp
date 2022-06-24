@@ -41,13 +41,10 @@ class ProductFragment : Fragment() {
     @Inject
     lateinit var productViewModelFactory: ProductViewModel.Factory
 
-    // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
-//    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
-//    private val viewModel: ProductViewModel by viewModels()
     private val viewModel by viewModels<ProductViewModel> {
         ProductViewModel.provideFactory(
             assistedFactory = productViewModelFactory,
-            productId = 123L
+            productId = navArgs.productId
         )
     }
 
@@ -63,7 +60,7 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val productId = navArgs.productId
+        //val productId = navArgs.productId
 //
         viewModel.foo()
 //        viewModelFactory = ProductViewModelFactory(productId)
