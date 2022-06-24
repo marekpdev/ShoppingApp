@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,12 +39,16 @@ class ProductFragment : Fragment() {
 
     // todo what about injecting other dependencies in ProductViewModel that should be provided by dagger?
 //    private val viewModel: ProductViewModel by viewModels { ProductViewModelFactory(navArgs.productId) }
-    private val viewModel: ProductViewModel by viewModels()
+//    private val viewModel: ProductViewModel by viewModels()
+
+//    private lateinit var viewModel: ProductViewModel
+//    private lateinit var viewModelFactory: ProductViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("FEO36", "product fragment")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
         return binding.root
     }
@@ -51,22 +56,27 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val productId = navArgs.productId
+//
+//        viewModelFactory = ProductViewModelFactory(productId)
+//        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductViewModel::class.java)
+//
         binding.apply {
             lifecycleOwner = this@ProductFragment
-            productViewModel = viewModel
+//            productViewModel = viewModel
             initLayout(this)
         }
-
-        viewModel.productAddedEvent.observe(viewLifecycleOwner) {
-            // move to a different frag
-        }
+//
+//        viewModel.productAddedEvent.observe(viewLifecycleOwner) {
+//            // move to a different frag
+//        }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (requireActivity().application as AppComponentProvider).appComponent.inject(this)
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//
+//        (requireActivity().application as AppComponentProvider).appComponent.inject(this)
+//    }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
         val product = Data.getProduct(1, 1)
@@ -125,7 +135,9 @@ class ProductFragment : Fragment() {
                         size
                     ).also { chip ->
                         sizesViewMappings[size] = chip
-                        chip.setOnClickListener { viewModel.selectSize(size) }
+                        chip.setOnClickListener {
+//                            viewModel.selectSize(size)
+                        }
                         chipGroupSizes.addView(chip)
                     }
                 }
@@ -138,14 +150,16 @@ class ProductFragment : Fragment() {
                         color
                     ).also { chip ->
                         colorsViewMappings[color] = chip
-                        chip.setOnClickListener { viewModel.selectColor(color) }
+                        chip.setOnClickListener {
+//                            viewModel.selectColor(color)
+                        }
                         chipGroupColors.addView(chip)
                     }
                 }
            // }
 
             btnAddProduct.setOnClickListener {
-                viewModel.addProduct()
+//                viewModel.addProduct()
             }
 
             (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =

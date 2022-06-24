@@ -24,4 +24,6 @@
 
     <dimen name="btn_add_product_margins">16dp</dimen>
     <dimen name="btn_add_product_height">56dp</dimen>
+
+    <dimen name="action_bar_height">16dp</dimen>
 </resources>

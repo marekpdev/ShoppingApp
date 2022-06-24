@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.models
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -10,6 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "products")
 data class Product (
+    @PrimaryKey
     val id: Long,
     val name: String,
     val description: String,

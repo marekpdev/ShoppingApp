@@ -10,33 +10,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:textSize="24sp"
+        <Space
+            android:id="@+id/actionBarSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/action_bar_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnGetAllProducts"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Get all products"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivSort"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSearch" />
+            app:layout_constraintTop_toBottomOf="@id/actionBarSpace" />
 
-        <Button
-            android:id="@+id/btnProduct"
-            android:layout_width="wrap_content"
+        <ProgressBar
+            android:id="@+id/pbSearch"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintEnd_toEndOf="@id/etSearch"
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
+
+        <ImageView
+            android:id="@+id/ivSort"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_baseline_sort_24"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintEnd_toStartOf="@id/ivFilter"
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
+
+        <ImageView
+            android:id="@+id/ivFilter"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_baseline_filter_alt_24"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
+
+        <TextView
+            android:id="@+id/tvSummary"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Product"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnGetAllProducts" />
+            app:layout_constraintTop_toBottomOf="@id/etSearch" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProducts"
@@ -45,7 +71,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnProduct" />
+            app:layout_constraintTop_toBottomOf="@id/tvSummary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

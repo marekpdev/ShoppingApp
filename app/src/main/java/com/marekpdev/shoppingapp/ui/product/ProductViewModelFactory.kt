@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModelProvider
  */
 class ProductViewModelFactory(private val productId: Long): ViewModelProvider.Factory {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         // todo need to uncomment
-//        if(modelClass.isAssignableFrom(ProductViewModel::class.java)){
-//            return ProductViewModel(productId) as T
-//        }
+        if(modelClass.isAssignableFrom(ProductViewModel::class.java)){
+            return ProductViewModel(productId) as T
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+
+
 }

@@ -8,15 +8,16 @@ import com.marekpdev.shoppingapp.extensions.asLiveData
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
+import com.marekpdev.shoppingapp.repository.Data
 import javax.inject.Inject
 
 /**
  * Created by Marek Pszczolka on 11/07/2021.
  */
-class ProductViewModel @Inject constructor(
+class ProductViewModel constructor(
     // todo need to use this variable in the constructor with 'assisted injection'? rather than
     // setting it via setter
-//    private val productId: Long,
+    private val productId: Long,
     // need to use this with dagger
 //    private val productsRepository: ProductsRepository
 ) : ViewModel() {
@@ -44,7 +45,7 @@ class ProductViewModel @Inject constructor(
     }
 
     private fun loadProduct() {
-
+        _product.value = Data.getMenu().second.find { it.id == productId }
     }
 
     fun selectSize(size: Size){

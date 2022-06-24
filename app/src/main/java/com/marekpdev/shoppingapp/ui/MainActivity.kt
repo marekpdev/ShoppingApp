@@ -7,10 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.marekpdev.MyApplication
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.ActivityMainBinding
 import com.marekpdev.shoppingapp.di.AppComponentProvider
