@@ -12,7 +12,7 @@ import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentOrdersBinding
 import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.repository.Data
-import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
+import com.marekpdev.shoppingapp.repository.products.ProductsRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 
@@ -65,7 +65,7 @@ class OrdersFragment : Fragment() {
     }
 
     private val items = mutableListOf<Any>().apply {
-        val repo = ProductRepositoryImpl()
+        val repo = ProductsRepositoryImpl()
         val thisWeekCount = 3
 
         // regarding headers and items

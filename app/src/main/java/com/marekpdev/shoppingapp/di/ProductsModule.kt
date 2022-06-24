@@ -1,19 +1,20 @@
 package com.marekpdev.shoppingapp.di
 
-import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
+import com.marekpdev.shoppingapp.repository.products.ProductsRepositoryImpl
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import dagger.Binds
 import dagger.Module
-import javax.inject.Singleton
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 /**
  * Created by Marek Pszczolka on 12/07/2021.
  */
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class ProductsModule {
 
     @Binds
-    //@Singleton // TODO ???? is Singleton/AppScope needed
-    @AppScope
-    abstract fun bindProductsRepository(repositoryImpl: ProductRepositoryImpl): ProductsRepository
+    abstract fun bindProductsRepository(repositoryImpl: ProductsRepositoryImpl): ProductsRepository
+
 }

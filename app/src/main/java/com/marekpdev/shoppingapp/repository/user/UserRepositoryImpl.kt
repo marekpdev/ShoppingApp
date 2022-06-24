@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.repository.user
 
 import com.marekpdev.shoppingapp.api.AuthApi
-import com.marekpdev.shoppingapp.di.AppScope
 import com.marekpdev.shoppingapp.domain.LoginUserResponse
 import com.marekpdev.shoppingapp.domain.LogoutUserResponse
 import com.marekpdev.shoppingapp.domain.RegisterUserResponse
@@ -13,7 +12,6 @@ import javax.inject.Inject
 /**
  * Created by Marek Pszczolka on 13/07/2021.
  */
-@AppScope
 class UserRepositoryImpl @Inject constructor(private val userManager: UserManager,
                                              private val authApi: AuthApi): UserRepository {
 

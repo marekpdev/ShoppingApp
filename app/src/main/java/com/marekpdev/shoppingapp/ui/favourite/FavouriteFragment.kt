@@ -7,19 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentFavouriteBinding
-import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
-import com.marekpdev.shoppingapp.repository.products.ProductRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.search.ProductAdapterDelegate
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.

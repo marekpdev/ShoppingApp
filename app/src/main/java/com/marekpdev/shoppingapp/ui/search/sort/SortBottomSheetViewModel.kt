@@ -11,6 +11,4 @@ import javax.inject.Inject
  * Created by Marek Pszczolka on 13/03/2022.
  */
 
-// todo use DI
-class SortBottomSheetViewModel @Inject constructor(): BaseViewModel<SearchState, SearchAction, SearchCommand>(
-    SearchStore.INSTANCE)
+class SortBottomSheetViewModel @Inject constructor(searchStore: SearchStore): BaseViewModel<SearchState, SearchAction, SearchCommand>(searchStore)

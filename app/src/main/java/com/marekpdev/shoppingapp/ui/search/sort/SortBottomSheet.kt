@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -18,16 +19,16 @@ import com.marekpdev.shoppingapp.ui.search.SearchAction
 import com.marekpdev.shoppingapp.ui.search.SearchCommand
 import com.marekpdev.shoppingapp.ui.search.SearchState
 import com.marekpdev.shoppingapp.ui.search.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.StringBuilder
 
 /**
  * Created by Marek Pszczolka on 07/06/2022.
  */
+@AndroidEntryPoint
 class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchCommand> {
 
-    private val viewModel: SortBottomSheetViewModel by lazy {
-        ViewModelProviders.of(this).get(SortBottomSheetViewModel::class.java)
-    }
+    private val viewModel by viewModels<SearchViewModel>()
 
     private lateinit var binding: BottomSheetSortBinding
 

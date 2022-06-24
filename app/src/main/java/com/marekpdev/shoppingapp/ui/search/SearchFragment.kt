@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.marekpdev.shoppingapp.R
@@ -19,19 +19,19 @@ import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.favourite.ProductWidthConstAdapterDelegate
 import com.marekpdev.shoppingapp.ui.search.sort.SortBottomSheet
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
+@AndroidEntryPoint
 class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
 
     // todo
     // need to add
     // FILTER and SORT workflows
 
-    private val viewModel: SearchViewModel by lazy {
-        ViewModelProviders.of(this).get(SearchViewModel::class.java)
-    }
+    private val viewModel by viewModels<SearchViewModel>()
 
     private lateinit var binding: FragmentSearchBinding
 
