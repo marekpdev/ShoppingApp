@@ -49,13 +49,16 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
             initLayout(this)
         }
 
-
     }
 
     private fun initLayout(binding: BottomSheetFilterBinding) = binding.apply {
         viewModel.bind(viewLifecycleOwner, this@FilterBottomSheet)
 
         BottomSheetBehavior.from(binding.llBottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+
+        btnConfirmFilter.setOnClickListener {
+            viewModel.dispatch(SearchAction.FilterConfirmed)
+        }
 
         rangeSliderPrice.valueFrom = 0f
         rangeSliderPrice.valueTo = 100f
@@ -73,7 +76,9 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
     }
 
     override fun onCommand(command: SearchCommand) {
-
+        when(command){
+            is SearchCommand.HideFilterBottomSheet -> dismiss()
+        }
     }
 
 

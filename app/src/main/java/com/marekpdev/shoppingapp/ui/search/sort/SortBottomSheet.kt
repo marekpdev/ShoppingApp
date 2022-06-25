@@ -62,7 +62,9 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
             viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_HIGHEST_FIRST))
         }
 
-        btnConfirmSort.setOnClickListener { dismiss() }
+        btnConfirmSort.setOnClickListener {
+            viewModel.dispatch(SearchAction.SortConfirmed)
+        }
     }
 
     companion object {
@@ -80,7 +82,9 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
     }
 
     override fun onCommand(command: SearchCommand) {
-
+        when(command){
+            is SearchCommand.HideSortBottomSheet -> dismiss()
+        }
     }
 
 
