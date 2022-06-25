@@ -99,41 +99,48 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
             )
 
             // SIZES
-            chipGroupSizes.removeAllViews()
-            state.filters.sizes.available.forEach { size ->
-                ChipsHelper.createChip(
-                    requireContext(),
-                    size
-                ).also { chip ->
-                    sizesViewMappings[size] = chip
-                    chip.setOnClickListener {
-                        viewModel.dispatch(SearchAction.FilterSelectedSizeChanged(size))
+            if(chipGroupSizes.childCount == 0) {
+                chipGroupSizes.removeAllViews()
+                sizesViewMappings.clear()
+                state.filters.sizes.available.forEach { size ->
+                    ChipsHelper.createChip(
+                        requireContext(),
+                        size
+                    ).also { chip ->
+                        sizesViewMappings[size] = chip
+                        chip.setOnClickListener {
+                            viewModel.dispatch(SearchAction.FilterSelectedSizeChanged(size))
+                        }
+                        chipGroupSizes.addView(chip)
                     }
-                    chipGroupSizes.addView(chip)
                 }
             }
-            state.filters.sizes.selected.forEach { color ->
-                sizesViewMappings[color]?.isChecked = true
+
+            sizesViewMappings.forEach { (size, chip) ->
+                chip.isChecked = size in state.filters.sizes.selected
             }
 
             // COLORS
-            chipGroupColors.removeAllViews()
-            state.filters.colors.available.forEach { color ->
-                ChipsHelper.createChip(
-                    requireContext(),
-                    color
-                ).also { chip ->
-                    colorsViewMappings[color] = chip
-                    chip.setOnClickListener {
-                        viewModel.dispatch(SearchAction.FilterSelectedColorChanged(color))
+            if(chipGroupColors.childCount == 0) {
+                chipGroupColors.removeAllViews()
+                colorsViewMappings.clear()
+                state.filters.colors.available.forEach { color ->
+                    ChipsHelper.createChip(
+                        requireContext(),
+                        color
+                    ).also { chip ->
+                        colorsViewMappings[color] = chip
+                        chip.setOnClickListener {
+                            viewModel.dispatch(SearchAction.FilterSelectedColorChanged(color))
+                        }
+                        chipGroupColors.addView(chip)
                     }
-                    chipGroupColors.addView(chip)
                 }
             }
-            state.filters.colors.selected.forEach { color ->
-                colorsViewMappings[color]?.isChecked = true
-            }
 
+            colorsViewMappings.forEach { (color, chip) ->
+                chip.isChecked = color in state.filters.colors.selected
+            }
         }
     }
 
