@@ -14,11 +14,13 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             is SearchAction.Loading -> {
                 currentState.copy(searchInProgress = true)
             }
-            is SearchAction.SearchSuccess -> {
+            is SearchAction.RefreshData -> {
                 currentState.copy(
                     searchInProgress = false,
                     searchSummary = "Showing ${action.products.size} items",
-                    products = action.products
+                    products = action.products,
+                    sortType = action.sortType,
+                    filters = action.filters
                 )
             }
             is SearchAction.SearchError -> {

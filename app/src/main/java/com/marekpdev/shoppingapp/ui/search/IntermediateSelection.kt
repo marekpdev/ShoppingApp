@@ -20,4 +20,15 @@ data class IntermediateSelection<T>(
      * other data source yet)
      */
     val selected: T
-)
+) {
+
+    /**
+     * When we confirm our intermediate selection we
+     * 'apply' the data that we 'selected'
+     */
+    fun confirmSelection() = copy(
+        available = available,
+        applied = selected,
+        selected = selected
+    )
+}

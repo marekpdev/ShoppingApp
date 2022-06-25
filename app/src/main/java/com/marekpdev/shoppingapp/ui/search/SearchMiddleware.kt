@@ -32,8 +32,8 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
             is SearchAction.SelectSortType -> {
                 getProductsToShow(currentState.searchQuery, action.sortType, currentState.filters, requestAction)
             }
-            is SearchAction.SelectFilters -> {
-                getProductsToShow(currentState.searchQuery, currentState.sortType, action.filters, requestAction)
+            is SearchAction.FilterConfirmed -> {
+                getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters.confirmSelection(), requestAction)
             }
             else -> {
 
@@ -62,12 +62,17 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         // see more info here
         // https://blog.mindorks.com/implement-search-using-rxjava-operators-c8882b64fe1d
         getProducts()
-            .map { it.filter { product -> product.name.contains(searchQuery, true) } }
+            .map {
+                it.filter { product ->
+                    product.name.contains(searchQuery, true) &&
+                            product.price.toInt() in filters.priceRange.applied
+                }
+            }
             .map { it.sortedWith(sortType.comparator) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map<SearchAction> {
-                SearchAction.SearchSuccess(it)
+                SearchAction.RefreshData(it, sortType, filters)
             }
             .startWithItem(SearchAction.Loading)
             .onErrorReturn { e -> SearchAction.SearchError(e) }

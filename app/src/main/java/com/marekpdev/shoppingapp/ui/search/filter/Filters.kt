@@ -16,9 +16,15 @@ data class Filters (
         val INIT = Filters(
             IntermediateSelection(emptyList(), emptyList(), emptyList()),
             IntermediateSelection(emptyList(), emptyList(), emptyList()),
-            IntermediateSelection(IntRange.EMPTY, IntRange.EMPTY, IntRange.EMPTY)
+            IntermediateSelection(IntRange(Int.MIN_VALUE, Int.MAX_VALUE), IntRange(Int.MIN_VALUE, Int.MAX_VALUE), IntRange(Int.MIN_VALUE, Int.MAX_VALUE))
         )
     }
+
+    fun confirmSelection() = copy(
+        colors = colors.confirmSelection(),
+        sizes = sizes.confirmSelection(),
+        priceRange = priceRange.confirmSelection()
+    )
 }
 
 
