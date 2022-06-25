@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import android.util.Log
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.Data
@@ -51,6 +52,13 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         }
     }
 
+    private fun getFilterRequirements(searchQuery: String, filters: Filters) = listOf<(Product) -> Boolean>(
+        { it.name.contains(searchQuery, true) },
+        { it.price.toInt() in filters.priceRange.applied},
+        { it.availableSizes.any { size -> filters.sizes.applied.contains(size) }},
+        { it.availableColors.any { color -> filters.colors.applied.contains(color) }},
+    )
+
     private fun getProductsToShow (
         searchQuery: String,
         sortType: SortType,
@@ -62,13 +70,12 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         // 2. todo need to cancel previous request (by using switchMap?)
         // see more info here
         // https://blog.mindorks.com/implement-search-using-rxjava-operators-c8882b64fe1d
+        val filterRequirements = getFilterRequirements(searchQuery, filters)
+
+        Log.d("FEO120", "getProductsToShow $filters")
+
         getProducts()
-            .map {
-                it.filter { product ->
-                    product.name.contains(searchQuery, true) &&
-                            product.price.toInt() in filters.priceRange.applied
-                }
-            }
+            .map { it.filter { product -> isInitial || filterRequirements.all { predicate -> predicate(product) } } }
             .map { it.sortedWith(sortType.type.applied.comparator) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

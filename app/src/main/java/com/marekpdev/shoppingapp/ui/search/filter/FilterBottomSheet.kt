@@ -11,15 +11,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.chip.Chip
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.BottomSheetFilterBinding
 import com.marekpdev.shoppingapp.databinding.BottomSheetSortBinding
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
+import com.marekpdev.shoppingapp.models.Color
+import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.ui.search.SearchAction
 import com.marekpdev.shoppingapp.ui.search.SearchCommand
 import com.marekpdev.shoppingapp.ui.search.SearchState
 import com.marekpdev.shoppingapp.ui.search.SearchViewModel
+import com.marekpdev.shoppingapp.views.ChipsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.StringBuilder
 import kotlin.math.abs
@@ -39,6 +43,9 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
     private val viewModel by viewModels<FilterBottomSheetViewModel>()
 
     private lateinit var binding: BottomSheetFilterBinding
+
+    private val sizesViewMappings = mutableMapOf<Size, Chip>()
+    private val colorsViewMappings = mutableMapOf<Color, Chip>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +97,43 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
                 state.filters.priceRange.selected.first.toFloat(),
                 state.filters.priceRange.selected.last.toFloat()
             )
+
+            // SIZES
+            chipGroupSizes.removeAllViews()
+            state.filters.sizes.available.forEach { size ->
+                ChipsHelper.createChip(
+                    requireContext(),
+                    size
+                ).also { chip ->
+                    sizesViewMappings[size] = chip
+                    chip.setOnClickListener {
+                        viewModel.dispatch(SearchAction.FilterSelectedSizeChanged(size))
+                    }
+                    chipGroupSizes.addView(chip)
+                }
+            }
+            state.filters.sizes.selected.forEach { color ->
+                sizesViewMappings[color]?.isChecked = true
+            }
+
+            // COLORS
+            chipGroupColors.removeAllViews()
+            state.filters.colors.available.forEach { color ->
+                ChipsHelper.createChip(
+                    requireContext(),
+                    color
+                ).also { chip ->
+                    colorsViewMappings[color] = chip
+                    chip.setOnClickListener {
+                        viewModel.dispatch(SearchAction.FilterSelectedColorChanged(color))
+                    }
+                    chipGroupColors.addView(chip)
+                }
+            }
+            state.filters.colors.selected.forEach { color ->
+                colorsViewMappings[color]?.isChecked = true
+            }
+
         }
     }
 

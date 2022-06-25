@@ -32,7 +32,7 @@ sealed class SearchAction : Action {
     object FilterConfirmed: SearchAction()
 
     data class FilterSelectedPriceRangeChanged(val selectedPriceRange: IntRange): SearchAction()
-    data class FilterSelectedColorsChanged(val selectedColors: List<Color>): SearchAction()
-    data class FilterSelectedSizesChanged(val selectedSizes: List<Size>): SearchAction()
+    data class FilterSelectedColorChanged(val selectedColor: Color): SearchAction()
+    data class FilterSelectedSizeChanged(val selectedSize: Size): SearchAction()
 
 }

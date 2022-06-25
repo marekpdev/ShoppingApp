@@ -66,8 +66,33 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                     )
                 )
             }
+            is SearchAction.FilterSelectedSizeChanged -> {
+                currentState.copy(
+                    filters = currentState.filters.copy(
+                        sizes = currentState.filters.sizes.copy(
+                            selected = currentState.filters.sizes.selected.toggleItem(action.selectedSize)
+                        )
+                    )
+                )
+            }
+            is SearchAction.FilterSelectedColorChanged -> {
+                currentState.copy(
+                    filters = currentState.filters.copy(
+                        colors = currentState.filters.colors.copy(
+                            selected = currentState.filters.colors.selected.toggleItem(action.selectedColor)
+                        )
+                    )
+                )
+            }
             else -> currentState
         }
+    }
+
+    private fun <T> List<T>.toggleItem(item: T): List<T>{
+        val newItems = toMutableList()
+        if(newItems.contains(item)) newItems.remove(item)
+        else newItems.add(item)
+        return newItems.toList()
     }
 
 }
