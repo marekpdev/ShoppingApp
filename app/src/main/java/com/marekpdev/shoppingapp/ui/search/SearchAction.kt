@@ -17,6 +17,7 @@ sealed class SearchAction : Action {
 
     class SearchQueryChanged(val query: String): SearchAction()
     object Loading: SearchAction()
+    data class InitialDataFetched(val products: List<Product>, val sortType: SortType, val filters: Filters): SearchAction()
     data class RefreshData(val products: List<Product>, val sortType: SortType, val filters: Filters): SearchAction()
     class SearchError(val error: Throwable?): SearchAction()
 

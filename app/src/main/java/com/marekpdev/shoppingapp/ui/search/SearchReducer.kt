@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Reducer
 
 /**
@@ -14,7 +15,18 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             is SearchAction.Loading -> {
                 currentState.copy(searchInProgress = true)
             }
+            is SearchAction.InitialDataFetched -> {
+                Log.d("FEO111", "INITIAL DATA FILTERS ${action.filters}")
+                currentState.copy(
+                    searchInProgress = false,
+                    searchSummary = "Showing ${action.products.size} items",
+                    products = action.products,
+                    sortType = action.sortType,
+                    filters = action.filters
+                )
+            }
             is SearchAction.RefreshData -> {
+                Log.d("FEO111", "REFRESH DATA FILTERS ${action.filters}")
                 currentState.copy(
                     searchInProgress = false,
                     searchSummary = "Showing ${action.products.size} items",
@@ -36,6 +48,7 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                 )
             }
             is SearchAction.InitFilters -> {
+                Log.d("FEO111", "INIT FILTERS")
                 currentState.copy(
                     filters = action.filters
                 )

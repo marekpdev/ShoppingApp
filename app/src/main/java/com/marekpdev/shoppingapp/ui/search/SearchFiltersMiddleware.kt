@@ -24,7 +24,7 @@ class SearchFiltersMiddleware: Middleware<SearchState, SearchAction, SearchComma
         requestCommand: (SearchCommand) -> Unit
     ) {
         when(action){
-            is SearchAction.FetchInitialData -> {
+            is SearchAction.InitialDataFetched -> {
                 fetchInitFilters(requestAction)
             }
             else -> {

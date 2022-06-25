@@ -24,16 +24,16 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
     ) {
         when(action){
             is SearchAction.FetchInitialData -> {
-                getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters, requestAction)
+                getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters, true, requestAction)
             }
             is SearchAction.SearchQueryChanged -> {
-                getProductsToShow(action.query, currentState.sortType, currentState.filters, requestAction)
+                getProductsToShow(action.query, currentState.sortType, currentState.filters, false, requestAction)
             }
             is SearchAction.SelectSortType -> {
-                getProductsToShow(currentState.searchQuery, action.sortType, currentState.filters, requestAction)
+                getProductsToShow(currentState.searchQuery, action.sortType, currentState.filters, false, requestAction)
             }
             is SearchAction.FilterConfirmed -> {
-                getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters.confirmSelection(), requestAction)
+                getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters.confirmSelection(), false, requestAction)
             }
             else -> {
 
@@ -55,6 +55,7 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         searchQuery: String,
         sortType: SortType,
         filters: Filters,
+        isInitial: Boolean,
         requestAction: (SearchAction) -> Unit
     ) {
         // 1. todo need to add these calls to disposable somehow
@@ -72,7 +73,11 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map<SearchAction> {
-                SearchAction.RefreshData(it, sortType, filters)
+                if(isInitial) {
+                    SearchAction.InitialDataFetched(it, sortType, filters)
+                } else {
+                    SearchAction.RefreshData(it, sortType, filters)
+                }
             }
             .startWithItem(SearchAction.Loading)
             .onErrorReturn { e -> SearchAction.SearchError(e) }
