@@ -59,6 +59,10 @@ open class Store <S: State, A: Action, C: Command> (
 
         middlewares.forEach {
             middlewaresDisposables.add(it.bind(actions, commands, state).subscribe())
+            // todo
+            // instead of calling 'requestAction(action)' in doOnNext etc
+            // maybe it would be better if we processed all actions in subscribe?
+//            middlewaresDisposables.add(it.bind(actions, commands, state).subscribe(actions::accept))
         }
 
         return CompositeDisposable(
