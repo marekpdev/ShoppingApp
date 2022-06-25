@@ -30,7 +30,7 @@
                 app:labelBehavior="withinBounds" />
 
             <Button
-                android:id="@+id/tvConfirmFilter"
+                android:id="@+id/btnConfirmFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

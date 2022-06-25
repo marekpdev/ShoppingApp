@@ -23,7 +23,7 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         requestCommand: (SearchCommand) -> Unit
     ) {
         when(action){
-            is SearchAction.RefreshData -> {
+            is SearchAction.FetchInitialData -> {
                 getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters, requestAction)
             }
             is SearchAction.SearchQueryChanged -> {

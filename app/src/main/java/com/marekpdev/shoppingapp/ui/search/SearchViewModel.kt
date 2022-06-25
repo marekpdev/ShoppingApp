@@ -14,6 +14,6 @@ class SearchViewModel @Inject constructor(searchStore: SearchStore): BaseViewMod
 
     init {
         Log.d("FEO70", "init SearchViewModel")
-        searchStore.dispatch(SearchAction.RefreshData)
+        searchStore.dispatch(SearchAction.FetchInitialData)
     }
 }

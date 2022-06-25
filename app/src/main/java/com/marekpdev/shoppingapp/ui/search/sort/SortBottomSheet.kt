@@ -48,7 +48,6 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
             initLayout(this)
         }
 
-
     }
 
     private fun initLayout(binding: BottomSheetSortBinding) = binding.apply {
@@ -63,6 +62,7 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
             viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_HIGHEST_FIRST))
         }
 
+        btnConfirmSort.setOnClickListener { dismiss() }
     }
 
     companion object {
@@ -71,10 +71,10 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
 
     override fun render(state: SearchState) {
         binding.apply {
-            Log.d("FEO60", "SORT Current state is $state")
+            Log.d("FEO81", "SORT Current state is ${state.sortType}")
             when(state.sortType) {
-                SortType.PRICE_LOWEST_FIRST -> rbPriceLowestFirst.isSelected = true
-                SortType.PRICE_HIGHEST_FIRST -> rbPriceHighestFirst.isSelected = true
+                SortType.PRICE_LOWEST_FIRST -> { rbPriceLowestFirst.isChecked = true }
+                SortType.PRICE_HIGHEST_FIRST -> { rbPriceHighestFirst.isChecked = true }
             }
         }
     }

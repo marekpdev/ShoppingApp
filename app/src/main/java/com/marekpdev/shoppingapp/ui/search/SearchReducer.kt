@@ -28,6 +28,11 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                     products = emptyList()
                 )
             }
+            is SearchAction.SelectSortType -> {
+                currentState.copy(
+                    sortType = action.sortType
+                )
+            }
             else -> currentState
         }
     }

@@ -22,5 +22,5 @@ sealed class SearchAction : Action {
     data class SelectSortType(val sortType: SortType): SearchAction()
     data class SelectFilters(val filters: Filters): SearchAction()
 
-    object RefreshData: SearchAction()
+    object FetchInitialData: SearchAction()
 }
