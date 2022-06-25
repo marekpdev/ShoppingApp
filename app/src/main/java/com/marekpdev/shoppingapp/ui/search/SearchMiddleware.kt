@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 /**
@@ -87,7 +88,11 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
 //        return Observable.just(allProducts)
 //            //.delay(2, TimeUnit.SECONDS)
         return Observable.create { emitter ->
-            Thread.sleep(2000)
+            try {
+                Thread.sleep(2000)
+            } catch (e: Exception){
+                Log.d("FEO170", "ex $e")
+            }
             emitter.onNext(allProducts)
             emitter.onComplete()
         }
