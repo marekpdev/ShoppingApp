@@ -71,7 +71,7 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
             Log.d("FEO100", "Changed SLIDER: $slider VALUE: $value FROMUSER: $fromUser values ${rangeSliderPrice.values}")
             val minPrice = rangeSliderPrice.values[0].toInt()
             val maxPrice = rangeSliderPrice.values[1].toInt()
-            viewModel.dispatch(SearchAction.FilterPriceRangeChanged(IntRange(minPrice, maxPrice)))
+            viewModel.dispatch(SearchAction.FilterSelectedPriceRangeChanged(IntRange(minPrice, maxPrice)))
         }
     }
 
@@ -79,16 +79,16 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
         binding.apply {
             Log.d("FEO94", "FILTER Current state is ${state.filters}")
 
-            rangeSliderPrice.valueFrom = state.filters.availablePriceRange.first.toFloat()
-            rangeSliderPrice.valueTo = state.filters.availablePriceRange.last.toFloat()
+            rangeSliderPrice.valueFrom = state.filters.priceRange.available.first.toFloat()
+            rangeSliderPrice.valueTo = state.filters.priceRange.available.last.toFloat()
             rangeSliderPrice.stepSize = 1f
             if(abs(rangeSliderPrice.valueTo - rangeSliderPrice.valueFrom) > MIN_SEPARATION_THRESHOLD){
                 rangeSliderPrice.setMinSeparationValue(MIN_SEPARATION_VALUE)
             }
 
             rangeSliderPrice.values = listOf(
-                state.filters.selectedPriceRange.first.toFloat(),
-                state.filters.selectedPriceRange.last.toFloat()
+                state.filters.priceRange.selected.first.toFloat(),
+                state.filters.priceRange.selected.last.toFloat()
             )
         }
     }
@@ -98,6 +98,5 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
             is SearchCommand.HideFilterBottomSheet -> dismiss()
         }
     }
-
 
 }

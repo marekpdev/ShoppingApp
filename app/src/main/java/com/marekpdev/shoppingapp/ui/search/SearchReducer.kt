@@ -38,9 +38,13 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                     filters = action.filters
                 )
             }
-            is SearchAction.FilterPriceRangeChanged -> {
+            is SearchAction.FilterSelectedPriceRangeChanged -> {
                 currentState.copy(
-                    filters = currentState.filters.copy(selectedPriceRange = action.priceRange)
+                    filters = currentState.filters.copy(
+                        priceRange = currentState.filters.priceRange.copy(
+                            selected = action.selectedPriceRange
+                        )
+                    )
                 )
             }
             else -> currentState

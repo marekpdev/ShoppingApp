@@ -46,15 +46,14 @@ class SearchFiltersMiddleware: Middleware<SearchState, SearchAction, SearchComma
             maxPrice = max(maxPrice, it.price)
         }
 
-        val priceRange = IntRange(minPrice.toInt(), ceil(maxPrice).toInt())
+        val availableColorsList = availableColors.toList()
+        val availableSizesList = availableSizes.toList()
+        val availablePriceRange = IntRange(minPrice.toInt(), ceil(maxPrice).toInt())
 
         val initFilters = Filters(
-            availableColors = availableColors.toList(),
-            selectedColors = availableColors.toList(),
-            availableSizes = availableSizes.toList(),
-            selectedSizes = availableSizes.toList(),
-            availablePriceRange = priceRange,
-            selectedPriceRange = priceRange
+            colors = IntermediateSelection(availableColorsList, availableColorsList, availableColorsList),
+            sizes = IntermediateSelection(availableSizesList, availableSizesList, availableSizesList),
+            priceRange = IntermediateSelection(availablePriceRange, availablePriceRange, availablePriceRange)
         )
 
         Log.d("FEO99", "Init filters $initFilters")
