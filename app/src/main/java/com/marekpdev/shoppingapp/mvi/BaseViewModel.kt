@@ -31,6 +31,7 @@ open class BaseViewModel <S: State, A: Action, C: Command>(private val store: St
     private val compositeDisposable = CompositeDisposable()
 
     init {
+        Log.d("FEO70", "init BaseViewModel")
         compositeDisposable.add(
             store.bind(
                 { newState ->  _viewState.value = newState},

@@ -13,4 +13,15 @@ data class Filters (
     val selectedSizes: List<Size>,
     val availablePriceRange: IntRange,
     val selectedPriceRange: IntRange
-)
+) {
+    companion object {
+        val INIT = Filters(
+            listOf(),
+            listOf(),
+            listOf(),
+            listOf(),
+            IntRange.EMPTY,
+            IntRange.EMPTY
+        )
+    }
+}

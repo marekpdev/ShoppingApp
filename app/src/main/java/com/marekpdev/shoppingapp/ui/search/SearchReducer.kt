@@ -11,8 +11,8 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             is SearchAction.SearchQueryChanged -> {
                 currentState.copy(searchQuery = action.query)
             }
-            is SearchAction.SearchStarted -> {
-                currentState.copy(searchQuery = action.query, searchInProgress = true)
+            is SearchAction.Loading -> {
+                currentState.copy(searchInProgress = true)
             }
             is SearchAction.SearchSuccess -> {
                 currentState.copy(

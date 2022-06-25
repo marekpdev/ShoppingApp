@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.di
 
 import com.marekpdev.shoppingapp.ui.search.*
+import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
 import dagger.Module
 import dagger.Provides
@@ -19,7 +20,7 @@ class SearchModule {
     @Singleton
     fun provideSearchStore(): SearchStore {
         return SearchStore(
-            SearchState("", false, "", emptyList(), SortType.PRICE_LOWEST_FIRST),
+            SearchState("", false, "", emptyList(), SortType.PRICE_LOWEST_FIRST, Filters.INIT),
             listOf(SearchMiddleware(), SearchNavigationMiddleware()),
             SearchReducer()
         )

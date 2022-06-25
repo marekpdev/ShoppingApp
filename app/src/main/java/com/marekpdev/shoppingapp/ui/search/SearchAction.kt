@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui.search
 
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Action
+import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
 
 /**
@@ -10,7 +11,7 @@ import com.marekpdev.shoppingapp.ui.search.sort.SortType
 sealed class SearchAction : Action {
 
     class SearchQueryChanged(val query: String): SearchAction()
-    class SearchStarted(val query: String): SearchAction()
+    object Loading: SearchAction()
     class SearchSuccess(val products: List<Product>): SearchAction()
     class SearchError(val error: Throwable?): SearchAction()
 
@@ -19,5 +20,7 @@ sealed class SearchAction : Action {
     object FilterClicked: SearchAction()
 
     data class SelectSortType(val sortType: SortType): SearchAction()
+    data class SelectFilters(val filters: Filters): SearchAction()
 
+    object RefreshData: SearchAction()
 }
