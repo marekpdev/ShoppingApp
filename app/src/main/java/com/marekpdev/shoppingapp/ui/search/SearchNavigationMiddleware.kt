@@ -1,15 +1,28 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import com.jakewharton.rxrelay3.PublishRelay
 import com.marekpdev.shoppingapp.mvi.Middleware
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * Created by Marek Pszczolka on 05/06/2022.
  */
 class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
 
-    override fun process(
+    override fun bind(
+        actions: PublishRelay<SearchAction>,
+        commands: PublishRelay<SearchCommand>,
+        state: Flowable<SearchState>
+    ): Observable<SearchAction> {
+        return actions.doOnNext { action ->
+            process(action, actions::accept, commands::accept)
+        }
+    }
+
+    fun process(
         action: SearchAction,
-        currentState: SearchState,
+        //currentState: SearchState,
         requestAction: (SearchAction) -> Unit,
         requestCommand: (SearchCommand) -> Unit
     ) {

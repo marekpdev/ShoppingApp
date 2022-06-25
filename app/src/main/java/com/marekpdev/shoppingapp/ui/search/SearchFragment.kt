@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,6 +86,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         viewModel.bind(viewLifecycleOwner, this@SearchFragment)
 
         etSearch.doAfterTextChanged {
+            Log.d("FEO150", "Text ${it.toString()}")
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
     }
