@@ -22,12 +22,19 @@ import com.marekpdev.shoppingapp.ui.search.SearchState
 import com.marekpdev.shoppingapp.ui.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.StringBuilder
+import kotlin.math.abs
 
 /**
  * Created by Marek Pszczolka on 07/06/2022.
  */
 @AndroidEntryPoint
 class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchCommand> {
+
+    companion object {
+        const val TAG = "ModalBottomSheetFilter"
+        private const val MIN_SEPARATION_THRESHOLD = 5f
+        private const val MIN_SEPARATION_VALUE = 2f
+    }
 
     private val viewModel by viewModels<FilterBottomSheetViewModel>()
 
@@ -60,18 +67,29 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
             viewModel.dispatch(SearchAction.FilterConfirmed)
         }
 
-        rangeSliderPrice.valueFrom = 0f
-        rangeSliderPrice.valueTo = 100f
-        rangeSliderPrice.values = listOf(10f, 30f)
-    }
-
-    companion object {
-        const val TAG = "ModalBottomSheetFilter"
+        rangeSliderPrice.addOnChangeListener { slider, value, fromUser ->
+            Log.d("FEO100", "Changed SLIDER: $slider VALUE: $value FROMUSER: $fromUser values ${rangeSliderPrice.values}")
+            val minPrice = rangeSliderPrice.values[0].toInt()
+            val maxPrice = rangeSliderPrice.values[1].toInt()
+            viewModel.dispatch(SearchAction.FilterPriceRangeChanged(IntRange(minPrice, maxPrice)))
+        }
     }
 
     override fun render(state: SearchState) {
         binding.apply {
-            Log.d("FEO60", "FILTER Current state is $state")
+            Log.d("FEO94", "FILTER Current state is ${state.filters}")
+
+            rangeSliderPrice.valueFrom = state.filters.availablePriceRange.first.toFloat()
+            rangeSliderPrice.valueTo = state.filters.availablePriceRange.last.toFloat()
+            rangeSliderPrice.stepSize = 1f
+            if(abs(rangeSliderPrice.valueTo - rangeSliderPrice.valueFrom) > MIN_SEPARATION_THRESHOLD){
+                rangeSliderPrice.setMinSeparationValue(MIN_SEPARATION_VALUE)
+            }
+
+            rangeSliderPrice.values = listOf(
+                state.filters.selectedPriceRange.first.toFloat(),
+                state.filters.selectedPriceRange.last.toFloat()
+            )
         }
     }
 
