@@ -25,4 +25,5 @@ sealed class SearchAction : Action {
     data class SelectFilters(val filters: Filters): SearchAction()
 
     object FetchInitialData: SearchAction()
+    data class InitFilters(val filters: Filters): SearchAction()
 }

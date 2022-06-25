@@ -21,7 +21,7 @@ class SearchModule {
     fun provideSearchStore(): SearchStore {
         return SearchStore(
             SearchState("", false, "", emptyList(), SortType.PRICE_LOWEST_FIRST, Filters.INIT),
-            listOf(SearchMiddleware(), SearchNavigationMiddleware()),
+            listOf(SearchMiddleware(), SearchNavigationMiddleware(), SearchFiltersMiddleware()),
             SearchReducer()
         )
     }

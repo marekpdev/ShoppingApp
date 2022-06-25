@@ -33,6 +33,11 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                     sortType = action.sortType
                 )
             }
+            is SearchAction.InitFilters -> {
+                currentState.copy(
+                    filters = action.filters
+                )
+            }
             else -> currentState
         }
     }
