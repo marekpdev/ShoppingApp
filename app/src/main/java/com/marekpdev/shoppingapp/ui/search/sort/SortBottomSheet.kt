@@ -28,7 +28,7 @@ import java.lang.StringBuilder
 @AndroidEntryPoint
 class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchCommand> {
 
-    private val viewModel by viewModels<SearchViewModel>()
+    private val viewModel by viewModels<SortBottomSheetViewModel>()
 
     private lateinit var binding: BottomSheetSortBinding
 
@@ -48,7 +48,6 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
             initLayout(this)
         }
 
-
     }
 
     private fun initLayout(binding: BottomSheetSortBinding) = binding.apply {
@@ -57,12 +56,15 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
         BottomSheetBehavior.from(binding.llBottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
 
         rbPriceLowestFirst.setOnClickListener {
-            viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_LOWEST_FIRST))
+            viewModel.dispatch(SearchAction.SortSelectedType(SortType.Type.PRICE_LOWEST_FIRST))
         }
         rbPriceHighestFirst.setOnClickListener {
-            viewModel.dispatch(SearchAction.SelectSortType(SortType.PRICE_HIGHEST_FIRST))
+            viewModel.dispatch(SearchAction.SortSelectedType(SortType.Type.PRICE_HIGHEST_FIRST))
         }
 
+        btnConfirmSort.setOnClickListener {
+            viewModel.dispatch(SearchAction.SortConfirmed)
+        }
     }
 
     companion object {
@@ -71,16 +73,18 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
 
     override fun render(state: SearchState) {
         binding.apply {
-            Log.d("FEO50", "Current state is $state")
-            when(state.sortType) {
-                SortType.PRICE_LOWEST_FIRST -> rbPriceLowestFirst.isSelected = true
-                SortType.PRICE_HIGHEST_FIRST -> rbPriceHighestFirst.isSelected = true
+            Log.d("FEO81", "SORT Current state is ${state.sortType}")
+            when(state.sortType.type.selected) {
+                SortType.Type.PRICE_LOWEST_FIRST -> { rbPriceLowestFirst.isChecked = true }
+                SortType.Type.PRICE_HIGHEST_FIRST -> { rbPriceHighestFirst.isChecked = true }
             }
         }
     }
 
     override fun onCommand(command: SearchCommand) {
-
+        when(command){
+            is SearchCommand.HideSortBottomSheet -> dismiss()
+        }
     }
 
 

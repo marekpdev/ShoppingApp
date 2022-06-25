@@ -20,6 +20,15 @@ class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCo
             is SearchAction.SortClicked -> {
                 requestCommand(SearchCommand.ShowSortBottomSheet)
             }
+            is SearchAction.SortConfirmed -> {
+                requestCommand(SearchCommand.HideSortBottomSheet)
+            }
+            is SearchAction.FilterClicked -> {
+                requestCommand(SearchCommand.ShowFilterBottomSheet)
+            }
+            is SearchAction.FilterConfirmed -> {
+                requestCommand(SearchCommand.HideFilterBottomSheet)
+            }
             else -> {
 
             }

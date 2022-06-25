@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Reducer
 
 /**
@@ -11,14 +12,27 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             is SearchAction.SearchQueryChanged -> {
                 currentState.copy(searchQuery = action.query)
             }
-            is SearchAction.SearchStarted -> {
-                currentState.copy(searchQuery = action.query, searchInProgress = true)
+            is SearchAction.Loading -> {
+                currentState.copy(searchInProgress = true)
             }
-            is SearchAction.SearchSuccess -> {
+            is SearchAction.InitialDataFetched -> {
+                Log.d("FEO111", "INITIAL DATA FILTERS ${action.filters}")
                 currentState.copy(
                     searchInProgress = false,
                     searchSummary = "Showing ${action.products.size} items",
-                    products = action.products
+                    products = action.products,
+                    sortType = action.sortType,
+                    filters = action.filters
+                )
+            }
+            is SearchAction.RefreshData -> {
+                Log.d("FEO111", "REFRESH DATA FILTERS ${action.filters}")
+                currentState.copy(
+                    searchInProgress = false,
+                    searchSummary = "Showing ${action.products.size} items",
+                    products = action.products,
+                    sortType = action.sortType,
+                    filters = action.filters
                 )
             }
             is SearchAction.SearchError -> {
@@ -28,8 +42,57 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                     products = emptyList()
                 )
             }
+            is SearchAction.InitFilters -> {
+                Log.d("FEO111", "INIT FILTERS")
+                currentState.copy(
+                    filters = action.filters
+                )
+            }
+            is SearchAction.SortSelectedType -> {
+                currentState.copy(
+                    sortType = currentState.sortType.copy(
+                       type = currentState.sortType.type.copy(
+                           selected = action.sortType
+                       )
+                    )
+                )
+            }
+            is SearchAction.FilterSelectedPriceRangeChanged -> {
+                currentState.copy(
+                    filters = currentState.filters.copy(
+                        priceRange = currentState.filters.priceRange.copy(
+                            selected = action.selectedPriceRange
+                        )
+                    )
+                )
+            }
+            is SearchAction.FilterSelectedSizeChanged -> {
+                currentState.copy(
+                    filters = currentState.filters.copy(
+                        sizes = currentState.filters.sizes.copy(
+                            selected = currentState.filters.sizes.selected.toggleItem(action.selectedSize)
+                        )
+                    )
+                )
+            }
+            is SearchAction.FilterSelectedColorChanged -> {
+                currentState.copy(
+                    filters = currentState.filters.copy(
+                        colors = currentState.filters.colors.copy(
+                            selected = currentState.filters.colors.selected.toggleItem(action.selectedColor)
+                        )
+                    )
+                )
+            }
             else -> currentState
         }
+    }
+
+    private fun <T> List<T>.toggleItem(item: T): List<T>{
+        val newItems = toMutableList()
+        if(newItems.contains(item)) newItems.remove(item)
+        else newItems.add(item)
+        return newItems.toList()
     }
 
 }

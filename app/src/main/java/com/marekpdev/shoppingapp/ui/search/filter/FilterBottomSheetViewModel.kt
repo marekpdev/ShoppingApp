@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.search.sort
+package com.marekpdev.shoppingapp.ui.search.filter
 
 import com.marekpdev.shoppingapp.mvi.*
 import com.marekpdev.shoppingapp.ui.search.SearchAction
@@ -13,4 +13,4 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class SortBottomSheetViewModel @Inject constructor(searchStore: SearchStore): BaseViewModel<SearchState, SearchAction, SearchCommand>(searchStore)
+class FilterBottomSheetViewModel @Inject constructor(searchStore: SearchStore): BaseViewModel<SearchState, SearchAction, SearchCommand>(searchStore)

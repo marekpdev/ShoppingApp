@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llBottomSheet"
+            style="?attr/bottomSheetStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/red_heart"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter by"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/tvPriceHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                android:textSize="20dp" />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/rangeSliderPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelBehavior="withinBounds" />
+
+            <TextView
+                android:id="@+id/tvSizeHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Size"
+                android:textSize="20dp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupSizes"
+                style="@style/Widget.MaterialComponents.ChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="false"
+                app:singleSelection="false" />
+
+            <TextView
+                android:id="@+id/tvColorHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color"
+                android:textSize="20dp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupColors"
+                style="@style/Widget.MaterialComponents.ChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="false"
+                app:singleSelection="false" />
+
+            <Button
+                android:id="@+id/btnConfirmFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Confirm" />
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
