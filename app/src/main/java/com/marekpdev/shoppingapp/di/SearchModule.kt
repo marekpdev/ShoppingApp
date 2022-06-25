@@ -20,7 +20,7 @@ class SearchModule {
     @Singleton
     fun provideSearchStore(): SearchStore {
         return SearchStore(
-            SearchState("", false, "", emptyList(), SortType.PRICE_LOWEST_FIRST, Filters.INIT),
+            SearchState("", false, "", emptyList(), SortType.INIT, Filters.INIT),
             listOf(SearchMiddleware(), SearchNavigationMiddleware(), SearchFiltersMiddleware()),
             SearchReducer()
         )

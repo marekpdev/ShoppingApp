@@ -42,15 +42,19 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                     products = emptyList()
                 )
             }
-            is SearchAction.SelectSortType -> {
-                currentState.copy(
-                    sortType = action.sortType
-                )
-            }
             is SearchAction.InitFilters -> {
                 Log.d("FEO111", "INIT FILTERS")
                 currentState.copy(
                     filters = action.filters
+                )
+            }
+            is SearchAction.SortSelectedType -> {
+                currentState.copy(
+                    sortType = currentState.sortType.copy(
+                       type = currentState.sortType.type.copy(
+                           selected = action.sortType
+                       )
+                    )
                 )
             }
             is SearchAction.FilterSelectedPriceRangeChanged -> {

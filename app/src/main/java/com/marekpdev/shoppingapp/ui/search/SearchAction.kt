@@ -26,8 +26,7 @@ sealed class SearchAction : Action {
     object SortClicked: SearchAction()
     object SortConfirmed: SearchAction()
 
-    data class SelectSortType(val sortType: SortType): SearchAction()
-    data class SelectFilters(val filters: Filters): SearchAction()
+    data class SortSelectedType(val sortType: SortType.Type): SearchAction()
 
     object FilterClicked: SearchAction()
     object FilterConfirmed: SearchAction()

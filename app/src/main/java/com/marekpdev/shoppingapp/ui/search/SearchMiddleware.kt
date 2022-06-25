@@ -29,8 +29,8 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
             is SearchAction.SearchQueryChanged -> {
                 getProductsToShow(action.query, currentState.sortType, currentState.filters, false, requestAction)
             }
-            is SearchAction.SelectSortType -> {
-                getProductsToShow(currentState.searchQuery, action.sortType, currentState.filters, false, requestAction)
+            is SearchAction.SortConfirmed -> {
+                getProductsToShow(currentState.searchQuery, currentState.sortType.confirmSelection(), currentState.filters, false, requestAction)
             }
             is SearchAction.FilterConfirmed -> {
                 getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters.confirmSelection(), false, requestAction)
@@ -69,7 +69,7 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
                             product.price.toInt() in filters.priceRange.applied
                 }
             }
-            .map { it.sortedWith(sortType.comparator) }
+            .map { it.sortedWith(sortType.type.applied.comparator) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map<SearchAction> {
