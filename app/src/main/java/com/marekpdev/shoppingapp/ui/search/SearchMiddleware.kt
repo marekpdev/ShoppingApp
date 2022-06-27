@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.ofType
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.lang.Exception
@@ -30,10 +31,10 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
     ): Observable<SearchAction> {
         return actions.publish { shared ->
             Observable.merge(
-                bind1(shared.ofType(SearchAction.FetchInitialData::class.java), state, actions::accept),
-                bind2(shared.ofType(SearchAction.SearchQueryChanged::class.java), state, actions::accept),
-                bind3(shared.ofType(SearchAction.SortConfirmed::class.java), state, actions::accept),
-                bind4(shared.ofType(SearchAction.FilterConfirmed::class.java), state, actions::accept)
+                bindFetchInitialData(shared.ofType(), state, actions::accept),
+                bind2(shared.ofType(), state, actions::accept),
+                bind3(shared.ofType(), state, actions::accept),
+                bind4(shared.ofType(), state, actions::accept)
             )
         }
     }
@@ -43,7 +44,7 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
     // 1 -> actions: Observable<SearchAction.SearchQueryChanged>
     // 2 -> actions: Observable<SearchAction.SortConfirmed>
     // as it is being detected as the same method signature
-    private fun bind1(actions: Observable<SearchAction.FetchInitialData>,
+    private fun bindFetchInitialData(actions: Observable<SearchAction.FetchInitialData>,
                       state: Flowable<SearchState>,
                       requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
         return actions

@@ -6,6 +6,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.
@@ -55,21 +56,15 @@ open class Store <S: State, A: Action, C: Command> (
     }
 
     fun bind(onNewState: (S) -> Unit, onCommand: (C) -> Unit): CompositeDisposable {
-        val middlewaresDisposables = CompositeDisposable()
+        val compositeDisposable = CompositeDisposable()
 
-        middlewares.forEach {
-            middlewaresDisposables.add(it.bind(actions, commands, state).subscribe())
-            // todo
-            // instead of calling 'requestAction(action)' in doOnNext etc
-            // maybe it would be better if we processed all actions in subscribe?
-//            middlewaresDisposables.add(it.bind(actions, commands, state).subscribe(actions::accept))
-        }
+        middlewares.forEach { compositeDisposable += it.bind(actions, commands, state).subscribe() }
 
-        return CompositeDisposable(
-            bindState(onNewState),
-            bindActions(),
-            bindCommands(onCommand)
-        )
+        compositeDisposable += bindState(onNewState)
+        compositeDisposable += bindActions()
+        compositeDisposable += bindCommands(onCommand)
+
+        return compositeDisposable
     }
 
     private fun bindState(onNewState: (S) -> Unit): Disposable {
