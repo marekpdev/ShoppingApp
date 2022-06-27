@@ -10,6 +10,7 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
     override fun reduce(currentState: SearchState, action: SearchAction): SearchState {
         return when(action){
             is SearchAction.SearchQueryChanged -> {
+                Log.d("FEO160", "Changed State ${action.query}")
                 currentState.copy(searchQuery = action.query)
             }
             is SearchAction.Loading -> {

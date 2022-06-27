@@ -72,6 +72,7 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.0.13"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
 
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 

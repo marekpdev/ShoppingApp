@@ -1,10 +1,12 @@
 package com.marekpdev.shoppingapp.mvi
 
+import android.util.Log
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.
@@ -21,12 +23,16 @@ open class Store <S: State, A: Action, C: Command> (
     private val state = actions.toFlowable(BackpressureStrategy.BUFFER).scan(
         initialState
     ) { state, action ->
-        middlewares.forEach { it.process(action, state, this::dispatch, this::dispatch) }
+        Log.d("FEO150", "getting state $state")
         reducer.reduce(state, action)
     }
         .distinctUntilChanged()
         .replay(1)
         .autoConnect(0)
+
+    init {
+
+    }
 
     // todo need to change
     // disposable.add()
@@ -50,11 +56,15 @@ open class Store <S: State, A: Action, C: Command> (
     }
 
     fun bind(onNewState: (S) -> Unit, onCommand: (C) -> Unit): CompositeDisposable {
-        return CompositeDisposable(
-            bindState(onNewState),
-            bindActions(),
-            bindCommands(onCommand)
-        )
+        val compositeDisposable = CompositeDisposable()
+
+        middlewares.forEach { compositeDisposable += it.bind(actions, commands, state).subscribe() }
+
+        compositeDisposable += bindState(onNewState)
+        compositeDisposable += bindActions()
+        compositeDisposable += bindCommands(onCommand)
+
+        return compositeDisposable
     }
 
     private fun bindState(onNewState: (S) -> Unit): Disposable {

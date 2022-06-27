@@ -1,11 +1,14 @@
 package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
+import com.jakewharton.rxrelay3.PublishRelay
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Observable
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -17,23 +20,28 @@ class SearchFiltersMiddleware: Middleware<SearchState, SearchAction, SearchComma
 
     private val allProducts = Data.getMenu().second!!
 
-    override fun process(
-        action: SearchAction,
-        currentState: SearchState,
-        requestAction: (SearchAction) -> Unit,
-        requestCommand: (SearchCommand) -> Unit
-    ) {
-        when(action){
-            is SearchAction.InitialDataFetched -> {
-                fetchInitFilters(requestAction)
-            }
-            else -> {
+    override fun bind(
+        actions: PublishRelay<SearchAction>,
+        commands: PublishRelay<SearchCommand>,
+        state: Flowable<SearchState>
+    ): Observable<SearchAction> {
+        return actions.publish { shared ->
+            bind1(shared.ofType(SearchAction.InitialDataFetched::class.java), state, actions::accept)
+        }
 
-            }
+    }
+
+    private fun bind1(actions: Observable<SearchAction.InitialDataFetched>,
+                      state: Flowable<SearchState>,
+                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+        return actions.map<SearchAction> {
+            fetchInitFilters()
+        }.doOnNext {
+            requestAction(it)
         }
     }
 
-    private fun fetchInitFilters(requestAction: (SearchAction) -> Unit) {
+    private fun fetchInitFilters(): SearchAction.InitFilters{
         val availableColors = mutableSetOf<Color>()
         val availableSizes = mutableSetOf<Size>()
         var minPrice = Double.MAX_VALUE
@@ -58,7 +66,7 @@ class SearchFiltersMiddleware: Middleware<SearchState, SearchAction, SearchComma
 
         Log.d("FEO99", "Init filters $initFilters")
 
-        requestAction(SearchAction.InitFilters(initFilters))
+        return SearchAction.InitFilters(initFilters)
     }
 
 }

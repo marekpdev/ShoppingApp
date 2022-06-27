@@ -1,14 +1,21 @@
 package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
+import com.jakewharton.rxrelay3.PublishRelay
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.ofType
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.PublishSubject
+import java.lang.Exception
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Marek Pszczolka on 05/06/2022.
@@ -17,36 +24,76 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
 
     private val allProducts = Data.getMenu().second!!
 
-    override fun process(
-        action: SearchAction,
-        currentState: SearchState,
-        requestAction: (SearchAction) -> Unit,
-        requestCommand: (SearchCommand) -> Unit
-    ) {
-        when(action){
-            is SearchAction.FetchInitialData -> {
+    override fun bind(
+        actions: PublishRelay<SearchAction>,
+        commands: PublishRelay<SearchCommand>,
+        state: Flowable<SearchState>
+    ): Observable<SearchAction> {
+        return actions.publish { shared ->
+            Observable.merge(
+                bindFetchInitialData(shared.ofType(), state, actions::accept),
+                bind2(shared.ofType(), state, actions::accept),
+                bind3(shared.ofType(), state, actions::accept),
+                bind4(shared.ofType(), state, actions::accept)
+            )
+        }
+    }
+
+    // need to sort out issue with naming bind1, bind2 etc
+    // (cannot use two same methods with name bind when they have
+    // 1 -> actions: Observable<SearchAction.SearchQueryChanged>
+    // 2 -> actions: Observable<SearchAction.SortConfirmed>
+    // as it is being detected as the same method signature
+    private fun bindFetchInitialData(actions: Observable<SearchAction.FetchInitialData>,
+                      state: Flowable<SearchState>,
+                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+        return actions
+            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .flatMap { (action, currentState) ->
                 getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters, true, requestAction)
             }
-            is SearchAction.SearchQueryChanged -> {
+    }
+
+    private fun bind2(actions: Observable<SearchAction.SearchQueryChanged>,
+                      state: Flowable<SearchState>,
+                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+        return actions
+            .debounce(400, TimeUnit.MILLISECONDS)
+            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .switchMap { (action, currentState) ->
                 getProductsToShow(action.query, currentState.sortType, currentState.filters, false, requestAction)
             }
-            is SearchAction.SortConfirmed -> {
+    }
+
+    private fun bind3(actions: Observable<SearchAction.SortConfirmed>,
+                      state: Flowable<SearchState>,
+                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+        return actions
+            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .flatMap { (action, currentState) ->
                 getProductsToShow(currentState.searchQuery, currentState.sortType.confirmSelection(), currentState.filters, false, requestAction)
             }
-            is SearchAction.FilterConfirmed -> {
+    }
+
+    private fun bind4(actions: Observable<SearchAction.FilterConfirmed>,
+                      state: Flowable<SearchState>,
+                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+        return actions
+            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .flatMap { (action, currentState) ->
                 getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters.confirmSelection(), false, requestAction)
             }
-            else -> {
-
-            }
-        }
     }
 
     private fun getProducts(): Observable<List<Product>> {
 //        return Observable.just(allProducts)
 //            //.delay(2, TimeUnit.SECONDS)
         return Observable.create { emitter ->
-            Thread.sleep(2000)
+            try {
+                Thread.sleep(2000)
+            } catch (e: Exception){
+                Log.d("FEO170", "ex $e")
+            }
             emitter.onNext(allProducts)
             emitter.onComplete()
         }
@@ -65,7 +112,7 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
         filters: Filters,
         isInitial: Boolean,
         requestAction: (SearchAction) -> Unit
-    ) {
+    ): Observable<SearchAction> {
         // 1. todo need to add these calls to disposable somehow
         // 2. todo need to cancel previous request (by using switchMap?)
         // see more info here
@@ -74,7 +121,7 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
 
         Log.d("FEO120", "getProductsToShow $filters")
 
-        getProducts()
+        return getProducts()
             .map { it.filter { product -> isInitial || filterRequirements.all { predicate -> predicate(product) } } }
             .map { it.sortedWith(sortType.type.applied.comparator) }
             .subscribeOn(Schedulers.io())
@@ -88,9 +135,10 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
             }
             .startWithItem(SearchAction.Loading)
             .onErrorReturn { e -> SearchAction.SearchError(e) }
-            .subscribe {
-                requestAction(it)
-            }
+            .doOnNext { requestAction(it) }
+//            .subscribe {
+//                requestAction(it)
+//            }
 
         // not sure if it should look like this
 //        Observable.just(action)
