@@ -124,6 +124,10 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 
             productCard.apply {
 
+                tvName.text = state.product?.name
+                tvPrice.text = "$${state.product?.price}"
+                tvDescription.text = state.product?.description
+
                 // SIZES
                 if(chipGroupSizes.childCount == 0){
                     chipGroupSizes.removeAllViews()
