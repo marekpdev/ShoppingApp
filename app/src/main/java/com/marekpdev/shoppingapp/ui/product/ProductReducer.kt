@@ -15,7 +15,7 @@ class ProductReducer: Reducer<ProductState, ProductAction> {
                 currentState.copy(loading = true)
             }
             is ProductAction.ProductFetched -> {
-                Log.d("FEO400", "Product fetched")
+                Log.d("FEO400", "Product fetched ${action.product}")
                 currentState.copy(
                     product = action.product,
                     selectedSize = null,

@@ -19,6 +19,7 @@ class ProductsRepositoryImpl @Inject constructor(
 
     override fun getProduct(id: Long): Observable<Product> {
         return Observable.create { emitter ->
+
             Log.d("FEO400", "Finding id $id")
             Log.d("FEO400", "All ids: " + allProducts.map { product -> product.id }.toString())
             val product = allProducts.find {

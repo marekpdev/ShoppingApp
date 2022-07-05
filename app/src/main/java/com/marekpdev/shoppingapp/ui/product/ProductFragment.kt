@@ -77,6 +77,9 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
+        Log.d("FEO401", "INIT LAYOUT")
+        viewModel.bind(viewLifecycleOwner, this@ProductFragment)
+
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
