@@ -21,7 +21,7 @@ class ProductsRepositoryImpl @Inject constructor(
         return Observable.create { emitter ->
 
             try {
-                Thread.sleep(2000)
+                Thread.sleep(400)
             } catch (e: Exception){
                 Log.d("FEO170", "ex $e")
             }
