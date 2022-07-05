@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.repository.products
 
 import com.marekpdev.shoppingapp.models.Product
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * Created by Marek Pszczolka on 12/07/2021.

@@ -67,6 +67,13 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
             initLayout(this)
         }
 
+
+        // TODO need to remove it and find a better way
+        // beause we are using viewModel by lazy then
+        // the 'init' of view model is not being called and hence
+        // productStore.dispatch(ProductAction.FetchProduct(productId)) doesnt work
+        viewModel.toString()
+
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {

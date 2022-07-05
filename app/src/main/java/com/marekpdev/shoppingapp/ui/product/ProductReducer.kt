@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.product
 
+import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Reducer
 
 /**
@@ -8,11 +9,13 @@ import com.marekpdev.shoppingapp.mvi.Reducer
 class ProductReducer: Reducer<ProductState, ProductAction> {
 
     override fun reduce(currentState: ProductState, action: ProductAction): ProductState {
+        Log.d("FEO400", "action $action")
         return when(action){
             is ProductAction.Loading -> {
                 currentState.copy(loading = true)
             }
             is ProductAction.ProductFetched -> {
+                Log.d("FEO400", "Product fetched")
                 currentState.copy(
                     product = action.product,
                     selectedSize = null,

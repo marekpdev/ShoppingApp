@@ -18,7 +18,12 @@ class ProductsRepositoryImpl @Inject constructor(
     private val allProducts = Data.getMenu().second!!
 
     override fun getProduct(id: Long): Observable<Product> {
-        return Observable.just(Data.getProduct(1, 1))
+        return Observable.create { emitter ->
+            val product = allProducts.find { it.id == id }
+            if(product != null) emitter.onNext(product)
+            else emitter.onError(Exception("Product not found"))
+            emitter.onComplete()
+        }
     }
 
     override fun getProducts(): Observable<List<Product>> {
@@ -26,7 +31,7 @@ class ProductsRepositoryImpl @Inject constructor(
 //            //.delay(2, TimeUnit.SECONDS)
         return Observable.create { emitter ->
             try {
-                Thread.sleep(2000)
+                Thread.sleep(1000)
             } catch (e: Exception){
                 Log.d("FEO170", "ex $e")
             }
