@@ -1,8 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
-import com.jakewharton.rxrelay3.PublishRelay
 import com.marekpdev.shoppingapp.mvi.Middleware
-import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 
 /**
@@ -11,19 +9,18 @@ import io.reactivex.rxjava3.core.Observable
 class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
 
     override fun bind(
-        actions: PublishRelay<SearchAction>,
-        commands: PublishRelay<SearchCommand>,
-        state: Flowable<SearchState>
+        actions: Observable<SearchAction>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
     ): Observable<SearchAction> {
         return actions.doOnNext { action ->
-            process(action, actions::accept, commands::accept)
+            process(action, requestCommand)
         }
     }
 
-    fun process(
+    private fun process(
         action: SearchAction,
-        //currentState: SearchState,
-        requestAction: (SearchAction) -> Unit,
         requestCommand: (SearchCommand) -> Unit
     ) {
         when(action){

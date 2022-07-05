@@ -25,16 +25,17 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
     private val allProducts = Data.getMenu().second!!
 
     override fun bind(
-        actions: PublishRelay<SearchAction>,
-        commands: PublishRelay<SearchCommand>,
-        state: Flowable<SearchState>
+        actions: Observable<SearchAction>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
     ): Observable<SearchAction> {
         return actions.publish { shared ->
             Observable.merge(
-                bindFetchInitialData(shared.ofType(), state, actions::accept),
-                bind2(shared.ofType(), state, actions::accept),
-                bind3(shared.ofType(), state, actions::accept),
-                bind4(shared.ofType(), state, actions::accept)
+                bindFetchInitialData(shared.ofType(), state, requestAction, requestCommand),
+                bindSearchQueryChanged(shared.ofType(), state, requestAction, requestCommand),
+                bindSortConfirmed(shared.ofType(), state, requestAction, requestCommand),
+                bindFilterConfirmed(shared.ofType(), state, requestAction, requestCommand),
             )
         }
     }
@@ -44,42 +45,54 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
     // 1 -> actions: Observable<SearchAction.SearchQueryChanged>
     // 2 -> actions: Observable<SearchAction.SortConfirmed>
     // as it is being detected as the same method signature
-    private fun bindFetchInitialData(actions: Observable<SearchAction.FetchInitialData>,
-                      state: Flowable<SearchState>,
-                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+    private fun bindFetchInitialData(
+        actions: Observable<SearchAction.FetchInitialData>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
+    ): Observable<SearchAction> {
         return actions
-            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .withLatestFrom(state) { action, currentState -> action to currentState }
             .flatMap { (action, currentState) ->
                 getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters, true, requestAction)
             }
     }
 
-    private fun bind2(actions: Observable<SearchAction.SearchQueryChanged>,
-                      state: Flowable<SearchState>,
-                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+    private fun bindSearchQueryChanged(
+        actions: Observable<SearchAction.SearchQueryChanged>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
+    ): Observable<SearchAction> {
         return actions
             .debounce(400, TimeUnit.MILLISECONDS)
-            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .withLatestFrom(state) { action, currentState -> action to currentState }
             .switchMap { (action, currentState) ->
                 getProductsToShow(action.query, currentState.sortType, currentState.filters, false, requestAction)
             }
     }
 
-    private fun bind3(actions: Observable<SearchAction.SortConfirmed>,
-                      state: Flowable<SearchState>,
-                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+    private fun bindSortConfirmed(
+        actions: Observable<SearchAction.SortConfirmed>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
+    ): Observable<SearchAction> {
         return actions
-            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .withLatestFrom(state) { action, currentState -> action to currentState }
             .flatMap { (action, currentState) ->
                 getProductsToShow(currentState.searchQuery, currentState.sortType.confirmSelection(), currentState.filters, false, requestAction)
             }
     }
 
-    private fun bind4(actions: Observable<SearchAction.FilterConfirmed>,
-                      state: Flowable<SearchState>,
-                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+    private fun bindFilterConfirmed(
+        actions: Observable<SearchAction.FilterConfirmed>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
+    ): Observable<SearchAction> {
         return actions
-            .withLatestFrom(state.toObservable()) { action, currentState -> action to currentState }
+            .withLatestFrom(state) { action, currentState -> action to currentState }
             .flatMap { (action, currentState) ->
                 getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters.confirmSelection(), false, requestAction)
             }
