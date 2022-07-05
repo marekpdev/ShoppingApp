@@ -12,7 +12,7 @@ interface ProductsRepository {
 //
 //    fun observeProduct(): Observable<Product>
 
-    fun getProduct(id: Long): Product // todo change to observable
+    fun getProduct(id: Long): Observable<Product>
 
     fun getProducts(): Observable<List<Product>>
 

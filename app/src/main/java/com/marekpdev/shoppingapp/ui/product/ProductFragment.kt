@@ -17,6 +17,7 @@ import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
+import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
 import com.marekpdev.shoppingapp.ui.search.SearchViewModel
@@ -30,7 +31,7 @@ import javax.inject.Inject
  * Created by Marek Pszczolka on 14/04/2021.
  */
 @AndroidEntryPoint
-class ProductFragment : Fragment() {
+class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 
     private lateinit var binding: FragmentProductBinding
     private val navArgs: ProductFragmentArgs by navArgs()
@@ -59,36 +60,15 @@ class ProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //val productId = navArgs.productId
-//
-        viewModel.foo()
-//        viewModelFactory = ProductViewModelFactory(productId)
-//        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductViewModel::class.java)
 //
         binding.apply {
             lifecycleOwner = this@ProductFragment
-//            productViewModel = viewModel
             initLayout(this)
         }
-//
-//        viewModel.productAddedEvent.observe(viewLifecycleOwner) {
-//            // move to a different frag
-//        }
+
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//
-//        (requireActivity().application as AppComponentProvider).appComponent.inject(this)
-//    }
-
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
-        val product = Data.getProduct(1, 1)
-        vpProductImages.adapter = ImagesAdapter(product.images)
-
-        TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
-
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -106,6 +86,17 @@ class ProductFragment : Fragment() {
             }
         }
 
+        btnAddProduct.setOnClickListener {
+            viewModel.dispatch(ProductAction.AddProductClicked)
+        }
+
+        productCard.apply {
+            (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =
+                StickyBottomBehavior(btnAddProductAnchor, resources.getDimensionPixelOffset(R.dimen.btn_add_product_margins))
+        }
+    }
+
+    override fun render(state: ProductState) {
         // there was an issue with clipping when padding == 0
         // (words were going beyond the shape) - for the moment it has been fixed
         // by just applying padding == 16 but we might look at it later on if needed
@@ -113,65 +104,61 @@ class ProductFragment : Fragment() {
 //        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
 //        scrollViewProductCard.clipToOutline = true
 
-        productCard.apply {
+        binding.apply {
+            vpProductImages.adapter = ImagesAdapter(state.product?.images ?: emptyList())
+            TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
 
+            productCard.apply {
 
-            //var desc = ""
-            //(1..2).forEach { desc += "this is the very second line of $it" }
-            //tvDescription.setText(desc)
-
-            // SIZES
-            chipGroupSizes.setOnCheckedChangeListener { group, checkedId ->
-                Log.d("FEO33", "Checked changed")
-            }
-
-            // COLORS
-            chipGroupColors.setOnCheckedChangeListener { group, checkedId ->
-                Log.d("FEO33", "Checked changed")
-            }
-
-           //viewModel.product.observe(viewLifecycleOwner) { product ->
                 // SIZES
-            val product = Data.getProduct(1L, 1)
-                chipGroupSizes.removeAllViews()
-                product.availableSizes.forEach { size ->
-                    ChipsHelper.createChip(
-                        requireContext(),
-                        size
-                    ).also { chip ->
-                        sizesViewMappings[size] = chip
-                        chip.setOnClickListener {
-//                            viewModel.selectSize(size)
+                if(chipGroupSizes.childCount == 0){
+                    chipGroupSizes.removeAllViews()
+                    sizesViewMappings.clear()
+                    state.product?.availableSizes?.forEach { size ->
+                        ChipsHelper.createChip(
+                            requireContext(),
+                            size
+                        ).also { chip ->
+                            sizesViewMappings[size] = chip
+                            chip.setOnClickListener {
+                                viewModel.dispatch(ProductAction.SizeSelected(size))
+                            }
+                            chipGroupSizes.addView(chip)
                         }
-                        chipGroupSizes.addView(chip)
                     }
+                }
+
+                sizesViewMappings.forEach { (size, chip) ->
+                    chip.isChecked = size == state.selectedSize
                 }
 
                 // COLORS
-                chipGroupColors.removeAllViews()
-                product.availableColors.forEach { color ->
-                    ChipsHelper.createChip(
-                        requireContext(),
-                        color
-                    ).also { chip ->
-                        colorsViewMappings[color] = chip
-                        chip.setOnClickListener {
-//                            viewModel.selectColor(color)
+                if(chipGroupColors.childCount == 0){
+                    chipGroupColors.removeAllViews()
+                    colorsViewMappings.clear()
+                    state.product?.availableColors?.forEach { color ->
+                        ChipsHelper.createChip(
+                            requireContext(),
+                            color
+                        ).also { chip ->
+                            colorsViewMappings[color] = chip
+                            chip.setOnClickListener {
+                                viewModel.dispatch(ProductAction.ColorSelected(color))
+                            }
+                            chipGroupColors.addView(chip)
                         }
-                        chipGroupColors.addView(chip)
                     }
                 }
-           // }
 
-            btnAddProduct.setOnClickListener {
-//                viewModel.addProduct()
+                colorsViewMappings.forEach { (color, chip) ->
+                    chip.isChecked = color == state.selectedColor
+                }
             }
 
-            (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =
-                StickyBottomBehavior(btnAddProductAnchor, resources.getDimensionPixelOffset(R.dimen.btn_add_product_margins));
-
         }
-
     }
 
+    override fun onCommand(command: ProductCommand) {
+        TODO("Not yet implemented")
+    }
 }
