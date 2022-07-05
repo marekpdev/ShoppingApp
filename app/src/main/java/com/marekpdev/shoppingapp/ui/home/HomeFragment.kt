@@ -62,11 +62,11 @@ class HomeFragment : Fragment() {
         )
 
         add(HomeProductsHeader("Best sellers"))
-        add(HomeProducts(Data.getMenu().second.shuffled().take(8)))
+        add(HomeProducts(Data.products.shuffled().take(8)))
         add(HomeProductsHeader("Just arrived"))
-        add(HomeProducts(Data.getMenu().second.shuffled().take(3)))
+        add(HomeProducts(Data.products.shuffled().take(3)))
         add(HomeProductsHeader("Discover more"))
-        add(HomeProducts(Data.getMenu().second.shuffled().take(5)))
+        add(HomeProducts(Data.products.shuffled().take(5)))
     }
 
 }

@@ -112,6 +112,7 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 //        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
 //        scrollViewProductCard.clipToOutline = true
 
+        Log.d("FEO401", "Render $state")
         binding.apply {
             // TODO not sure if it will work correctly
             vpProductImages.adapter = ImagesAdapter(state.product?.images ?: emptyList())

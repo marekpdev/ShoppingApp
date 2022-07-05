@@ -136,6 +136,10 @@ object Data {
         (1..100).map { "Product Name $it" }
     )
 
+    val products by lazy {
+        getMenu().second!!
+    }
+
     fun getMenu(): Pair<List<Category>, List<Product>> {
         val categories = mutableListOf<Category>()
         val products = mutableListOf<Product>()
