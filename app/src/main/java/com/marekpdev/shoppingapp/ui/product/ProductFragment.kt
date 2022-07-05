@@ -40,6 +40,8 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
     private val sizesViewMappings = mutableMapOf<Size, Chip>()
     private val colorsViewMappings = mutableMapOf<Color, Chip>()
 
+    private val imagesAdapter = ImagesAdapter()
+
     @Inject
     lateinit var productViewModelFactory: ProductViewModel.Factory
 
@@ -59,6 +61,14 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
         return binding.root
     }
 
+    // TODO
+    // issue with
+    // open ProductFragment with product1
+    // loading product for 2 sec (need to change loading time in ProductsRepositoryImpl)
+    // close ProductFragment
+    // open ProductFragment with product2
+    // the product1 is still being shown and after 2 seconds we can see product2
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //
@@ -66,7 +76,6 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
             lifecycleOwner = this@ProductFragment
             initLayout(this)
         }
-
 
         // TODO need to remove it and find a better way
         // beause we are using viewModel by lazy then
@@ -101,6 +110,9 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
             viewModel.dispatch(ProductAction.AddProductClicked)
         }
 
+        vpProductImages.adapter = imagesAdapter
+        TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
+
         productCard.apply {
             (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =
                 StickyBottomBehavior(btnAddProductAnchor, resources.getDimensionPixelOffset(R.dimen.btn_add_product_margins))
@@ -117,10 +129,7 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 
         Log.d("FEO401", "Render $state")
         binding.apply {
-            // TODO not sure if it will work correctly
-            vpProductImages.adapter = ImagesAdapter(state.product?.images ?: emptyList())
-            // TODO not sure if it will work correctly
-            TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
+            imagesAdapter.setData(state.product?.images ?: listOf())
 
             productCard.apply {
 
