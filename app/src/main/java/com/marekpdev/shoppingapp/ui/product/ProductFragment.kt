@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -105,7 +106,9 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 //        scrollViewProductCard.clipToOutline = true
 
         binding.apply {
+            // TODO not sure if it will work correctly
             vpProductImages.adapter = ImagesAdapter(state.product?.images ?: emptyList())
+            // TODO not sure if it will work correctly
             TabLayoutMediator(tlProductImages, vpProductImages) { tab, position ->}.attach()
 
             productCard.apply {
@@ -159,6 +162,8 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
     }
 
     override fun onCommand(command: ProductCommand) {
-        TODO("Not yet implemented")
+        when(command){
+            is ProductCommand.ProductAddedToBasket -> Toast.makeText(requireContext(), "Product added to basket", Toast.LENGTH_SHORT).show()
+        }
     }
 }

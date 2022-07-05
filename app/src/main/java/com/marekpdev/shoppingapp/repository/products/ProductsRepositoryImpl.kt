@@ -7,11 +7,9 @@ import io.reactivex.rxjava3.core.Observable
 import java.lang.Exception
 import javax.inject.Inject
 
-
 /**
  * Created by Marek Pszczolka on 12/07/2021.
  */
-
 class ProductsRepositoryImpl @Inject constructor(
    // private val productsApi: ProductsApi,
     //private val productsDao: ProductsDao
@@ -19,8 +17,8 @@ class ProductsRepositoryImpl @Inject constructor(
 
     private val allProducts = Data.getMenu().second!!
 
-    override fun getProduct(id: Long): Product {
-        return Data.getProduct(1, 1)
+    override fun getProduct(id: Long): Observable<Product> {
+        return Observable.just(Data.getProduct(1, 1))
     }
 
     override fun getProducts(): Observable<List<Product>> {

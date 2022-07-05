@@ -7,5 +7,6 @@ import com.marekpdev.shoppingapp.mvi.Command
  */
 sealed class ProductCommand: Command {
 
+    object ProductAddedToBasket: ProductCommand()
 
 }
