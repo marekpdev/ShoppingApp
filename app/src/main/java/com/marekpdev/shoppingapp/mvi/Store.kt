@@ -34,13 +34,6 @@ open class Store <S: State, A: Action, C: Command> (
 
     }
 
-    // todo need to change
-    // disposable.add()
-    // to
-    // disposable += actions ...
-    // maybe this library will help??
-    // https://github.com/ReactiveX/RxKotlin
-
     /**
      * We can receive actions from both UI and external sources (such as middleware)
      */
@@ -58,7 +51,11 @@ open class Store <S: State, A: Action, C: Command> (
     fun bind(onNewState: (S) -> Unit, onCommand: (C) -> Unit): CompositeDisposable {
         val compositeDisposable = CompositeDisposable()
 
-        middlewares.forEach { compositeDisposable += it.bind(actions, commands, state).subscribe() }
+        middlewares.forEach {
+            compositeDisposable += it.bind(
+                actions, state.toObservable(), actions::accept, commands::accept
+            ).subscribe()
+        }
 
         compositeDisposable += bindState(onNewState)
         compositeDisposable += bindActions()

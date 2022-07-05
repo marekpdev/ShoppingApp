@@ -1,7 +1,5 @@
 package com.marekpdev.shoppingapp.mvi
 
-import com.jakewharton.rxrelay3.PublishRelay
-import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 
 /**
@@ -9,6 +7,10 @@ import io.reactivex.rxjava3.core.Observable
  */
 interface Middleware<S: State, A: Action, C: Command> {
 
-    fun bind(actions: PublishRelay<A>, commands: PublishRelay<C>, state: Flowable<S>): Observable<A>
+    fun bind(actions: Observable<A>,
+             state: Observable<S>,
+             requestAction: (A) -> Unit,
+             requestCommand: (C) -> Unit
+    ): Observable<A>
 
 }

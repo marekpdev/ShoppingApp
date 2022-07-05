@@ -1,14 +1,13 @@
 package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
-import com.jakewharton.rxrelay3.PublishRelay
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
-import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.kotlin.ofType
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -21,27 +20,30 @@ class SearchFiltersMiddleware: Middleware<SearchState, SearchAction, SearchComma
     private val allProducts = Data.getMenu().second!!
 
     override fun bind(
-        actions: PublishRelay<SearchAction>,
-        commands: PublishRelay<SearchCommand>,
-        state: Flowable<SearchState>
+        actions: Observable<SearchAction>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
     ): Observable<SearchAction> {
         return actions.publish { shared ->
-            bind1(shared.ofType(SearchAction.InitialDataFetched::class.java), state, actions::accept)
+            bindInitialDataFetched(shared.ofType(), state, requestAction, requestCommand)
         }
-
     }
 
-    private fun bind1(actions: Observable<SearchAction.InitialDataFetched>,
-                      state: Flowable<SearchState>,
-                      requestAction: (SearchAction) -> Unit): Observable<SearchAction> {
+    private fun bindInitialDataFetched(
+        actions: Observable<SearchAction.InitialDataFetched>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
+    ): Observable<SearchAction> {
         return actions.map<SearchAction> {
-            fetchInitFilters()
+            getInitFiltersAction()
         }.doOnNext {
             requestAction(it)
         }
     }
 
-    private fun fetchInitFilters(): SearchAction.InitFilters{
+    private fun getInitFiltersAction(): SearchAction.InitFilters{
         val availableColors = mutableSetOf<Color>()
         val availableSizes = mutableSetOf<Size>()
         var minPrice = Double.MAX_VALUE
