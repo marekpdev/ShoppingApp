@@ -22,10 +22,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ProductsModule {
-
-    @Binds
-    abstract fun bindProductsRepository(repositoryImpl: ProductsRepositoryImpl): ProductsRepository
+object ProductsModule {
 
     @Provides
     @Singleton
@@ -46,3 +43,13 @@ abstract class ProductsModule {
     }
 
 }
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface ProductsDependencyBinder {
+
+    @Binds
+    fun bindProductsRepository(repositoryImpl: ProductsRepositoryImpl): ProductsRepository
+
+}
+

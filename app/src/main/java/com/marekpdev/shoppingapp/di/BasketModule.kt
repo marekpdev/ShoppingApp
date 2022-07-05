@@ -14,9 +14,16 @@ import dagger.hilt.components.SingletonComponent
  */
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class BasketModule {
-
-    @Binds
-    abstract fun bindBasketRepository(repositoryImpl: BasketRepositoryImpl): BasketRepository
+object BasketModule {
 
 }
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface BasketDependencyBinder {
+
+    @Binds
+    fun bindBasketRepository(repositoryImpl: BasketRepositoryImpl): BasketRepository
+
+}
+
