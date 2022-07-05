@@ -5,8 +5,10 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.Data
+import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
+import dagger.Provides
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
@@ -16,13 +18,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * Created by Marek Pszczolka on 05/06/2022.
  */
-class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
-
-    private val allProducts = Data.getMenu().second!!
+class SearchMiddleware @Inject constructor(private val productsRepository: ProductsRepository)
+    : Middleware<SearchState, SearchAction, SearchCommand> {
 
     override fun bind(
         actions: Observable<SearchAction>,
@@ -98,20 +100,6 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
             }
     }
 
-    private fun getProducts(): Observable<List<Product>> {
-//        return Observable.just(allProducts)
-//            //.delay(2, TimeUnit.SECONDS)
-        return Observable.create { emitter ->
-            try {
-                Thread.sleep(2000)
-            } catch (e: Exception){
-                Log.d("FEO170", "ex $e")
-            }
-            emitter.onNext(allProducts)
-            emitter.onComplete()
-        }
-    }
-
     private fun getFilterRequirements(searchQuery: String, filters: Filters) = listOf<(Product) -> Boolean>(
         { it.name.contains(searchQuery, true) },
         { it.price.toInt() in filters.priceRange.applied},
@@ -134,7 +122,7 @@ class SearchMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
 
         Log.d("FEO120", "getProductsToShow $filters")
 
-        return getProducts()
+        return productsRepository.getProducts()
             .map { it.filter { product -> isInitial || filterRequirements.all { predicate -> predicate(product) } } }
             .map { it.sortedWith(sortType.type.applied.comparator) }
             .subscribeOn(Schedulers.io())

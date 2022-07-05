@@ -2,12 +2,15 @@ package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
 import com.marekpdev.shoppingapp.models.Color
+import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.Data
+import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.ofType
+import javax.inject.Inject
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -15,9 +18,8 @@ import kotlin.math.min
 /**
  * Created by Marek Pszczolka on 05/06/2022.
  */
-class SearchFiltersMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
-
-    private val allProducts = Data.getMenu().second!!
+class SearchFiltersMiddleware @Inject constructor(private val productsRepository: ProductsRepository)
+    : Middleware<SearchState, SearchAction, SearchCommand> {
 
     override fun bind(
         actions: Observable<SearchAction>,
@@ -36,20 +38,22 @@ class SearchFiltersMiddleware: Middleware<SearchState, SearchAction, SearchComma
         requestAction: (SearchAction) -> Unit,
         requestCommand: (SearchCommand) -> Unit
     ): Observable<SearchAction> {
-        return actions.map<SearchAction> {
-            getInitFiltersAction()
+        return actions.flatMap {
+            productsRepository.getProducts()
+        }.map<SearchAction> {
+            getInitFiltersAction(it)
         }.doOnNext {
             requestAction(it)
         }
     }
 
-    private fun getInitFiltersAction(): SearchAction.InitFilters{
+    private fun getInitFiltersAction(products: List<Product>): SearchAction.InitFilters{
         val availableColors = mutableSetOf<Color>()
         val availableSizes = mutableSetOf<Size>()
         var minPrice = Double.MAX_VALUE
         var maxPrice = Double.MIN_VALUE
 
-        allProducts.forEach {
+        products.forEach {
             availableColors.addAll(it.availableColors)
             availableSizes.addAll(it.availableSizes)
             minPrice = min(minPrice, it.price)
