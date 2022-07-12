@@ -33,11 +33,12 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestCommand: (SearchCommand) -> Unit
     ): Observable<SearchAction> {
         return actions.publish { shared ->
-            Observable.merge(
+            Observable.mergeArray(
                 bindFetchInitialData(shared.ofType(), state, requestAction, requestCommand),
                 bindSearchQueryChanged(shared.ofType(), state, requestAction, requestCommand),
                 bindSortConfirmed(shared.ofType(), state, requestAction, requestCommand),
                 bindFilterConfirmed(shared.ofType(), state, requestAction, requestCommand),
+                bindToggleFavourite(shared.ofType(), state, requestAction, requestCommand),
             )
         }
     }
@@ -100,12 +101,34 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
             }
     }
 
+    private fun bindToggleFavourite(
+        actions: Observable<SearchAction.ToggleFavouriteClicked>,
+        state: Observable<SearchState>,
+        requestAction: (SearchAction) -> Unit,
+        requestCommand: (SearchCommand) -> Unit
+    ): Observable<SearchAction> {
+        return actions
+            .withLatestFrom(state) { action, currentState -> action to currentState }
+            .flatMapCompletable { (action, currentState) ->
+                productsRepository
+                    .toggleFavourite(action.product)
+                    .doOnComplete {
+                        Log.d("FEO410", "getProductsToShow")
+                        // TODO need to perform some better chaining to not call subscribe() here
+                        getProductsToShow(currentState.searchQuery, currentState.sortType, currentState.filters, false, requestAction).subscribe()
+                    }
+            }
+            .toObservable()
+    }
+
     private fun getFilterRequirements(searchQuery: String, filters: Filters) = listOf<(Product) -> Boolean>(
         { it.name.contains(searchQuery, true) },
         { it.price.toInt() in filters.priceRange.applied},
         { it.availableSizes.any { size -> filters.sizes.applied.contains(size) }},
         { it.availableColors.any { color -> filters.colors.applied.contains(color) }},
     )
+
+
 
     private fun getProductsToShow (
         searchQuery: String,

@@ -3,6 +3,7 @@ package com.marekpdev.shoppingapp.repository.products
 import android.util.Log
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import java.lang.Exception
 import javax.inject.Inject
@@ -15,7 +16,9 @@ class ProductsRepositoryImpl @Inject constructor(
     //private val productsDao: ProductsDao
 ): ProductsRepository {
 
-    private val allProducts = Data.products
+    private val allProducts = mutableListOf<Product>().apply {
+        addAll(Data.products)
+    }
 
     override fun getProduct(id: Long): Observable<Product> {
         return Observable.create { emitter ->
@@ -48,6 +51,17 @@ class ProductsRepositoryImpl @Inject constructor(
                 Log.d("FEO170", "ex $e")
             }
             emitter.onNext(allProducts)
+            emitter.onComplete()
+        }
+    }
+
+    override fun toggleFavourite(product: Product): Completable {
+        return Completable.create { emitter ->
+            val indexOf = allProducts.indexOf(product)
+            Log.d("FEO410", "Index found $indexOf")
+            val newFavourite = !product.isFavoured
+            val newProduct = product.copy(isFavoured = newFavourite)
+            allProducts[indexOf] = newProduct
             emitter.onComplete()
         }
     }

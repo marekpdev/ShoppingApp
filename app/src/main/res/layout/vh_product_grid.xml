@@ -31,7 +31,6 @@
             android:background="@drawable/shape_circle"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="4dp"
-            android:src="@drawable/ic_favourite_2_red_filled"
             app:layout_constraintEnd_toEndOf="@id/ivProductImage"
             app:layout_constraintTop_toTopOf="@id/ivProductImage" />
 

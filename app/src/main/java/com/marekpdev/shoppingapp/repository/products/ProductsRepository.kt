@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.repository.products
 
 import com.marekpdev.shoppingapp.models.Product
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
@@ -16,5 +17,7 @@ interface ProductsRepository {
     fun getProduct(id: Long): Observable<Product>
 
     fun getProducts(): Observable<List<Product>>
+
+    fun toggleFavourite(product: Product): Completable
 
 }

@@ -23,7 +23,8 @@ object Data {
         availableColors = colors.getRandomItems(),
         availableSizes = sizes.getRandomItems(),
         images = images.getRandomItems(),
-        categoryId = categoryId
+        categoryId = categoryId,
+        false
     )
 
     fun getProducts(count: Int, categoryId: Int): List<Product>{

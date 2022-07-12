@@ -14,6 +14,7 @@ import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.productvh.ProductWidthConstAdapterDelegate
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
@@ -26,9 +27,13 @@ class FavouriteFragment : Fragment() {
         Log.d("FEO33", "Clicked product")
     }
 
+    private val onToggleFavourite: (Product) -> Unit = {
+        Log.d("FEO33", "Clicked toggle favourite")
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(ProductWidthConstAdapterDelegate(onProductClicked))
+            .addDelegate(ProductWidthConstAdapterDelegate(onProductClicked, onToggleFavourite))
     )
 
     override fun onCreateView(
