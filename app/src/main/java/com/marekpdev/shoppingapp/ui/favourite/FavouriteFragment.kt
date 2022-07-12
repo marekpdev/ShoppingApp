@@ -7,28 +7,38 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentFavouriteBinding
 import com.marekpdev.shoppingapp.models.Product
+import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.productvh.ProductWidthConstAdapterDelegate
+import com.marekpdev.shoppingapp.ui.search.SearchAction
+import com.marekpdev.shoppingapp.ui.search.SearchCommand
+import com.marekpdev.shoppingapp.ui.search.SearchState
+import com.marekpdev.shoppingapp.ui.search.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class FavouriteFragment : Fragment() {
+@AndroidEntryPoint
+class FavouriteFragment : Fragment(), MviView<FavouriteState, FavouriteCommand> {
+
+    private val viewModel by viewModels<FavouriteViewModel>()
 
     private lateinit var binding: FragmentFavouriteBinding
 
     private val onProductClicked: (Product) -> Unit = {
-        Log.d("FEO33", "Clicked product")
+        viewModel.dispatch(FavouriteAction.ProductClicked(it.id))
     }
 
     private val onToggleFavourite: (Product) -> Unit = {
-        Log.d("FEO33", "Clicked toggle favourite")
+        viewModel.dispatch(FavouriteAction.ToggleFavouriteClicked(it))
     }
 
     private val adapter = BaseAdapter(
@@ -57,8 +67,21 @@ class FavouriteFragment : Fragment() {
     private fun initLayout(binding: FragmentFavouriteBinding) = binding.apply {
         rvFavourites.layoutManager = GridLayoutManager(requireContext(), 2)
         rvFavourites.adapter = adapter
-        adapter.replaceData(items)
+
+        viewModel.bind(viewLifecycleOwner, this@FavouriteFragment)
     }
 
-    private val items = Data.products
+    override fun render(state: FavouriteState) {
+        binding.apply {
+            adapter.replaceData(state.products)
+            pbFavourites.visibility = when (state.loading) {
+                true -> View.VISIBLE
+                else -> View.GONE
+            }
+        }
+    }
+
+    override fun onCommand(command: FavouriteCommand) {
+        // todo
+    }
 }
