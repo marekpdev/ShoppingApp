@@ -23,7 +23,7 @@ class SearchModule {
 
     @Provides
     @Singleton
-    fun provideSearchNavigationMiddleware(productsRepository: ProductsRepository) = SearchNavigationMiddleware()
+    fun provideSearchNavigationMiddleware() = SearchNavigationMiddleware()
 
     @Provides
     @Singleton

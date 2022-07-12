@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.ui.favourite
 
 import android.util.Log
+import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -21,12 +22,24 @@ class FavouriteMiddleware @Inject constructor(private val productsRepository: Pr
         requestAction: (FavouriteAction) -> Unit,
         requestCommand: (FavouriteCommand) -> Unit
     ): Observable<FavouriteAction> {
-        return actions.publish { shared ->
-            Observable.mergeArray(
-                bindFetchInitialData(shared.ofType(), state, requestAction, requestCommand),
-                bindToggleFavourite(shared.ofType(), state, requestAction, requestCommand),
-            )
-        }
+        return bindObserveProducts(requestAction)
+    }
+
+    private fun bindObserveProducts(
+        requestAction: (FavouriteAction) -> Unit
+    ): Observable<FavouriteAction> {
+        Log.d("FEO410", "BINDING observe")
+        return productsRepository
+            .observeProducts()
+            .map {
+                Log.d("FEO410", "OBSERVE work")
+                it.filter { product -> product.isFavoured }
+            }
+            .map<FavouriteAction> { FavouriteAction.RefreshData(it) }
+            .doOnNext {
+                Log.d("FEO410", "REQUESTED")
+                requestAction(it)
+            }
     }
 
     private fun bindToggleFavourite(
@@ -66,6 +79,7 @@ class FavouriteMiddleware @Inject constructor(private val productsRepository: Pr
         requestAction: (FavouriteAction) -> Unit
     ): Observable<FavouriteAction> {
         return productsRepository.getProducts()
+            .toObservable()
             .map { it.filter { product -> product.isFavoured } }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

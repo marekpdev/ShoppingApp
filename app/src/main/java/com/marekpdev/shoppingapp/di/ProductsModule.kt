@@ -49,6 +49,7 @@ object ProductsModule {
 interface ProductsDependencyBinder {
 
     @Binds
+    @Singleton
     fun bindProductsRepository(repositoryImpl: ProductsRepositoryImpl): ProductsRepository
 
 }

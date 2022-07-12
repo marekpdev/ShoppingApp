@@ -5,6 +5,8 @@ import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -16,53 +18,57 @@ class ProductsRepositoryImpl @Inject constructor(
     //private val productsDao: ProductsDao
 ): ProductsRepository {
 
-    private val allProducts = mutableListOf<Product>().apply {
-        addAll(Data.products)
+    private val allProducts = BehaviorSubject.createDefault<List<Product>>(Data.products.toList())
+
+    init {
+        Log.d("FEO440", "CREATING NEW ProductsRepositoryImpl")
     }
 
-    override fun getProduct(id: Long): Observable<Product> {
-        return Observable.create { emitter ->
+    override fun getProduct(id: Long): Single<Product> {
+        return Single.create { emitter ->
 
             try {
                 Thread.sleep(400)
             } catch (e: Exception){
                 Log.d("FEO170", "ex $e")
             }
-
-            Log.d("FEO400", "Finding id $id")
-            Log.d("FEO400", "All ids: " + allProducts.map { product -> product.id }.toString())
-            val product = allProducts.find {
+            val product = allProducts.value?.find {
                 Log.d("FEO400", "This id ${it.id} - searched $id")
                 it.id == id
             }
-            if(product != null) emitter.onNext(product)
+            if(product != null) emitter.onSuccess(product)
             else emitter.onError(Exception("Product not found"))
-            emitter.onComplete()
         }
     }
 
-    override fun getProducts(): Observable<List<Product>> {
-//        return Observable.just(allProducts)
-//            //.delay(2, TimeUnit.SECONDS)
-        return Observable.create { emitter ->
+    override fun getProducts(): Single<List<Product>> {
+        return Single.create { emitter ->
             try {
                 Thread.sleep(200)
             } catch (e: Exception){
                 Log.d("FEO170", "ex $e")
             }
-            emitter.onNext(allProducts)
-            emitter.onComplete()
+            emitter.onSuccess(allProducts.value)
         }
+    }
+
+    override fun observeProducts(): Observable<List<Product>> {
+        return allProducts
     }
 
     override fun toggleFavourite(product: Product): Completable {
         return Completable.create { emitter ->
-            val indexOf = allProducts.indexOf(product)
-            Log.d("FEO410", "Index found $indexOf")
-            val newFavourite = !product.isFavoured
-            val newProduct = product.copy(isFavoured = newFavourite)
-            allProducts[indexOf] = newProduct
-            emitter.onComplete()
+            val indexOf = allProducts.value?.indexOf(product)
+            if(indexOf != null) {
+                Log.d("FEO410", "Index found $indexOf")
+                val newFavourite = !product.isFavoured
+                val newProduct = product.copy(isFavoured = newFavourite)
+                val newList = allProducts.value!!.toMutableList()
+                newList[indexOf] = newProduct
+                Log.d("FEO410", "UPDATING $indexOf")
+                allProducts.onNext(newList)
+                emitter.onComplete()
+            }
         }
     }
 }

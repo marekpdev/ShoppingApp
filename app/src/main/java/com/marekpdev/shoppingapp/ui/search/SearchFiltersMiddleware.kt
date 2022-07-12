@@ -5,11 +5,9 @@ import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.Middleware
-import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.kotlin.ofType
 import javax.inject.Inject
 import kotlin.math.ceil
 import kotlin.math.max
@@ -27,24 +25,22 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
         requestAction: (SearchAction) -> Unit,
         requestCommand: (SearchCommand) -> Unit
     ): Observable<SearchAction> {
-        return actions.publish { shared ->
-            bindInitialDataFetched(shared.ofType(), state, requestAction, requestCommand)
-        }
+        return observeProducts(requestAction)
     }
 
-    private fun bindInitialDataFetched(
-        actions: Observable<SearchAction.InitialDataFetched>,
-        state: Observable<SearchState>,
-        requestAction: (SearchAction) -> Unit,
-        requestCommand: (SearchCommand) -> Unit
+    private fun observeProducts(
+        requestAction: (SearchAction) -> Unit
     ): Observable<SearchAction> {
-        return actions.flatMap {
-            productsRepository.getProducts()
-        }.map<SearchAction> {
-            getInitFiltersAction(it)
-        }.doOnNext {
-            requestAction(it)
-        }
+        return productsRepository
+            .observeProducts()
+            .map<SearchAction> {
+                getInitFiltersAction(it)
+            }
+            .distinctUntilChanged()
+            .doOnNext {
+                Log.d("FEO420", "doOnNext")
+                requestAction(it)
+            }
     }
 
     private fun getInitFiltersAction(products: List<Product>): SearchAction.InitFilters{

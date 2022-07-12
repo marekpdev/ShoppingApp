@@ -12,7 +12,7 @@ import com.marekpdev.shoppingapp.ui.search.sort.SortType
  */
 sealed class SearchAction : Action {
 
-    object FetchInitialData: SearchAction()
+    //object FetchInitialData: SearchAction()
     data class InitFilters(val filters: Filters): SearchAction()
 
     class SearchQueryChanged(val query: String): SearchAction()

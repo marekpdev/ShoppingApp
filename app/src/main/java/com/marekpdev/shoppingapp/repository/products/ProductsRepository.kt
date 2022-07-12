@@ -14,9 +14,11 @@ interface ProductsRepository {
 //
 //    fun observeProduct(): Observable<Product>
 
-    fun getProduct(id: Long): Observable<Product>
+    fun getProduct(id: Long): Single<Product>
 
-    fun getProducts(): Observable<List<Product>>
+    fun getProducts(): Single<List<Product>>
+
+    fun observeProducts(): Observable<List<Product>>
 
     fun toggleFavourite(product: Product): Completable
 

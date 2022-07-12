@@ -62,6 +62,7 @@ class ProductMiddleware @Inject constructor(
 
     private fun getProduct(productId: Long, requestAction: (ProductAction) -> Unit): Observable<ProductAction> {
         return productsRepository.getProduct(productId)
+            .toObservable()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map<ProductAction> { ProductAction.ProductFetched(it) }
