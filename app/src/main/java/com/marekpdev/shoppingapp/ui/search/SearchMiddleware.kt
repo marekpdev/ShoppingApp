@@ -109,7 +109,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
     }
 
     private fun bindFilterConfirmed(
-        actions: Observable<SearchAction.SortConfirmed>,
+        actions: Observable<SearchAction.FilterConfirmed>,
         state: Observable<SearchState>,
         productsObs: Observable<List<Product>>,
         requestAction: (SearchAction) -> Unit,
