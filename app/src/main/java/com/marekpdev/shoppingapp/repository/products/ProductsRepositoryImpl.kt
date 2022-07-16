@@ -7,6 +7,10 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -19,6 +23,8 @@ class ProductsRepositoryImpl @Inject constructor(
 ): ProductsRepository {
 
     private val allProducts = BehaviorSubject.createDefault<List<Product>>(Data.products.toList())
+
+    private val allProductsFlow = MutableStateFlow(Data.products.toList())
 
     init {
         Log.d("FEO440", "CREATING NEW ProductsRepositoryImpl")
@@ -56,19 +62,20 @@ class ProductsRepositoryImpl @Inject constructor(
         return allProducts
     }
 
-    override fun toggleFavourite(product: Product): Completable {
-        return Completable.create { emitter ->
-            val indexOf = allProducts.value?.indexOf(product)
-            if(indexOf != null) {
-                Log.d("FEO410", "Index found $indexOf")
-                val newFavourite = !product.isFavoured
-                val newProduct = product.copy(isFavoured = newFavourite)
-                val newList = allProducts.value!!.toMutableList()
-                newList[indexOf] = newProduct
-                Log.d("FEO410", "UPDATING $indexOf")
-                allProducts.onNext(newList)
-                emitter.onComplete()
-            }
+    override suspend fun toggleFavourite(product: Product) {
+        val indexOf = allProducts.value?.indexOf(product)
+        if (indexOf != null) {
+            Log.d("FEO410", "Index found $indexOf")
+            val newFavourite = !product.isFavoured
+            val newProduct = product.copy(isFavoured = newFavourite)
+            val newList = allProducts.value!!.toMutableList()
+            newList[indexOf] = newProduct
+            Log.d("FEO410", "UPDATING $indexOf")
+            allProductsFlow.emit(newList)
         }
+    }
+
+    override fun productsFlow(): StateFlow<List<Product>> {
+        return allProductsFlow
     }
 }

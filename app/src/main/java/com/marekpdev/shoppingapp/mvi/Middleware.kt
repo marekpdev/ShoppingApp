@@ -1,16 +1,20 @@
 package com.marekpdev.shoppingapp.mvi
 
-import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.
  */
 interface Middleware<S: State, A: Action, C: Command> {
 
-    fun bind(actions: Observable<A>,
-             state: Observable<S>,
-             requestAction: (A) -> Unit,
-             requestCommand: (C) -> Unit
-    ): Observable<A>
+    suspend fun bind(state: StateFlow<S>,
+                     requestAction: suspend (A) -> Unit)
+
+    suspend fun process(action: A,
+                        currentState: S,
+                        requestAction: suspend (A) -> Unit,
+                        requestCommand: suspend (C) -> Unit
+    )
+
 
 }

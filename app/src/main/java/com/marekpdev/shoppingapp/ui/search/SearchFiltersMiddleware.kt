@@ -8,6 +8,7 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import kotlin.math.ceil
 import kotlin.math.max
@@ -19,14 +20,30 @@ import kotlin.math.min
 class SearchFiltersMiddleware @Inject constructor(private val productsRepository: ProductsRepository)
     : Middleware<SearchState, SearchAction, SearchCommand> {
 
-    override fun bind(
-        actions: Observable<SearchAction>,
-        state: Observable<SearchState>,
-        requestAction: (SearchAction) -> Unit,
-        requestCommand: (SearchCommand) -> Unit
-    ): Observable<SearchAction> {
-        return observeProducts(requestAction)
+    override suspend fun process(
+        action: SearchAction,
+        state: SearchState,
+        requestAction: suspend (SearchAction) -> Unit,
+        requestCommand: suspend (SearchCommand) -> Unit
+    ) {
+
     }
+
+    override suspend fun bind(
+        state: StateFlow<SearchState>,
+        requestAction: suspend (SearchAction) -> Unit
+    ) {
+        Log.d("FEO510", "Binding SearchFiltersMiddleware")
+    }
+
+    //    override fun bind(
+//        actions: Observable<SearchAction>,
+//        state: Observable<SearchState>,
+//        requestAction: (SearchAction) -> Unit,
+//        requestCommand: (SearchCommand) -> Unit
+//    ): Observable<SearchAction> {
+//        return observeProducts(requestAction)
+//    }
 
     private fun observeProducts(
         requestAction: (SearchAction) -> Unit

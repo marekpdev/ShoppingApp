@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.ofType
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 /**
@@ -17,19 +18,35 @@ class ProductMiddleware @Inject constructor(
     private val basketRepository: BasketRepository
 ): Middleware<ProductState, ProductAction, ProductCommand> {
 
-    override fun bind(
-        actions: Observable<ProductAction>,
-        state: Observable<ProductState>,
-        requestAction: (ProductAction) -> Unit,
-        requestCommand: (ProductCommand) -> Unit
-    ): Observable<ProductAction> {
-        return actions.publish { shared ->
-            Observable.merge(
-                bindFetchProduct(shared.ofType(), state, requestAction, requestCommand),
-                bindAddProductClicked(shared.ofType(), state, requestAction, requestCommand)
-            )
-        }
+    override suspend fun process(
+        action: ProductAction,
+        state: ProductState,
+        requestAction: suspend (ProductAction) -> Unit,
+        requestCommand: suspend (ProductCommand) -> Unit
+    ) {
+
     }
+
+    override suspend fun bind(
+        state: StateFlow<ProductState>,
+        requestAction: suspend (ProductAction) -> Unit
+    ) {
+
+    }
+
+//    override fun bind(
+//        actions: Observable<ProductAction>,
+//        state: Observable<ProductState>,
+//        requestAction: (ProductAction) -> Unit,
+//        requestCommand: (ProductCommand) -> Unit
+//    ): Observable<ProductAction> {
+//        return actions.publish { shared ->
+//            Observable.merge(
+//                bindFetchProduct(shared.ofType(), state, requestAction, requestCommand),
+//                bindAddProductClicked(shared.ofType(), state, requestAction, requestCommand)
+//            )
+//        }
+//    }
 
     private fun bindFetchProduct(
         actions: Observable<ProductAction.FetchProduct>,

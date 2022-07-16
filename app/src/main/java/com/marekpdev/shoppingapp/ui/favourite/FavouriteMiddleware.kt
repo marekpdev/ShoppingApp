@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.ofType
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 /**
@@ -16,7 +17,23 @@ import javax.inject.Inject
 class FavouriteMiddleware @Inject constructor(private val productsRepository: ProductsRepository)
     : Middleware<FavouriteState, FavouriteAction, FavouriteCommand> {
 
-    override fun bind(
+    override suspend fun process(
+        action: FavouriteAction,
+        state: FavouriteState,
+        requestAction: suspend (FavouriteAction) -> Unit,
+        requestCommand: suspend (FavouriteCommand) -> Unit
+    ) {
+
+    }
+
+    override suspend fun bind(
+        state: StateFlow<FavouriteState>,
+        requestAction: suspend (FavouriteAction) -> Unit
+    ) {
+
+    }
+
+    fun bind(
         actions: Observable<FavouriteAction>,
         state: Observable<FavouriteState>,
         requestAction: (FavouriteAction) -> Unit,
@@ -42,25 +59,25 @@ class FavouriteMiddleware @Inject constructor(private val productsRepository: Pr
             }
     }
 
-    private fun bindToggleFavourite(
-        actions: Observable<FavouriteAction.ToggleFavouriteClicked>,
-        state: Observable<FavouriteState>,
-        requestAction: (FavouriteAction) -> Unit,
-        requestCommand: (FavouriteCommand) -> Unit
-    ): Observable<FavouriteAction> {
-        return actions
-            .withLatestFrom(state) { action, currentState -> action to currentState }
-            .flatMapCompletable { (action, currentState) ->
-                productsRepository
-                    .toggleFavourite(action.product)
-                    .doOnComplete {
-                        Log.d("FEO410", "getProductsToShow")
-                        // TODO need to perform some better chaining to not call subscribe() here
-                        getProductsToShow(requestAction).subscribe()
-                    }
-            }
-            .toObservable()
-    }
+//    private fun bindToggleFavourite(
+//        actions: Observable<FavouriteAction.ToggleFavouriteClicked>,
+//        state: Observable<FavouriteState>,
+//        requestAction: (FavouriteAction) -> Unit,
+//        requestCommand: (FavouriteCommand) -> Unit
+//    ): Observable<FavouriteAction> {
+//        return actions
+//            .withLatestFrom(state) { action, currentState -> action to currentState }
+//            .flatMapCompletable { (action, currentState) ->
+//                productsRepository
+//                    .toggleFavourite(action.product)
+//                    .doOnComplete {
+//                        Log.d("FEO410", "getProductsToShow")
+//                        // TODO need to perform some better chaining to not call subscribe() here
+//                        getProductsToShow(requestAction).subscribe()
+//                    }
+//            }
+//            .toObservable()
+//    }
 
     private fun bindFetchInitialData(
         actions: Observable<FavouriteAction.FetchInitialData>,

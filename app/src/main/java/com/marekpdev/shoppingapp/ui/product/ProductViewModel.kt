@@ -53,6 +53,6 @@ class ProductViewModel @AssistedInject constructor(
 
     init {
         Log.d("FEO400", "Sending")
-        productStore.dispatch(ProductAction.FetchProduct(productId))
+//        productStore.dispatch(ProductAction.FetchProduct(productId))
     }
 }
