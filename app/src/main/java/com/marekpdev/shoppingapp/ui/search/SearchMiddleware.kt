@@ -18,6 +18,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -45,12 +46,12 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
     //            .observeOn(AndroidSchedulers.mainThread())
 
     override suspend fun bind(
+        coroutineScope: CoroutineScope,
         state: StateFlow<SearchState>,
         requestAction: suspend (SearchAction) -> Unit
     ) {
-        Log.d("FEO510", "Binding SearchMiddleware")
-
-
+        Log.d("FEO610", "Binding SearchMiddleware 1")
+        coroutineScope.launch {
             searchQueryChangedActions
                 .debounce(400L) // TODO also need to cancel previous request if new is undergoing (similar to switchMap)
                 .map { action ->
@@ -64,16 +65,20 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                     Log.d("FEO150", "COLLECTING")
                     requestAction(SearchAction.RefreshData(products, currentState.sortType , currentState.filters))
                 }
-
+        }
+        Log.d("FEO610", "Binding SearchMiddleware 2")
+        coroutineScope.launch {
             productsRepository.productsFlow()
                 .map { products ->
+                    Log.d("FEO610", "Mapping productsFlow 1")
                     val currentState = state.value
                     val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters, currentState.sortType)
                     currentState to filteredProducts
                 }.collectLatest { (currentState, products) ->
                     requestAction(SearchAction.RefreshData(products, currentState.sortType , currentState.filters))
                 }
-
+        }
+        Log.d("FEO610", "Binding SearchMiddleware 3")
     }
 
     override suspend fun process(
@@ -125,7 +130,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
         val products = productsRepository.productsFlow().value
-        val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters.confirmSelection(), currentState.sortType)
+        val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters?.confirmSelection(), currentState.sortType)
         requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , currentState.filters))
     }
 
@@ -138,21 +143,22 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         productsRepository.toggleFavourite(action.product)
     }
 
-    private fun getFilterRequirements(searchQuery: String, filters: Filters) = listOf<(Product) -> Boolean>(
+    private fun getFilterRequirements(searchQuery: String, filters: Filters?) = listOf<(Product) -> Boolean>(
         { it.name.contains(searchQuery, true) },
-        { it.price.toInt() in filters.priceRange.applied},
-        { it.availableSizes.any { size -> filters.sizes.applied.contains(size) }},
-        { it.availableColors.any { color -> filters.colors.applied.contains(color) }},
+        { filters == null || it.price.toInt() in filters.priceRange.applied},
+        { filters == null || it.availableSizes.any { size -> filters.sizes.applied.contains(size) }},
+        { filters == null || it.availableColors.any { color -> filters.colors.applied.contains(color) }},
     )
 
     private fun getFilteredProducts(products: List<Product>,
                                     searchQuery: String,
-                                    filters: Filters,
+                                    filters: Filters?,
                                     sortType: SortType
     ): List<Product> {
+        Log.d("FEO150", "Products ${products.size}")
         Log.d("FEO150", "SORTED with ${sortType.type.applied}")
         return products
-//            .filter { product -> getFilterRequirements(searchQuery, filters).all { predicate -> predicate(product) } }
+            .filter { product -> getFilterRequirements(searchQuery, filters).all { predicate -> predicate(product) } }
             .sortedWith(sortType.type.applied.comparator)
     }
 

@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.mvi
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -7,7 +8,8 @@ import kotlinx.coroutines.flow.StateFlow
  */
 interface Middleware<S: State, A: Action, C: Command> {
 
-    suspend fun bind(state: StateFlow<S>,
+    suspend fun bind(coroutineScope: CoroutineScope,
+                     state: StateFlow<S>,
                      requestAction: suspend (A) -> Unit)
 
     suspend fun process(action: A,

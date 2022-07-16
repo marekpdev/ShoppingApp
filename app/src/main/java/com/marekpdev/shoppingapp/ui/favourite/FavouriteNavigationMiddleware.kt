@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui.favourite
 
 import com.marekpdev.shoppingapp.mvi.Middleware
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -20,11 +21,13 @@ class FavouriteNavigationMiddleware: Middleware<FavouriteState, FavouriteAction,
     }
 
     override suspend fun bind(
+        coroutineScope: CoroutineScope,
         state: StateFlow<FavouriteState>,
         requestAction: suspend (FavouriteAction) -> Unit
     ) {
 
     }
+
 
 //    override fun bind(
 //        actions: Observable<FavouriteAction>,

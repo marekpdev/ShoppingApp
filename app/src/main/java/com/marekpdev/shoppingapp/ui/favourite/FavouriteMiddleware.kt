@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.ofType
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
@@ -27,6 +28,7 @@ class FavouriteMiddleware @Inject constructor(private val productsRepository: Pr
     }
 
     override suspend fun bind(
+        coroutineScope: CoroutineScope,
         state: StateFlow<FavouriteState>,
         requestAction: suspend (FavouriteAction) -> Unit
     ) {

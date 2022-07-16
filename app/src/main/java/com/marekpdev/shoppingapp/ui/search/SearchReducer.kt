@@ -60,7 +60,7 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             }
             is SearchAction.FilterSelectedPriceRangeChanged -> {
                 currentState.copy(
-                    filters = currentState.filters.copy(
+                    filters = currentState.filters?.copy(
                         priceRange = currentState.filters.priceRange.copy(
                             selected = action.selectedPriceRange
                         )
@@ -69,7 +69,7 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             }
             is SearchAction.FilterSelectedSizeChanged -> {
                 currentState.copy(
-                    filters = currentState.filters.copy(
+                    filters = currentState.filters?.copy(
                         sizes = currentState.filters.sizes.copy(
                             selected = currentState.filters.sizes.selected.toggleItem(action.selectedSize)
                         )
@@ -78,7 +78,7 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             }
             is SearchAction.FilterSelectedColorChanged -> {
                 currentState.copy(
-                    filters = currentState.filters.copy(
+                    filters = currentState.filters?.copy(
                         colors = currentState.filters.colors.copy(
                             selected = currentState.filters.colors.selected.toggleItem(action.selectedColor)
                         )

@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.ofType
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
@@ -28,13 +29,14 @@ class ProductMiddleware @Inject constructor(
     }
 
     override suspend fun bind(
+        coroutineScope: CoroutineScope,
         state: StateFlow<ProductState>,
         requestAction: suspend (ProductAction) -> Unit
     ) {
 
     }
 
-//    override fun bind(
+    //    override fun bind(
 //        actions: Observable<ProductAction>,
 //        state: Observable<ProductState>,
 //        requestAction: (ProductAction) -> Unit,

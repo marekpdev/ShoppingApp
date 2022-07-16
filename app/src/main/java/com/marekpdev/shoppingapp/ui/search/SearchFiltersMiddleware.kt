@@ -8,6 +8,7 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -30,11 +31,14 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
     }
 
     override suspend fun bind(
+        coroutineScope: CoroutineScope,
         state: StateFlow<SearchState>,
         requestAction: suspend (SearchAction) -> Unit
     ) {
-        Log.d("FEO510", "Binding SearchFiltersMiddleware")
+
     }
+
+
 
     //    override fun bind(
 //        actions: Observable<SearchAction>,

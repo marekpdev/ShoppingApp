@@ -3,6 +3,7 @@ package com.marekpdev.shoppingapp.ui.search
 import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -20,11 +21,14 @@ class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCo
     }
 
     override suspend fun bind(
+        coroutineScope: CoroutineScope,
         state: StateFlow<SearchState>,
         requestAction: suspend (SearchAction) -> Unit
     ) {
-        Log.d("FEO510", "Binding SearchNavigationMiddleware")
+
     }
+
+
 
     //    override fun bind(
 //        actions: Observable<SearchAction>,

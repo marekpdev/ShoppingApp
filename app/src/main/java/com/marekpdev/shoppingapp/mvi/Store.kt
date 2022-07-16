@@ -30,7 +30,7 @@ open class Store <S: State, A: Action, C: Command> (
 
         middlewares.forEach { middleware ->
             coroutineScope.launch {
-                middleware.bind(state, _actions::emit)
+                middleware.bind(coroutineScope, state, _actions::emit)
             }
         }
 

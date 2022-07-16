@@ -86,61 +86,66 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
         binding.apply {
             Log.d("FEO94", "FILTER Current state is ${state.filters}")
 
-            rangeSliderPrice.valueFrom = state.filters.priceRange.available.first.toFloat()
-            rangeSliderPrice.valueTo = state.filters.priceRange.available.last.toFloat()
-            rangeSliderPrice.stepSize = 1f
-            if(abs(rangeSliderPrice.valueTo - rangeSliderPrice.valueFrom) > MIN_SEPARATION_THRESHOLD){
-                rangeSliderPrice.setMinSeparationValue(MIN_SEPARATION_VALUE)
-            }
+            state.filters?.let { filters ->
 
-            rangeSliderPrice.values = listOf(
-                state.filters.priceRange.selected.first.toFloat(),
-                state.filters.priceRange.selected.last.toFloat()
-            )
+                rangeSliderPrice.valueFrom = filters.priceRange.available.first.toFloat()
+                rangeSliderPrice.valueTo = filters.priceRange.available.last.toFloat()
+                rangeSliderPrice.stepSize = 1f
+                if(abs(rangeSliderPrice.valueTo - rangeSliderPrice.valueFrom) > MIN_SEPARATION_THRESHOLD){
+                    rangeSliderPrice.setMinSeparationValue(MIN_SEPARATION_VALUE)
+                }
 
-            // SIZES
-            if(chipGroupSizes.childCount == 0) {
-                chipGroupSizes.removeAllViews()
-                sizesViewMappings.clear()
-                state.filters.sizes.available.forEach { size ->
-                    ChipsHelper.createChip(
-                        requireContext(),
-                        size
-                    ).also { chip ->
-                        sizesViewMappings[size] = chip
-                        chip.setOnClickListener {
-                            viewModel.dispatch(SearchAction.FilterSelectedSizeChanged(size))
+                rangeSliderPrice.values = listOf(
+                    filters.priceRange.selected.first.toFloat(),
+                    filters.priceRange.selected.last.toFloat()
+                )
+
+                // SIZES
+                if(chipGroupSizes.childCount == 0) {
+                    chipGroupSizes.removeAllViews()
+                    sizesViewMappings.clear()
+                    filters.sizes.available.forEach { size ->
+                        ChipsHelper.createChip(
+                            requireContext(),
+                            size
+                        ).also { chip ->
+                            sizesViewMappings[size] = chip
+                            chip.setOnClickListener {
+                                viewModel.dispatch(SearchAction.FilterSelectedSizeChanged(size))
+                            }
+                            chipGroupSizes.addView(chip)
                         }
-                        chipGroupSizes.addView(chip)
                     }
                 }
-            }
 
-            sizesViewMappings.forEach { (size, chip) ->
-                chip.isChecked = size in state.filters.sizes.selected
-            }
+                sizesViewMappings.forEach { (size, chip) ->
+                    chip.isChecked = size in filters.sizes.selected
+                }
 
-            // COLORS
-            if(chipGroupColors.childCount == 0) {
-                chipGroupColors.removeAllViews()
-                colorsViewMappings.clear()
-                state.filters.colors.available.forEach { color ->
-                    ChipsHelper.createChip(
-                        requireContext(),
-                        color
-                    ).also { chip ->
-                        colorsViewMappings[color] = chip
-                        chip.setOnClickListener {
-                            viewModel.dispatch(SearchAction.FilterSelectedColorChanged(color))
+                // COLORS
+                if(chipGroupColors.childCount == 0) {
+                    chipGroupColors.removeAllViews()
+                    colorsViewMappings.clear()
+                    filters.colors.available.forEach { color ->
+                        ChipsHelper.createChip(
+                            requireContext(),
+                            color
+                        ).also { chip ->
+                            colorsViewMappings[color] = chip
+                            chip.setOnClickListener {
+                                viewModel.dispatch(SearchAction.FilterSelectedColorChanged(color))
+                            }
+                            chipGroupColors.addView(chip)
                         }
-                        chipGroupColors.addView(chip)
                     }
                 }
+
+                colorsViewMappings.forEach { (color, chip) ->
+                    chip.isChecked = color in filters.colors.selected
+                }
+
             }
 
-            colorsViewMappings.forEach { (color, chip) ->
-                chip.isChecked = color in state.filters.colors.selected
-            }
         }
     }
 
