@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home.products.items
+package com.marekpdev.shoppingapp.ui.productvh
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,6 +31,12 @@ class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) 
 
                 ivFavouriteToggle.setOnClickListener { Log.d("FEO33", "Log") }
                 ivFavouriteToggle.clipToOutline = true
+
+                val favouriteIcon = when(item.isFavoured){
+                    true -> R.drawable.ic_favourite_2_red_filled
+                    else -> R.drawable.ic_favourite_1_red
+                }
+                ivFavouriteToggle.setImageResource(favouriteIcon)
             }
         }
     }

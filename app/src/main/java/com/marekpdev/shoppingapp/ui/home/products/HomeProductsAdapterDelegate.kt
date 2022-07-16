@@ -13,7 +13,7 @@ import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
 import com.marekpdev.shoppingapp.ui.home.products.items.HomeShowMoreAdapterDelegate
-import com.marekpdev.shoppingapp.ui.home.products.items.ProductHeightConstAdapterDelegate
+import com.marekpdev.shoppingapp.ui.productvh.ProductHeightConstAdapterDelegate
 
 /**
  * Created by Marek Pszczolka on 01/03/2022.

@@ -9,7 +9,15 @@ import com.marekpdev.shoppingapp.R
  * Created by Marek Pszczolka on 25/04/2021.
  */
 
-class ImagesAdapter(private val images: List<String>) : RecyclerView.Adapter<ImageVH>(){
+class ImagesAdapter : RecyclerView.Adapter<ImageVH>(){
+
+    private val images: MutableList<String> = mutableListOf()
+
+    fun setData(images: List<String>) {
+        this.images.clear()
+        this.images.addAll(images)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ImageVH {
         // Create a new view, which defines the UI of the list item

@@ -12,7 +12,7 @@ import com.marekpdev.shoppingapp.ui.search.sort.SortType
  */
 sealed class SearchAction : Action {
 
-    object FetchInitialData: SearchAction()
+    //object FetchInitialData: SearchAction()
     data class InitFilters(val filters: Filters): SearchAction()
 
     class SearchQueryChanged(val query: String): SearchAction()
@@ -22,6 +22,7 @@ sealed class SearchAction : Action {
     class SearchError(val error: Throwable?): SearchAction()
 
     class ProductClicked(val productId: Long): SearchAction()
+    class ToggleFavouriteClicked(val product: Product): SearchAction()
 
     object SortClicked: SearchAction()
     object SortConfirmed: SearchAction()

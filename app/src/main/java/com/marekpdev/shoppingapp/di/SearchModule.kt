@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.di
 
+import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.*
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
@@ -18,13 +19,29 @@ class SearchModule {
 
     @Provides
     @Singleton
-    fun provideSearchStore(): SearchStore {
+    fun provideSearchMiddleware(productsRepository: ProductsRepository) = SearchMiddleware(productsRepository)
+
+    @Provides
+    @Singleton
+    fun provideSearchNavigationMiddleware() = SearchNavigationMiddleware()
+
+    @Provides
+    @Singleton
+    fun provideSearchFiltersMiddleware(productsRepository: ProductsRepository) = SearchFiltersMiddleware(productsRepository)
+
+    @Provides
+    @Singleton
+    fun provideSearchStore(
+        searchMiddleware: SearchMiddleware,
+        searchNavigationMiddleware: SearchNavigationMiddleware,
+        searchFiltersMiddleware: SearchFiltersMiddleware
+    ): SearchStore {
         return SearchStore(
             SearchState("", false, "", emptyList(), SortType.INIT, Filters.INIT),
             listOf(
-                SearchMiddleware(),
-                SearchNavigationMiddleware(),
-                SearchFiltersMiddleware()
+                searchMiddleware,
+                searchNavigationMiddleware,
+                searchFiltersMiddleware
             ),
             SearchReducer()
         )

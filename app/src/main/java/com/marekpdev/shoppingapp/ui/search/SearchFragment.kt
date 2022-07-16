@@ -17,7 +17,7 @@ import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.favourite.ProductWidthConstAdapterDelegate
+import com.marekpdev.shoppingapp.ui.productvh.ProductWidthConstAdapterDelegate
 import com.marekpdev.shoppingapp.ui.search.filter.FilterBottomSheet
 import com.marekpdev.shoppingapp.ui.search.sort.SortBottomSheet
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
@@ -41,10 +41,14 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         viewModel.dispatch(SearchAction.ProductClicked(it.id))
     }
 
+    private val onToggleFavourite: (Product) -> Unit = {
+        viewModel.dispatch(SearchAction.ToggleFavouriteClicked(it))
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-//            .addDelegate(ProductAdapterDelegate(onProductClicked))
-            .addDelegate(ProductWidthConstAdapterDelegate(onProductClicked))
+//            .addDelegate(ProductAdapterDelegate(onProductClicked, onToggleFavourite))
+            .addDelegate(ProductWidthConstAdapterDelegate(onProductClicked, onToggleFavourite))
     )
 
     override fun onCreateView(
@@ -92,6 +96,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
     }
 
     override fun render(state: SearchState) {
+        Log.d("FEO410", "Render")
         binding.apply {
             etSearch.setTextIfDifferent(state.searchQuery)
             adapter.replaceData(state.products)

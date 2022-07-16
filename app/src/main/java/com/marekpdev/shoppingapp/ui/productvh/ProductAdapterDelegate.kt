@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.search
+package com.marekpdev.shoppingapp.ui.productvh
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,8 @@ import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class ProductAdapterDelegate(private val onProductClicked: (Product) -> Unit) :
+class ProductAdapterDelegate(private val onProductClicked: (Product) -> Unit,
+                             private val onToggleFavourite: (Product) -> Unit) :
     BaseAdapterDelegate<Product, BaseViewHolder<VhProductBinding>>(Product::class.java){
 
     override fun bindViewHolder(item: Product, holder: BaseViewHolder<VhProductBinding>) {
@@ -20,6 +21,8 @@ class ProductAdapterDelegate(private val onProductClicked: (Product) -> Unit) :
             root.setOnClickListener { onProductClicked(item) }
 
             tvProductName.text = item.name
+
+            // todo use onToggleFavourite
         }
     }
 

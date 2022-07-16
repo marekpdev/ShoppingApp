@@ -23,7 +23,8 @@ object Data {
         availableColors = colors.getRandomItems(),
         availableSizes = sizes.getRandomItems(),
         images = images.getRandomItems(),
-        categoryId = categoryId
+        categoryId = categoryId,
+        false
     )
 
     fun getProducts(count: Int, categoryId: Int): List<Product>{
@@ -135,6 +136,10 @@ object Data {
     val names = Randomizer(
         (1..100).map { "Product Name $it" }
     )
+
+    val products by lazy {
+        getMenu().second!!
+    }
 
     fun getMenu(): Pair<List<Category>, List<Product>> {
         val categories = mutableListOf<Category>()

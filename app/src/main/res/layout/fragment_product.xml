@@ -18,19 +18,22 @@
             to fix the issue with clipping scrollViewProductCard when we scrolled to the very top
             we needed to lower elevation of both AppBarLayout and CollapsingToolbarLayout to 1
             so scrollViewProductCard can be drawn on top of it if needed
+            UPDATE: after updating some version of the library (not sure which one)
+            it started clipping the layout even with elevation = 1 so I changed elevation to 0
+            for both AppBarLayout and CollapsingToolbarLayout and it started working again
          -->
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:fitsSystemWindows="true"
-            app:elevation="1dp">
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="@android:color/transparent"
-                app:elevation="1dp"
+                app:elevation="0dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:statusBarScrim="@android:color/transparent">
 

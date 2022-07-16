@@ -1,6 +1,5 @@
-package com.marekpdev.shoppingapp.ui.favourite
+package com.marekpdev.shoppingapp.ui.productvh
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -14,7 +13,8 @@ import com.squareup.picasso.Picasso
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class ProductWidthConstAdapterDelegate(private val onProductClicked: (Product) -> Unit) :
+class ProductWidthConstAdapterDelegate(private val onProductClicked: (Product) -> Unit,
+                                       private val onToggleFavourite: (Product) -> Unit) :
     BaseAdapterDelegate<Product, BaseViewHolder<VhProductGridWidthConstraintBinding>>(Product::class.java){
 
     override fun bindViewHolder(item: Product, holder: BaseViewHolder<VhProductGridWidthConstraintBinding>) {
@@ -30,8 +30,14 @@ class ProductWidthConstAdapterDelegate(private val onProductClicked: (Product) -
 
                 ivProductImage.clipToOutline = true
 
-                ivFavouriteToggle.setOnClickListener { Log.d("FEO33", "Log") }
+                ivFavouriteToggle.setOnClickListener { onToggleFavourite(item) }
                 ivFavouriteToggle.clipToOutline = true
+
+                val favouriteIcon = when(item.isFavoured){
+                    true -> R.drawable.ic_favourite_1_red
+                    else -> R.drawable.ic_favourite_1_black
+                }
+                ivFavouriteToggle.setImageResource(favouriteIcon)
             }
         }
     }
