@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.mvi
 
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -21,9 +22,16 @@ open class BaseViewModel <S: State, A: Action, C: Command>(private val store: St
         owner: LifecycleOwner,
         mviView: MviView<S, C>
     ) {
+        // TODO for some reason we when we put 2x or more collectLatest (or generally any other coroutine?)
+        // in one launchWhenStarted then only the first one is working - not sure why
+        // https://stackoverflow.com/questions/67861592/calling-multiple-viewmodel-methods-from-launchwhenstarted-does-not-work
         owner.lifecycleScope.launchWhenStarted {
             withContext(Dispatchers.Main) {
                 store.state.collectLatest { mviView.render(it) }
+            }
+        }
+        owner.lifecycleScope.launchWhenStarted {
+            withContext(Dispatchers.Main) {
                 store.commands.collectLatest { mviView.onCommand(it) }
             }
         }

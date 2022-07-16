@@ -109,6 +109,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
     }
 
     override fun onCommand(command: SearchCommand) {
+        Log.d("FEO700", "Command $command")
         when(command){
             is SearchCommand.GoToProductDetailsScreen -> {
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))

@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.mvi
 
+import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
