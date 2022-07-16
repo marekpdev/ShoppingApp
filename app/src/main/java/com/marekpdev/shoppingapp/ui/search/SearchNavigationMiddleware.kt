@@ -11,15 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
  */
 class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCommand> {
 
-    override suspend fun process(
-        action: SearchAction,
-        state: SearchState,
-        requestAction: suspend (SearchAction) -> Unit,
-        requestCommand: suspend (SearchCommand) -> Unit
-    ) {
-
-    }
-
     override suspend fun bind(
         coroutineScope: CoroutineScope,
         state: StateFlow<SearchState>,
@@ -28,22 +19,11 @@ class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCo
 
     }
 
-
-
-    //    override fun bind(
-//        actions: Observable<SearchAction>,
-//        state: Observable<SearchState>,
-//        requestAction: (SearchAction) -> Unit,
-//        requestCommand: (SearchCommand) -> Unit
-//    ): Observable<SearchAction> {
-//        return actions.doOnNext { action ->
-//            process(action, requestCommand)
-//        }
-//    }
-
-    private fun process(
+    override suspend fun process(
         action: SearchAction,
-        requestCommand: (SearchCommand) -> Unit
+        currentState: SearchState,
+        requestAction: suspend (SearchAction) -> Unit,
+        requestCommand: suspend (SearchCommand) -> Unit
     ) {
         when(action){
             is SearchAction.ProductClicked -> {

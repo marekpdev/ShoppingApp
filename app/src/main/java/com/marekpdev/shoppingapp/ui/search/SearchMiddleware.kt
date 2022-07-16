@@ -16,11 +16,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.ofType
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -33,12 +30,9 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
 
     private val searchQueryChangedActions = MutableSharedFlow<SearchAction.SearchQueryChanged>()
 
-
-
     // TODO
-    // add support for loading and error - similar to rx workflows
-    // .startWithItem(SearchAction.Loading)
-    //            .onErrorReturn { e -> SearchAction.SearchError(e) }
+    // add support for error - similar to rx workflows
+    // .onErrorReturn { e -> SearchAction.SearchError(e) }
 
     // todo
     // add background/ui thread workflow - similar to rx worfklows
@@ -48,34 +42,31 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
     override suspend fun bind(
         coroutineScope: CoroutineScope,
         state: StateFlow<SearchState>,
-        requestAction: suspend (SearchAction) -> Unit
+        requestAction: suspend (SearchAction) -> Unit // TODO can remove 'suspend' from here?
     ) {
         Log.d("FEO610", "Binding SearchMiddleware 1")
         coroutineScope.launch {
             searchQueryChangedActions
-                .debounce(400L) // TODO also need to cancel previous request if new is undergoing (similar to switchMap)
-                .map { action ->
+                .debounce(400L)
+                .collectLatest { action ->
+                    requestAction(SearchAction.Loading)
+                    delay(1000L) // TODO simulating search - can remove later on
                     Log.d("FEO150", "MAPPING")
                     val currentState = state.value
                     val products = productsRepository.productsFlow().value
                     val filteredProducts = getFilteredProducts(products, action.query, currentState.filters, currentState.sortType)
-                    currentState to filteredProducts
-                }
-                .collectLatest { (currentState, products) ->
                     Log.d("FEO150", "COLLECTING")
-                    requestAction(SearchAction.RefreshData(products, currentState.sortType , currentState.filters))
+                    requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , currentState.filters))
                 }
         }
         Log.d("FEO610", "Binding SearchMiddleware 2")
         coroutineScope.launch {
             productsRepository.productsFlow()
-                .map { products ->
+                .collectLatest { products ->
                     Log.d("FEO610", "Mapping productsFlow 1")
                     val currentState = state.value
                     val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters, currentState.sortType)
-                    currentState to filteredProducts
-                }.collectLatest { (currentState, products) ->
-                    requestAction(SearchAction.RefreshData(products, currentState.sortType , currentState.filters))
+                    requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , currentState.filters))
                 }
         }
         Log.d("FEO610", "Binding SearchMiddleware 3")

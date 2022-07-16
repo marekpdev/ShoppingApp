@@ -10,16 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
  */
 class FavouriteNavigationMiddleware: Middleware<FavouriteState, FavouriteAction, FavouriteCommand> {
 
-
-    override suspend fun process(
-        action: FavouriteAction,
-        state: FavouriteState,
-        requestAction: suspend (FavouriteAction) -> Unit,
-        requestCommand: suspend (FavouriteCommand) -> Unit
-    ) {
-
-    }
-
     override suspend fun bind(
         coroutineScope: CoroutineScope,
         state: StateFlow<FavouriteState>,
@@ -28,29 +18,15 @@ class FavouriteNavigationMiddleware: Middleware<FavouriteState, FavouriteAction,
 
     }
 
-
-//    override fun bind(
-//        actions: Observable<FavouriteAction>,
-//        state: Observable<FavouriteState>,
-//        requestAction: (FavouriteAction) -> Unit,
-//        requestCommand: (FavouriteCommand) -> Unit
-//    ): Observable<FavouriteAction> {
-//        return actions.doOnNext { action ->
-//            process(action, requestCommand)
-//        }
-//    }
-
-    private fun process(
+    override suspend fun process(
         action: FavouriteAction,
-        requestCommand: (FavouriteCommand) -> Unit
+        currentState: FavouriteState,
+        requestAction: suspend (FavouriteAction) -> Unit,
+        requestCommand: suspend (FavouriteCommand) -> Unit
     ) {
-        when(action){
-            is FavouriteAction.ProductClicked -> {
-                requestCommand(FavouriteCommand.GoToProductDetailsScreen(action.productId))
-            }
-            else -> {
-
-            }
+        when (action){
+            is FavouriteAction.ProductClicked -> requestCommand(FavouriteCommand.GoToProductDetailsScreen(action.productId))
+            else -> {}
         }
     }
 

@@ -12,18 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
  */
 interface ProductsRepository {
 
-//    fun observeProducts(): Observable<List<Product>>
-//
-//    fun observeProduct(): Observable<Product>
+    fun productsFlow(): StateFlow<List<Product>>
 
-    fun getProduct(id: Long): Single<Product>
-
-    fun getProducts(): Single<List<Product>>
-
-    fun observeProducts(): Observable<List<Product>>
+    suspend fun getProduct(id: Long): Product?
 
     suspend fun toggleFavourite(product: Product)
-
-    fun productsFlow(): StateFlow<List<Product>>
 
 }

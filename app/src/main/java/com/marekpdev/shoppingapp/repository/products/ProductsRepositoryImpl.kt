@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,53 +23,29 @@ class ProductsRepositoryImpl @Inject constructor(
     //private val productsDao: ProductsDao
 ): ProductsRepository {
 
-    private val allProducts = BehaviorSubject.createDefault<List<Product>>(Data.products.toList())
-
     private val allProductsFlow = MutableStateFlow(Data.products.toList())
 
     init {
         Log.d("FEO440", "CREATING NEW ProductsRepositoryImpl")
     }
 
-    override fun getProduct(id: Long): Single<Product> {
-        return Single.create { emitter ->
-
-            try {
-                Thread.sleep(400)
-            } catch (e: Exception){
-                Log.d("FEO170", "ex $e")
-            }
-            val product = allProducts.value?.find {
-                Log.d("FEO400", "This id ${it.id} - searched $id")
-                it.id == id
-            }
-            if(product != null) emitter.onSuccess(product)
-            else emitter.onError(Exception("Product not found"))
+    override suspend fun getProduct(id: Long): Product? {
+        delay(1000) // TODO just for testing
+        val product = allProductsFlow.value.find {
+            Log.d("FEO400", "This id ${it.id} - searched $id")
+            it.id == id
         }
-    }
 
-    override fun getProducts(): Single<List<Product>> {
-        return Single.create { emitter ->
-            try {
-                Thread.sleep(200)
-            } catch (e: Exception){
-                Log.d("FEO170", "ex $e")
-            }
-            emitter.onSuccess(allProducts.value)
-        }
-    }
-
-    override fun observeProducts(): Observable<List<Product>> {
-        return allProducts
+        return product
     }
 
     override suspend fun toggleFavourite(product: Product) {
-        val indexOf = allProducts.value?.indexOf(product)
-        if (indexOf != null) {
+        val indexOf = allProductsFlow.value.indexOf(product)
+        if (indexOf > 0) {
             Log.d("FEO410", "Index found $indexOf")
             val newFavourite = !product.isFavoured
             val newProduct = product.copy(isFavoured = newFavourite)
-            val newList = allProducts.value!!.toMutableList()
+            val newList = allProductsFlow.value.toMutableList()
             newList[indexOf] = newProduct
             Log.d("FEO410", "UPDATING $indexOf")
             allProductsFlow.emit(newList)

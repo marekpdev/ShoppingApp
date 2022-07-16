@@ -10,7 +10,7 @@ class BasketRepositoryImpl @Inject constructor(): BasketRepository {
 
     private val productsAdded = mutableListOf<Product>()
 
-    override fun addProduct(product: Product) {
+    override suspend fun addProduct(product: Product) {
         productsAdded.add(product)
     }
 }
