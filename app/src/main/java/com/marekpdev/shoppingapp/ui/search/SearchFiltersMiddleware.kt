@@ -11,6 +11,8 @@ import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -29,14 +31,10 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
         requestAction: suspend (SearchAction) -> Unit
     ) {
         coroutineScope.launch {
-            // TODO there is this issue that when we toggle favourite product then in products repo the entire
-            // products list is being recreated and then the this is being called so we recreate filters from scratch again
             productsRepository.productsFlow()
-                .collectLatest { products ->
-                    val filters = getInitFiltersAction(products)
-                    // TODO distinctUntilChanged
-                    requestAction(SearchAction.InitFilters(filters))
-                }
+                .map { products -> getInitFiltersAction(products) }
+                .distinctUntilChanged()
+                .collectLatest { filters -> requestAction(SearchAction.InitFilters(filters)) }
         }
     }
 
