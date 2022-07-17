@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.product
 
+import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
@@ -29,6 +30,7 @@ class ProductMiddleware @Inject constructor(
         requestAction: suspend (ProductAction) -> Unit,
         requestCommand: suspend (ProductCommand) -> Unit
     ) {
+        Log.d("FEO900", "ProductMiddleware process $action")
         when(action){
             is ProductAction.FetchProduct -> onFetchProduct(action, currentState, requestAction, requestCommand)
             is ProductAction.AddProductClicked -> onAddProductClicked(action, currentState, requestAction, requestCommand)
@@ -43,12 +45,16 @@ class ProductMiddleware @Inject constructor(
         requestAction: suspend (ProductAction) -> Unit,
         requestCommand: suspend (ProductCommand) -> Unit
     ) {
+        Log.d("FEO900", "ProductMiddleware onFetchProduct 1")
         requestAction(ProductAction.Loading)
+        Log.d("FEO900", "ProductMiddleware onFetchProduct 2")
         val product = productsRepository.getProduct(action.productId)
-
+        Log.d("FEO900", "ProductMiddleware onFetchProduct 3")
         if(product != null) {
+            Log.d("FEO900", "ProductMiddleware onFetchProduct 4")
             requestAction(ProductAction.ProductFetched(product))
         } else {
+            Log.d("FEO900", "ProductMiddleware onFetchProduct 5")
             requestAction(ProductAction.ProductError(Exception("Product not found")))
         }
     }

@@ -14,7 +14,7 @@ open class Store <S: State, A: Action, C: Command> (
     private val reducer: Reducer<S, A>
 ) {
 
-    // TODO
+    // TODO 1
     // there was an issue that when we are processing action (going through all middlewares etc)
     // then when in the meantime we request new action (by requestAction(action)) then the remaining
     // workflow (going through all other middlewares and then reduce) is suspended and then we the
@@ -26,7 +26,15 @@ open class Store <S: State, A: Action, C: Command> (
     // they don’t necessarily wait for Collectors to collect them."
     // for the moment we set buffer capacity to some value but that is probably not ideal solution -
     // might need to investigate that later
-    private val _actions = MutableSharedFlow<A>(extraBufferCapacity = 20)
+    // TODO 2
+    // also there is an issue for ProductFragment workflow
+    // 1) Store is being initialized ( init{} )
+    // 2) ProductViewModel is being initialized (init {}) and sends FetchProduct action
+    // 3) Store's coroutineScope launch is being executed and only then actions are being properly read one by one
+    // 4) because we sent FetchProduct before the coroutine has been launched and because actions is hot observable
+    // then we don't receive the action
+    // To make a quick fix for that I set replay = 1 but might need to look into a better solution
+    private val _actions = MutableSharedFlow<A>(replay = 1, extraBufferCapacity = 20)
     val actions = _actions.asSharedFlow()
 
     private val _state = MutableStateFlow<S>(initialState)
@@ -48,9 +56,12 @@ open class Store <S: State, A: Action, C: Command> (
             }
         }
 
+
+        Log.d("FEO900", "Store INIT")
         coroutineScope.launch {
+            Log.d("FEO900", "Store INIT 2")
             actions.map { action ->
-                Log.d("FEO800", "Store actions.map $action")
+                Log.d("FEO900", "Store actions.map $action")
                 val currentState = state.value
                 middlewares.forEach { middleware ->
                     Log.d("FEO800", "${middlewares.size} - middleware $middleware -> $action")
@@ -61,12 +72,12 @@ open class Store <S: State, A: Action, C: Command> (
                         _commands::emit
                     )
                 }
-                Log.d("FEO800", "Store actions.reduce $action")
+                Log.d("FEO900", "Store actions.reduce $action")
                 reducer.reduce(currentState, action)
             }
                 .distinctUntilChanged()
                 .onEach { newState ->
-                    Log.d("FEO800", "collect $newState")
+                    Log.d("FEO900", "collect $newState")
                     if(newState is SearchState){
                         Log.d("FEO900", "new state ${newState.sortType}")
                     }
@@ -81,7 +92,7 @@ open class Store <S: State, A: Action, C: Command> (
      * We can receive actions from both UI and external sources (such as middleware)
      */
     suspend fun dispatch(action: A){
-        Log.d("FEO800", "dispatch action")
+        Log.d("FEO900", "Store dispatch action")
         _actions.emit(action)
     }
 
@@ -89,7 +100,7 @@ open class Store <S: State, A: Action, C: Command> (
      * We cannot receive actions from UI but only from external sources (such as middleware)
      */
     private suspend fun dispatch(command: C){
-        Log.d("FEO800", "dispatch command $command")
+        Log.d("FEO900", "dispatch command $command")
         _commands.emit(command)
     }
 

@@ -81,12 +81,12 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
         // beause we are using viewModel by lazy then
         // the 'init' of view model is not being called and hence
         // productStore.dispatch(ProductAction.FetchProduct(productId)) doesnt work
-        viewModel.toString()
+//        viewModel.toString()
 
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
-        Log.d("FEO401", "INIT LAYOUT")
+        Log.d("FEO900", "INIT LAYOUT")
         viewModel.bind(viewLifecycleOwner, this@ProductFragment)
 
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
@@ -127,7 +127,7 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 //        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
 //        scrollViewProductCard.clipToOutline = true
 
-        Log.d("FEO401", "Render $state")
+        Log.d("FEO900", "Render $state")
         binding.apply {
             imagesAdapter.setData(state.product?.images ?: listOf())
 
