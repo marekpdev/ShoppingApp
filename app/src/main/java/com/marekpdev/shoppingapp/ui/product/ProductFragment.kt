@@ -153,6 +153,7 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
                     chipGroupColors.visibility = it
                     btnAddProductAnchor.visibility = it
                     btnAddProduct.visibility = it
+                    tvYouMightAlsoLike.visibility = it
                 }
 
                 progressBarVisibility.also {
