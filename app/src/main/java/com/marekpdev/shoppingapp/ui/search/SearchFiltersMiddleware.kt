@@ -29,6 +29,8 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
         requestAction: suspend (SearchAction) -> Unit
     ) {
         coroutineScope.launch {
+            // TODO there is this issue that when we toggle favourite product then in products repo the entire
+            // products list is being recreated and then the this is being called so we recreate filters from scratch again
             productsRepository.productsFlow()
                 .collectLatest { products ->
                     val filters = getInitFiltersAction(products)
