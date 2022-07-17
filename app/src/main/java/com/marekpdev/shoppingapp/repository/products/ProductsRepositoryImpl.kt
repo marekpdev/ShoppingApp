@@ -7,11 +7,13 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -29,14 +31,14 @@ class ProductsRepositoryImpl @Inject constructor(
         Log.d("FEO440", "CREATING NEW ProductsRepositoryImpl")
     }
 
-    override suspend fun getProduct(id: Long): Product? {
-        delay(1000) // TODO just for testing
+    override suspend fun getProduct(id: Long): Product? = withContext(Dispatchers.IO) {
+        delay(1000L) // TODO just for testing
         val product = allProductsFlow.value.find {
             Log.d("FEO400", "This id ${it.id} - searched $id")
             it.id == id
         }
 
-        return product
+        product
     }
 
     override suspend fun toggleFavourite(product: Product) {

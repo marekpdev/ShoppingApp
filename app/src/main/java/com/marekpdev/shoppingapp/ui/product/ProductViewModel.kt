@@ -52,7 +52,7 @@ class ProductViewModel @AssistedInject constructor(
     //val selectedSize = _selectedSize.asLiveData()
 
     init {
-        Log.d("FEO900", "Sending")
+        Log.d("FEO920", "Sending")
         dispatch(ProductAction.FetchProduct(productId))
     }
 }

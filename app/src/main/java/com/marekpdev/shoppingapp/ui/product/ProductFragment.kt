@@ -127,11 +127,38 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 //        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
 //        scrollViewProductCard.clipToOutline = true
 
-        Log.d("FEO900", "Render $state")
+        Log.d("FEO910", "Render $state")
         binding.apply {
+
             imagesAdapter.setData(state.product?.images ?: listOf())
 
             productCard.apply {
+
+                val (contentVisibility, progressBarVisibility) = when (state.loading){
+                    true -> View.GONE to View.VISIBLE
+                    else -> View.VISIBLE to View.GONE
+                }
+
+                contentVisibility.also {
+                    tvName.visibility = it
+                    tvPrice.visibility = it
+                    tvDescription.visibility = it
+                    vDivider1.visibility = it
+                    tvSelectSize.visibility = it
+                    horizontalScrollViewSizes.visibility = it
+                    chipGroupSizes.visibility = it
+                    vDivider2.visibility = it
+                    tvSelectColor.visibility = it
+                    horizontalScrollViewColors.visibility = it
+                    chipGroupColors.visibility = it
+                    btnAddProductAnchor.visibility = it
+                    btnAddProduct.visibility = it
+                }
+
+                progressBarVisibility.also {
+                    pbProductImagesLoading.visibility = it
+                    pbContentLoading.visibility = it
+                }
 
                 tvName.text = state.product?.name
                 tvPrice.text = "$${state.product?.price}"

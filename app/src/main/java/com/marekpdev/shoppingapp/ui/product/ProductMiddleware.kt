@@ -5,7 +5,9 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -45,16 +47,16 @@ class ProductMiddleware @Inject constructor(
         requestAction: suspend (ProductAction) -> Unit,
         requestCommand: suspend (ProductCommand) -> Unit
     ) {
-        Log.d("FEO900", "ProductMiddleware onFetchProduct 1")
+        Log.d("FEO920", "ProductMiddleware onFetchProduct 1")
         requestAction(ProductAction.Loading)
-        Log.d("FEO900", "ProductMiddleware onFetchProduct 2")
+        Log.d("FEO920", "ProductMiddleware onFetchProduct 2")
         val product = productsRepository.getProduct(action.productId)
-        Log.d("FEO900", "ProductMiddleware onFetchProduct 3")
+        Log.d("FEO920", "ProductMiddleware onFetchProduct 3")
         if(product != null) {
-            Log.d("FEO900", "ProductMiddleware onFetchProduct 4")
+            Log.d("FEO920", "ProductMiddleware onFetchProduct 4")
             requestAction(ProductAction.ProductFetched(product))
         } else {
-            Log.d("FEO900", "ProductMiddleware onFetchProduct 5")
+            Log.d("FEO920", "ProductMiddleware onFetchProduct 5")
             requestAction(ProductAction.ProductError(Exception("Product not found")))
         }
     }

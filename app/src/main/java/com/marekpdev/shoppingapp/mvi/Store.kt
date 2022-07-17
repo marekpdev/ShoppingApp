@@ -65,12 +65,16 @@ open class Store <S: State, A: Action, C: Command> (
                 val currentState = state.value
                 middlewares.forEach { middleware ->
                     Log.d("FEO800", "${middlewares.size} - middleware $middleware -> $action")
-                    middleware.process(
-                        action,
-                        currentState,
-                        _actions::emit,
-                        _commands::emit
-                    )
+                    // we want to do things in parallel here so we can call reducer.reduce immediately
+                    // and not block the workflow here
+                    launch {
+                        middleware.process(
+                            action,
+                            currentState,
+                            _actions::emit,
+                            _commands::emit
+                        )
+                    }
                 }
                 Log.d("FEO900", "Store actions.reduce $action")
                 reducer.reduce(currentState, action)
