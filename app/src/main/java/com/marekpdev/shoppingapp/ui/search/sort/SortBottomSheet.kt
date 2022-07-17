@@ -63,6 +63,7 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
         }
 
         btnConfirmSort.setOnClickListener {
+            Log.d("FEO800", "btnConfirmSort")
             viewModel.dispatch(SearchAction.SortConfirmed)
         }
     }

@@ -32,6 +32,8 @@ open class BaseViewModel <S: State, A: Action, C: Command>(private val store: St
         }
         owner.lifecycleScope.launchWhenStarted {
             withContext(Dispatchers.Main) {
+                // TODO might need to change collectLatest to collect because we are interested in all
+                // commands and not only the latest one
                 store.commands.collectLatest { mviView.onCommand(it) }
             }
         }

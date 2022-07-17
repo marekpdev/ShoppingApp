@@ -13,7 +13,19 @@ open class Store <S: State, A: Action, C: Command> (
     private val reducer: Reducer<S, A>
 ) {
 
-    private val _actions = MutableSharedFlow<A>()
+    // TODO
+    // there was an issue that when we are processing action (going through all middlewares etc)
+    // then when in the meantime we request new action (by requestAction(action)) then the remaining
+    // workflow (going through all other middlewares and then reduce) is suspended and then we the
+    // actions workflow has been blocked
+    // see more info here
+    // https://itnext.io/mutablesharedflow-is-kind-of-complicated-61af68011eae
+    // "Emitters and Collectors are independent of each other.
+    // Emitters try to emit an event to the MutableSharedFlow and
+    // they don’t necessarily wait for Collectors to collect them."
+    // for the moment we set buffer capacity to some value but that is probably not ideal solution -
+    // might need to investigate that later
+    private val _actions = MutableSharedFlow<A>(extraBufferCapacity = 20)
     val actions = _actions.asSharedFlow()
 
     private val _state = MutableStateFlow<S>(initialState)
@@ -37,8 +49,10 @@ open class Store <S: State, A: Action, C: Command> (
 
         coroutineScope.launch {
             actions.map { action ->
+                Log.d("FEO800", "Store actions.map $action")
                 val currentState = state.value
                 middlewares.forEach { middleware ->
+                    Log.d("FEO800", "${middlewares.size} - middleware $middleware -> $action")
                     middleware.process(
                         action,
                         currentState,
@@ -46,12 +60,15 @@ open class Store <S: State, A: Action, C: Command> (
                         _commands::emit
                     )
                 }
+                Log.d("FEO800", "Store actions.reduce $action")
                 reducer.reduce(currentState, action)
             }
                 .distinctUntilChanged()
-                .collectLatest { newState ->
+                .onEach { newState ->
+                    Log.d("FEO800", "collect $newState")
                     _state.emit(newState)
                 }
+                .collect()
         }
     }
 
@@ -59,6 +76,7 @@ open class Store <S: State, A: Action, C: Command> (
      * We can receive actions from both UI and external sources (such as middleware)
      */
     suspend fun dispatch(action: A){
+        Log.d("FEO800", "dispatch action")
         _actions.emit(action)
     }
 
@@ -66,6 +84,7 @@ open class Store <S: State, A: Action, C: Command> (
      * We cannot receive actions from UI but only from external sources (such as middleware)
      */
     private suspend fun dispatch(command: C){
+        Log.d("FEO800", "dispatch command $command")
         _commands.emit(command)
     }
 

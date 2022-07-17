@@ -83,6 +83,9 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
             is SearchAction.SortConfirmed -> onSortConfirmed(action, currentState, requestAction, requestCommand)
             is SearchAction.FilterConfirmed -> onFilterConfirmed(action, currentState, requestAction, requestCommand)
             is SearchAction.ToggleFavouriteClicked -> onToggleFavourite(action, currentState, requestAction, requestCommand)
+            else -> {
+                Log.d("FEO800", "Action not handled in SearchMiddleware")
+            }
         }
     }
 
@@ -99,7 +102,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction: suspend (SearchAction) -> Unit,
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
-        Log.d("FEO510", "onSearchQueryChanged")
+        Log.d("FEO800", "onSearchQueryChanged")
         searchQueryChangedActions.emit(action)
     }
 
