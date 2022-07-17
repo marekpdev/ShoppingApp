@@ -53,6 +53,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                     delay(1000L) // TODO simulating search - can remove later on
                     Log.d("FEO150", "MAPPING")
                     val currentState = state.value
+                    Log.d("FEO900", "Current state ${currentState.sortType}")
                     val products = productsRepository.productsFlow().value
                     val filteredProducts = getFilteredProducts(products, action.query, currentState.filters, currentState.sortType)
                     Log.d("FEO150", "COLLECTING")
@@ -113,8 +114,9 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
         val products = productsRepository.productsFlow().value
-        val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters, currentState.sortType.confirmSelection())
-        requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , currentState.filters))
+        val confirmedSortType = currentState.sortType.confirmSelection()
+        val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters, confirmedSortType)
+        requestAction(SearchAction.RefreshData(filteredProducts, confirmedSortType , currentState.filters))
     }
 
     private suspend fun onFilterConfirmed(
@@ -124,8 +126,9 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
         val products = productsRepository.productsFlow().value
-        val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters?.confirmSelection(), currentState.sortType)
-        requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , currentState.filters))
+        val confirmedFilters = currentState.filters?.confirmSelection()
+        val filteredProducts = getFilteredProducts(products, currentState.searchQuery, confirmedFilters, currentState.sortType)
+        requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , confirmedFilters))
     }
 
     private suspend fun onToggleFavourite(

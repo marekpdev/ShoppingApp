@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.mvi
 
 import android.util.Log
+import com.marekpdev.shoppingapp.ui.search.SearchState
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -66,6 +67,10 @@ open class Store <S: State, A: Action, C: Command> (
                 .distinctUntilChanged()
                 .onEach { newState ->
                     Log.d("FEO800", "collect $newState")
+                    if(newState is SearchState){
+                        Log.d("FEO900", "new state ${newState.sortType}")
+                    }
+
                     _state.emit(newState)
                 }
                 .collect()
