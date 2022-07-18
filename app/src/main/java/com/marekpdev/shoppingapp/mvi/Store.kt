@@ -108,4 +108,6 @@ open class Store <S: State, A: Action, C: Command> (
         _commands.emit(command)
     }
 
+    open fun canHandleBackPressed(): Boolean = false
+
 }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 /**
  * Created by Marek Pszczolka on 05/06/2022.
  */
-open class BaseViewModel <S: State, A: Action, C: Command>(private val store: Store<S, A, C>): ViewModel() {
+open class BaseViewModel <S: State, A: Action, C: Command>(val store: Store<S, A, C>): ViewModel() {
 
     fun dispatch(action: A){
         viewModelScope.launch {
@@ -38,6 +38,8 @@ open class BaseViewModel <S: State, A: Action, C: Command>(private val store: St
             }
         }
     }
+
+    open fun canHandleBackPressed(): Boolean = false
 
 }
 

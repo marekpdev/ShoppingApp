@@ -16,4 +16,9 @@ class SearchViewModel @Inject constructor(searchStore: SearchStore): BaseViewMod
         Log.d("FEO70", "init SearchViewModel")
         //searchStore.dispatch(SearchAction.FetchInitialData)
     }
+
+
+    override fun canHandleBackPressed(): Boolean {
+        return store.canHandleBackPressed()
+    }
 }
