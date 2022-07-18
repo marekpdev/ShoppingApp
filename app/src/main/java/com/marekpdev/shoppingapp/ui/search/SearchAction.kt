@@ -7,6 +7,7 @@ import com.marekpdev.shoppingapp.mvi.Action
 import com.marekpdev.shoppingapp.repository.Menu
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
+import java.util.*
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.
@@ -19,7 +20,7 @@ sealed class SearchAction : Action {
     class SearchQueryChanged(val query: String): SearchAction()
     object Loading: SearchAction()
     data class InitialDataFetched(val menu: Menu, val sortType: SortType, val filters: Filters?): SearchAction()
-    data class RefreshData(val menu: Menu, val sortType: SortType, val filters: Filters?): SearchAction()
+    data class RefreshData(val menu: Menu, val displayStates: List<DisplayState>, val sortType: SortType, val filters: Filters?): SearchAction()
     class SearchError(val error: Throwable?): SearchAction()
 
     class ProductClicked(val productId: Long): SearchAction()

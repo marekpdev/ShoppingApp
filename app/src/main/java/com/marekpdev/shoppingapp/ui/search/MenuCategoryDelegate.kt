@@ -20,7 +20,7 @@ class MenuCategoryDelegate(private val onCategoryClicked: (Category) -> Unit) :
 
     override fun bindViewHolder(item: Category, holder: BaseViewHolder<VhMenuCategoryBinding>) {
         holder.bind {
-            tvCategoryName.setOnClickListener { onCategoryClicked(item) }
+            root.setOnClickListener { onCategoryClicked(item) }
             tvCategoryName.text = item.name
         }
     }

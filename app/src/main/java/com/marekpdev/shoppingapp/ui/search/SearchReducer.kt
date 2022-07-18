@@ -34,7 +34,8 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                     searchSummary = "Showing ${action.menu.products.size} items",
                     menu = action.menu,
                     sortType = action.sortType,
-                    filters = action.filters
+                    filters = action.filters,
+                    displayStates = action.displayStates
                 )
             }
             is SearchAction.SearchError -> {
