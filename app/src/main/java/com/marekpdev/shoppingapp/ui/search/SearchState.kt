@@ -14,7 +14,7 @@ data class SearchState(
     val searchInProgress: Boolean,
     val searchSummary: String,
     val menu: Menu,
-    val displayStates: List<DisplayState>, // TODO use stack?
+    val displayStates: List<DisplayState>, // TODO use stack? also change name to displayStatesBackstack?
     val sortType: SortType,
     val filters: Filters?,
 ): State
