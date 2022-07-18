@@ -8,6 +8,12 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
 import kotlin.math.max
@@ -19,31 +25,29 @@ import kotlin.math.min
 class SearchFiltersMiddleware @Inject constructor(private val productsRepository: ProductsRepository)
     : Middleware<SearchState, SearchAction, SearchCommand> {
 
-    override fun bind(
-        actions: Observable<SearchAction>,
-        state: Observable<SearchState>,
-        requestAction: (SearchAction) -> Unit,
-        requestCommand: (SearchCommand) -> Unit
-    ): Observable<SearchAction> {
-        return observeProducts(requestAction)
+    override suspend fun bind(
+        coroutineScope: CoroutineScope,
+        state: StateFlow<SearchState>,
+        requestAction: suspend (SearchAction) -> Unit
+    ) {
+        coroutineScope.launch {
+            productsRepository.productsFlow()
+                .map { products -> getInitFiltersAction(products) }
+                .distinctUntilChanged()
+                .collectLatest { filters -> requestAction(SearchAction.InitFilters(filters)) }
+        }
     }
 
-    private fun observeProducts(
-        requestAction: (SearchAction) -> Unit
-    ): Observable<SearchAction> {
-        return productsRepository
-            .observeProducts()
-            .map<SearchAction> {
-                getInitFiltersAction(it)
-            }
-            .distinctUntilChanged()
-            .doOnNext {
-                Log.d("FEO420", "doOnNext")
-                requestAction(it)
-            }
+    override suspend fun process(
+        action: SearchAction,
+        currentState: SearchState,
+        requestAction: suspend (SearchAction) -> Unit,
+        requestCommand: suspend (SearchCommand) -> Unit
+    ) {
+
     }
 
-    private fun getInitFiltersAction(products: List<Product>): SearchAction.InitFilters{
+    private fun getInitFiltersAction(products: List<Product>): Filters{
         val availableColors = mutableSetOf<Color>()
         val availableSizes = mutableSetOf<Size>()
         var minPrice = Double.MAX_VALUE
@@ -68,7 +72,7 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
 
         Log.d("FEO99", "Init filters $initFilters")
 
-        return SearchAction.InitFilters(initFilters)
+        return initFilters
     }
 
 }

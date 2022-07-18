@@ -13,11 +13,12 @@ data class Filters (
     val priceRange: IntermediateSelection<IntRange>,
 ) {
     companion object {
-        val INIT = Filters(
-            IntermediateSelection(emptyList(), emptyList(), emptyList()),
-            IntermediateSelection(emptyList(), emptyList(), emptyList()),
-            IntermediateSelection(IntRange(Int.MIN_VALUE, Int.MAX_VALUE), IntRange(Int.MIN_VALUE, Int.MAX_VALUE), IntRange(Int.MIN_VALUE, Int.MAX_VALUE))
-        )
+//        val INIT = Filters(
+//            IntermediateSelection(emptyList(), emptyList(), emptyList()),
+//            IntermediateSelection(emptyList(), emptyList(), emptyList()),
+//            IntermediateSelection(IntRange(Int.MIN_VALUE, Int.MAX_VALUE), IntRange(Int.MIN_VALUE, Int.MAX_VALUE), IntRange(Int.MIN_VALUE, Int.MAX_VALUE))
+//        )
+        val INIT: Filters? = null
     }
 
     fun confirmSelection() = copy(

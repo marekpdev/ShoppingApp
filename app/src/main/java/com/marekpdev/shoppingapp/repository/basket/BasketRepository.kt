@@ -9,6 +9,6 @@ import io.reactivex.rxjava3.core.Observable
  */
 interface BasketRepository {
 
-    fun addProduct(product: Product)
+    suspend fun addProduct(product: Product)
 
 }

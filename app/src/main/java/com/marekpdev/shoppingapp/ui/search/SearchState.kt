@@ -14,7 +14,7 @@ data class SearchState(
     val searchSummary: String,
     val products: List<Product>,
     val sortType: SortType,
-    val filters: Filters
+    val filters: Filters?
 ): State
 
 

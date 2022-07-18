@@ -14,6 +14,15 @@ class ProductReducer: Reducer<ProductState, ProductAction> {
             is ProductAction.Loading -> {
                 currentState.copy(loading = true)
             }
+            is ProductAction.FetchProduct -> {
+                Log.d("FEO920", "FetchProduct reducer")
+                currentState.copy(
+                    product = null,
+                    selectedSize = null,
+                    selectedColor = null,
+                    loading = false
+                )
+            }
             is ProductAction.ProductFetched -> {
                 Log.d("FEO400", "Product fetched ${action.product}")
                 currentState.copy(

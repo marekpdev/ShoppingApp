@@ -14,6 +14,6 @@ class FavouriteViewModel @Inject constructor(favouriteStore: FavouriteStore): Ba
 
     init {
         Log.d("FEO70", "init FavouriteViewModel")
-        favouriteStore.dispatch(FavouriteAction.FetchInitialData)
+//        favouriteStore.dispatch(FavouriteAction.FetchInitialData)
     }
 }
