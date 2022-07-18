@@ -16,6 +16,7 @@ import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.MviView
+import com.marekpdev.shoppingapp.navigation.OnBackPressedCallback
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.productvh.ProductWidthConstAdapterDelegate
@@ -28,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by Marek Pszczolka on 14/04/2021.
  */
 @AndroidEntryPoint
-class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
+class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPressedCallback {
 
     // todo
     // need to add
@@ -116,6 +117,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         Log.d("FEO410", "Render")
         binding.apply {
             etSearch.setTextIfDifferent(state.searchQuery)
+
             val newData = mutableListOf<Any>().apply {
                 addAll(state.menu.categories)
                 addAll(state.menu.products)
@@ -144,4 +146,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         }
     }
 
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 }
