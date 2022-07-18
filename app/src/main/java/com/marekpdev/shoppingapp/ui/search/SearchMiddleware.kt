@@ -130,6 +130,8 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
             is SearchAction.SortConfirmed -> onSortConfirmed(action, currentState, requestAction, requestCommand)
             is SearchAction.FilterConfirmed -> onFilterConfirmed(action, currentState, requestAction, requestCommand)
             is SearchAction.ToggleFavouriteClicked -> onToggleFavourite(action, currentState, requestAction, requestCommand)
+            is SearchAction.CategoryClicked -> onCategoryClicked(action, currentState, requestAction, requestCommand)
+            is SearchAction.BackPressed -> onBackPressed(action, currentState, requestAction, requestCommand)
             else -> {
                 Log.d("FEO800", "Action not handled in SearchMiddleware")
             }
@@ -151,6 +153,62 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
     ) {
         Log.d("FEO800", "onSearchQueryChanged")
         searchQueryChangedActions.emit(action)
+    }
+
+    private suspend fun onCategoryClicked(
+        action: SearchAction.CategoryClicked,
+        currentState: SearchState,
+        requestAction: suspend (SearchAction) -> Unit,
+        requestCommand: suspend (SearchCommand) -> Unit
+    ) {
+        requestAction(SearchAction.Loading)
+        delay(500L) // TODO simulating search - can remove later on
+
+        val allMenu = productsRepository.getAllMenu().value
+        val categoryId = action.categoryId
+
+        val displayStates = currentState.displayStates
+            .map { it }
+            .toMutableList()
+            .apply { add(DisplayState.Category(categoryId)) }
+            .toList()
+
+        val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, displayStates.last(), currentState.filters, currentState.sortType)
+        val filteredCategories = getFilteredCategories(allMenu.categories, displayStates.last())
+        val newMenu = allMenu.copy(
+            categories = filteredCategories,
+            products = filteredProducts
+        )
+        requestAction(SearchAction.RefreshData(newMenu, displayStates, currentState.sortType , currentState.filters))
+    }
+
+    private suspend fun onBackPressed(
+        action: SearchAction.BackPressed,
+        currentState: SearchState,
+        requestAction: suspend (SearchAction) -> Unit,
+        requestCommand: suspend (SearchCommand) -> Unit
+    ) {
+
+        if(currentState.displayStates.size > 1){ // todo need to handle workflow properly
+            requestAction(SearchAction.Loading)
+            delay(500L) // TODO simulating search - can remove later on
+
+            val displayStates = currentState.displayStates
+                .map { it }
+                .toMutableList()
+                .apply { removeLast() }
+                .toList()
+
+            val allMenu = productsRepository.getAllMenu().value
+
+            val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, displayStates.last(), currentState.filters, currentState.sortType)
+            val filteredCategories = getFilteredCategories(allMenu.categories, displayStates.last())
+            val newMenu = allMenu.copy(
+                categories = filteredCategories,
+                products = filteredProducts
+            )
+            requestAction(SearchAction.RefreshData(newMenu, displayStates, currentState.sortType , currentState.filters))
+        }
     }
 
     private suspend fun onSortConfirmed(

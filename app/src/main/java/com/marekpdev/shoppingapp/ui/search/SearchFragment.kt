@@ -147,6 +147,8 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
     }
 
     override fun onBackPressed(): Boolean {
+        viewModel.dispatch(SearchAction.BackPressed)
+        // todo need to handle workflow to quit the app when we are in root category already
         return true
     }
 }

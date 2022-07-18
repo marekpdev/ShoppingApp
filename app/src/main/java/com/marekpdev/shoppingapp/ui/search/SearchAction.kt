@@ -25,6 +25,7 @@ sealed class SearchAction : Action {
 
     class ProductClicked(val productId: Long): SearchAction()
     class CategoryClicked(val categoryId: Int): SearchAction()
+    object BackPressed: SearchAction()
     class ToggleFavouriteClicked(val product: Product): SearchAction()
 
     object SortClicked: SearchAction()
