@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.mvi
 
-import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -10,7 +9,7 @@ import kotlinx.coroutines.withContext
 /**
  * Created by Marek Pszczolka on 05/06/2022.
  */
-open class BaseViewModel <S: State, A: Action, C: Command>(val store: Store<S, A, C>): ViewModel() {
+open class BaseViewModel <S: State, A: Action, C: Command>(protected val store: Store<S, A, C>): ViewModel() {
 
     fun dispatch(action: A){
         viewModelScope.launch {
