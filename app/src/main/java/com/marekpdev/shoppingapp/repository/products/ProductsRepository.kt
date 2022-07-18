@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.repository.products
 
 import com.marekpdev.shoppingapp.models.Product
+import com.marekpdev.shoppingapp.repository.Menu
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -12,7 +13,9 @@ import kotlinx.coroutines.flow.StateFlow
  */
 interface ProductsRepository {
 
-    fun productsFlow(): StateFlow<List<Product>>
+    fun getAllMenu(): StateFlow<Menu>
+
+    suspend fun getMenuForCategory(categoryId: Int): Menu
 
     suspend fun getProduct(id: Long): Product?
 

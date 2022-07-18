@@ -1,25 +1,13 @@
 package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
-import com.jakewharton.rxrelay3.PublishRelay
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
-import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
-import dagger.Provides
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.ofType
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import java.lang.Exception
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -54,20 +42,22 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                     Log.d("FEO150", "MAPPING")
                     val currentState = state.value
                     Log.d("FEO900", "Current state ${currentState.sortType}")
-                    val products = productsRepository.productsFlow().value
+                    val allMenu = productsRepository.getAllMenu().value
+                    val products = allMenu.products
                     val filteredProducts = getFilteredProducts(products, action.query, currentState.filters, currentState.sortType)
                     Log.d("FEO150", "COLLECTING")
-                    requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , currentState.filters))
+                    val newMenu = allMenu.copy(products = filteredProducts)
+                    requestAction(SearchAction.RefreshData(newMenu, currentState.sortType , currentState.filters))
                 }
         }
         Log.d("FEO610", "Binding SearchMiddleware 2")
         coroutineScope.launch {
-            productsRepository.productsFlow()
-                .collectLatest { products ->
+            productsRepository.getAllMenu()
+                .collectLatest { menu ->
                     Log.d("FEO610", "Mapping productsFlow 1")
                     val currentState = state.value
-                    val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters, currentState.sortType)
-                    requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , currentState.filters))
+                    val filteredProducts = getFilteredProducts(menu.products, currentState.searchQuery, currentState.filters, currentState.sortType)
+                    requestAction(SearchAction.RefreshData(menu.copy(products = filteredProducts), currentState.sortType , currentState.filters))
                 }
         }
         Log.d("FEO610", "Binding SearchMiddleware 3")
@@ -113,10 +103,11 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction: suspend (SearchAction) -> Unit,
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
-        val products = productsRepository.productsFlow().value
+        val menu = productsRepository.getAllMenu().value
+        val products = menu.products
         val confirmedSortType = currentState.sortType.confirmSelection()
         val filteredProducts = getFilteredProducts(products, currentState.searchQuery, currentState.filters, confirmedSortType)
-        requestAction(SearchAction.RefreshData(filteredProducts, confirmedSortType , currentState.filters))
+        requestAction(SearchAction.RefreshData(menu.copy(products = filteredProducts), confirmedSortType , currentState.filters))
     }
 
     private suspend fun onFilterConfirmed(
@@ -125,10 +116,11 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction: suspend (SearchAction) -> Unit,
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
-        val products = productsRepository.productsFlow().value
+        val menu = productsRepository.getAllMenu().value
+        val products = menu.products
         val confirmedFilters = currentState.filters?.confirmSelection()
         val filteredProducts = getFilteredProducts(products, currentState.searchQuery, confirmedFilters, currentState.sortType)
-        requestAction(SearchAction.RefreshData(filteredProducts, currentState.sortType , confirmedFilters))
+        requestAction(SearchAction.RefreshData(menu.copy(products = filteredProducts), currentState.sortType , confirmedFilters))
     }
 
     private suspend fun onToggleFavourite(

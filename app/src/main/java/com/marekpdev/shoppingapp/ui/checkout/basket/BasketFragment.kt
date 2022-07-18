@@ -65,13 +65,13 @@ class BasketFragment : Fragment() {
 
     private fun initLayout(binding: FragmentBasketBinding) = binding.apply {
         Log.d("FEO33", "initLayout")
-        val items = Basket.basketItems
-        Log.d("FEO33", "Basket items: ${items.size}")
+//        val items = Basket.basketItems
+//        Log.d("FEO33", "Basket items: ${items.size}")
 
-        rvBasketProducts.layoutManager = LinearLayoutManager(context)
-        rvBasketProducts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        rvBasketProducts.adapter = adapter
-        adapter.replaceData(items)
+//        rvBasketProducts.layoutManager = LinearLayoutManager(context)
+//        rvBasketProducts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+//        rvBasketProducts.adapter = adapter
+//        adapter.replaceData(items)
 
         btnContinue.setOnClickListener {
             findNavController().navigate(R.id.action_checkoutFragment_to_checkoutOrderDetailsFragment)

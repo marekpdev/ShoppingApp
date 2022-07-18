@@ -29,4 +29,14 @@ class Randomizer<T>(val items: List<T> = listOf()) {
         val randomIndex = Random(currentIndex++).nextInt(items.size)
         return items[randomIndex]
     }
+
+    fun get(vararg indexes: Int): List<T> = mutableListOf<T>().also { list ->
+        indexes.forEach { index ->
+            list.add(items[index])
+        }
+    }.toList()
+
+    fun getItem(index: Int): T {
+        return items[index]
+    }
 }

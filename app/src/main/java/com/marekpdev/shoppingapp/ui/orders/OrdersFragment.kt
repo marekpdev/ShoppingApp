@@ -65,35 +65,35 @@ class OrdersFragment : Fragment() {
     }
 
     private val items = mutableListOf<Any>().apply {
-        val repo = ProductsRepositoryImpl()
-        val thisWeekCount = 3
-
-        // regarding headers and items
-        // https://github.com/google/iosched/blob/main/mobile/src/main/java/com/google/samples/apps/iosched/ui/agenda/AgendaHeaderIndexer.kt
-        // probably here is a good example on how to structure headers + list items
-        add("This week $thisWeekCount")
-        (1..thisWeekCount).forEach {
-            val order = Data.getOrder(it.toLong())
-            add(order)
-        }
-
-        val lastWeekCount = 5
-
-        add("Last week $lastWeekCount")
-        (1..lastWeekCount).forEach {
-            val order = Data.getOrder(it.toLong())
-            add(order)
-        }
-
-        val lastMonthCount = 5
-
-        add("Last month $lastMonthCount")
-        (1..lastMonthCount).forEach {
-            val order = Data.getOrder(it.toLong())
-            add(order)
-        }
-
-        Log.d("FEO33", "Added some items")
+//        val repo = ProductsRepositoryImpl()
+//        val thisWeekCount = 3
+//
+//        // regarding headers and items
+//        // https://github.com/google/iosched/blob/main/mobile/src/main/java/com/google/samples/apps/iosched/ui/agenda/AgendaHeaderIndexer.kt
+//        // probably here is a good example on how to structure headers + list items
+//        add("This week $thisWeekCount")
+//        (1..thisWeekCount).forEach {
+//            val order = Data.getOrder(it.toLong())
+//            add(order)
+//        }
+//
+//        val lastWeekCount = 5
+//
+//        add("Last week $lastWeekCount")
+//        (1..lastWeekCount).forEach {
+//            val order = Data.getOrder(it.toLong())
+//            add(order)
+//        }
+//
+//        val lastMonthCount = 5
+//
+//        add("Last month $lastMonthCount")
+//        (1..lastMonthCount).forEach {
+//            val order = Data.getOrder(it.toLong())
+//            add(order)
+//        }
+//
+//        Log.d("FEO33", "Added some items")
     }
 
 }

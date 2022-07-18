@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
+import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
@@ -45,10 +46,15 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         viewModel.dispatch(SearchAction.ToggleFavouriteClicked(it))
     }
 
+    private val onCategoryClicked: (Category) -> Unit = {
+        viewModel.dispatch(SearchAction.CategoryClicked(it.id))
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
 //            .addDelegate(ProductAdapterDelegate(onProductClicked, onToggleFavourite))
             .addDelegate(ProductWidthConstAdapterDelegate(onProductClicked, onToggleFavourite))
+            .addDelegate(MenuCategoryDelegate(onCategoryClicked))
     )
 
     override fun onCreateView(
@@ -81,7 +87,18 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
     }
 
     private fun initLayout(binding: FragmentSearchBinding) = binding.apply {
-        rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        layoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (adapter.getItems()[position]){
+                    is Category -> 2
+                    is Product -> 1
+                    else -> 1
+                }
+            }
+        }
+
+        rvProducts.layoutManager = layoutManager
         rvProducts.adapter = adapter
 
         ivSort.setOnClickListener { viewModel.dispatch(SearchAction.SortClicked) }
@@ -99,7 +116,11 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         Log.d("FEO410", "Render")
         binding.apply {
             etSearch.setTextIfDifferent(state.searchQuery)
-            adapter.replaceData(state.products)
+            val newData = mutableListOf<Any>().apply {
+                addAll(state.menu.categories)
+                addAll(state.menu.products)
+            }
+            adapter.replaceData(newData)
             tvSummary.text = state.searchSummary
             pbSearch.visibility = when (state.searchInProgress) {
                 true -> View.VISIBLE

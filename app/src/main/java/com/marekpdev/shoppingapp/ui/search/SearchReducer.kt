@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Reducer
+import com.marekpdev.shoppingapp.repository.Menu
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.
@@ -20,8 +21,8 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                 Log.d("FEO111", "INITIAL DATA FILTERS ${action.filters}")
                 currentState.copy(
                     searchInProgress = false,
-                    searchSummary = "Showing ${action.products.size} items",
-                    products = action.products,
+                    searchSummary = "Showing ${action.menu.products.size} items",
+                    menu = action.menu,
                     sortType = action.sortType,
                     filters = action.filters
                 )
@@ -30,8 +31,8 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                 Log.d("FEO111", "REFRESH DATA FILTERS ${action.filters}")
                 currentState.copy(
                     searchInProgress = false,
-                    searchSummary = "Showing ${action.products.size} items",
-                    products = action.products,
+                    searchSummary = "Showing ${action.menu.products.size} items",
+                    menu = action.menu,
                     sortType = action.sortType,
                     filters = action.filters
                 )
@@ -40,7 +41,7 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                 currentState.copy(
                     searchInProgress = false,
                     searchSummary = "Search failed ${action.error?.toString()}",
-                    products = emptyList()
+                    menu = Menu(emptyList(), emptyList())
                 )
             }
             is SearchAction.InitFilters -> {

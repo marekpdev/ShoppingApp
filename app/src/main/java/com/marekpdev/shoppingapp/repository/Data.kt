@@ -13,69 +13,15 @@ import kotlin.random.Random
  */
 object Data {
 
-    fun getProduct(id: Long, categoryId: Int) = Product(
-        id = id,
-        name = names.getRandomItem(),
-        description = descriptions.getRandomItem(),
-        price = prices.getRandomItem(),
-        oldPrice = null,
-        currency = "$",
-        availableColors = colors.getRandomItems(),
-        availableSizes = sizes.getRandomItems(),
-        images = images.getRandomItems(),
-        categoryId = categoryId,
-        false
-    )
-
-    fun getProducts(count: Int, categoryId: Int): List<Product>{
-        return (1..count).map { getProduct(it.toLong(), categoryId) }
-    }
-
-    fun List<Product>.toOrderProducts(): List<OrderProduct> = map { product ->
-        OrderProduct(
-            id = 1L * product.id,
-            productId = product.id,
-            name = product.name,
-            description = product.description,
-            price = product.price,
-            currency = product.currency,
-            images = product.images,
-            selectedSize = product.availableSizes.firstOrNull(),
-            selectedColor = product.availableColors.firstOrNull(),
-        )
-    }
-
-    fun getAddress() = Address(
-        "Street1",
-        "Street2",
-        "EH1111",
-        "Edin",
-        "UK"
-    )
-
-    fun getOrder(id: Long) = Order(
-        id,
-        getProducts(5, 1).toOrderProducts(),
-        300.0,
-        getAddress(),
-        PaymentMethod("VISA **** 1234"),
-        1000000L,
-        OrderStatus.IN_PROGRESS
-    )
-
-    fun getOrders(count: Int): List<Order>{
-        return (1..count).map { getOrder(it.toLong()) }
-    }
-
-    val prices = Randomizer(
+    private val prices = Randomizer(
         listOf(10.5, 15.0, 18.0, 22.0, 5.0, 3.5, 12.0)
     )
 
-    val sizes = Randomizer(
+    private val sizes = Randomizer(
         (1..9).map { Size(it, "0$it") }
     )
 
-    val colors = Randomizer(
+    private val colors = Randomizer(
         listOf(
             Color(1, "light sea green", "#17C3B2"),
             Color(2, "CG Blue", "#227C9D"),
@@ -86,7 +32,7 @@ object Data {
         )
     )
 
-    val images = Randomizer(
+    private val images = Randomizer(
         listOf(
             "https://oldnavy.gap.com/Asset_Archive/ONWeb/content/0028/280/679/assets/211225_60-M6165_W_DP_NewArrivals.jpg",
             "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1620399389-best-amazon-dresses-for-women-ruffle-dress-1620399361.png?crop=0.786xw:0.985xh;0.101xw,0.0150xh&resize=480:*",
@@ -104,7 +50,7 @@ object Data {
         )
     )
 
-    val descriptions = Randomizer(listOf(
+    private val descriptions = Randomizer(listOf(
         "Pinstripped cornflower blue cotton blouse takes you on a walk to the park or just down the hall.",
         "V neck\n" +
                 "long fitted sleeves\n" +
@@ -133,45 +79,90 @@ object Data {
 
         ))
 
-    val names = Randomizer(
+    private val names = Randomizer(
         (1..100).map { "Product Name $it" }
     )
 
-    val products by lazy {
-        getMenu().second!!
+
+    private fun getProduct(id: Long, parentCategoryIds: List<Int>, recommendationsCategoryId: Int?) = Product(
+        id = id,
+        name = names.getRandomItem(),
+        description = descriptions.getRandomItem(),
+        price = prices.getRandomItem(),
+        oldPrice = null,
+        currency = "$",
+        availableColors = colors.getRandomItems(),
+        availableSizes = sizes.getRandomItems(),
+        images = images.getRandomItems(),
+        parentCategoryIds = parentCategoryIds,
+        false,
+        recommendationsCategoryId
+    )
+
+//    fun getProducts(count: Int, categoryId: Int): List<Product>{
+//        return (1..count).map { getProduct(it.toLong(), categoryId) }
+//    }
+
+    fun List<Product>.toOrderProducts(): List<OrderProduct> = map { product ->
+        OrderProduct(
+            id = 1L * product.id,
+            productId = product.id,
+            name = product.name,
+            description = product.description,
+            price = product.price,
+            currency = product.currency,
+            images = product.images,
+            selectedSize = product.availableSizes.firstOrNull(),
+            selectedColor = product.availableColors.firstOrNull(),
+        )
     }
 
-    fun getMenu(): Pair<List<Category>, List<Product>> {
-        val categories = mutableListOf<Category>()
-        val products = mutableListOf<Product>()
+    fun getAddress() = Address(
+        "Street1",
+        "Street2",
+        "EH1111",
+        "Edin",
+        "UK"
+    )
 
-        val root = Category(ROOT_CATEGORY_ID, NO_CATEGORY_ID, "ROOT")
-        categories.add(root)
+//    fun getOrder(id: Long) = Order(
+//        id,
+//        getProducts(5, 1).toOrderProducts(),
+//        300.0,
+//        getAddress(),
+//        PaymentMethod("VISA **** 1234"),
+//        1000000L,
+//        OrderStatus.IN_PROGRESS
+//    )
 
-        val cat = listOf(
-            "Woman" to listOf("Blouses","Shirts", "Trousers", "Jeans", "Shorts", "Skirts", "Dresses", "Jumpers"),
-            "Woman 2" to listOf("Jumpers", "Hoodies", "T-shirts", "Polo Shirts", "Suits"),
-            "Accessories" to listOf("Bags", "Hats", "Gloves", "Jewellery", "Belts", "Sunglasses")
+//    fun getOrders(count: Int): List<Order>{
+//        return (1..count).map { getOrder(it.toLong()) }
+//    }
+
+
+
+    val products by lazy {
+        getMenu().products
+    }
+
+    fun getMenu(): Menu {
+
+        val categoryRoot = Category(ROOT_CATEGORY_ID, null, "ROOT", DisplayPlace.MENU)
+        val category1 = Category(1, ROOT_CATEGORY_ID, "Dresses", DisplayPlace.MENU)
+        val category2 = Category(2, ROOT_CATEGORY_ID, "Tshirts", DisplayPlace.MENU)
+
+        val product101 = getProduct(101, listOf(category1.id), null)
+        val product102 = getProduct(102, listOf(category1.id), null)
+        val product103 = getProduct(103, listOf(category1.id), null)
+
+        val product201 = getProduct(201, listOf(category2.id), null)
+        val product202 = getProduct(202, listOf(category2.id), null)
+        val product203 = getProduct(203, listOf(category2.id), null)
+
+        return Menu(
+            listOf(categoryRoot, category1, category2),
+            listOf(product101, product102, product103, product201, product202, product203)
         )
-
-        cat.forEach {
-            val mainCategoryName = it.first
-            val mainCategory = Category(getNextCategoryId(), ROOT_CATEGORY_ID, mainCategoryName)
-            categories.add(mainCategory)
-            val subcategoriesNames = it.second
-            subcategoriesNames.forEach { subcategoryName ->
-                val subcategory = Category(getNextCategoryId(), mainCategory.id, subcategoryName)
-                categories.add(subcategory)
-                val randomProductSize = Random(categoryId).nextInt(5, 20)
-                (1..randomProductSize).forEach {
-                    val product = getProduct(getNextProductId(), subcategory.id)
-                    products.add(product)
-                }
-            }
-
-        }
-
-        return categories to products
     }
 
     var categoryId = 1
@@ -181,3 +172,11 @@ object Data {
     fun getNextProductId() = productId++
 
 }
+
+data class Menu(val categories: List<Category>, val products: List<Product>)
+
+//val cat = listOf(
+//    "Woman" to listOf("Blouses","Shirts", "Trousers", "Jeans", "Shorts", "Skirts", "Dresses", "Jumpers"),
+//    "Woman 2" to listOf("Jumpers", "Hoodies", "T-shirts", "Polo Shirts", "Suits"),
+//    "Accessories" to listOf("Bags", "Hats", "Gloves", "Jewellery", "Belts", "Sunglasses")
+//)

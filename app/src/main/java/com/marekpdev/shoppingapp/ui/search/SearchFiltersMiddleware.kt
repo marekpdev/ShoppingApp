@@ -7,7 +7,6 @@ import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -31,8 +30,8 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
         requestAction: suspend (SearchAction) -> Unit
     ) {
         coroutineScope.launch {
-            productsRepository.productsFlow()
-                .map { products -> getInitFiltersAction(products) }
+            productsRepository.getAllMenu()
+                .map { menu -> getInitFiltersAction(menu.products) }
                 .distinctUntilChanged()
                 .collectLatest { filters -> requestAction(SearchAction.InitFilters(filters)) }
         }
