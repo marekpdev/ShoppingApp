@@ -10,13 +10,7 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(searchStore: SearchStore): BaseViewModel<SearchState, SearchAction, SearchCommand>(searchStore) {
-
-    init {
-        Log.d("FEO70", "init SearchViewModel")
-        //searchStore.dispatch(SearchAction.FetchInitialData)
-    }
-
+class SearchViewModel @Inject constructor(store: SearchStore): BaseViewModel<SearchState, SearchAction, SearchCommand>(store) {
 
     override fun canHandleBackPressed(): Boolean {
         return store.canHandleBackPressed()

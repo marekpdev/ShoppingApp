@@ -5,6 +5,8 @@ import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.models.order.OrderProduct
 import com.marekpdev.shoppingapp.models.order.OrderStatus
 import com.marekpdev.shoppingapp.models.order.PaymentMethod
+import com.marekpdev.shoppingapp.ui.home.products.HomeProducts
+import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeader
 import java.util.*
 import kotlin.random.Random
 
@@ -151,17 +153,34 @@ object Data {
         val category1 = Category(1, ROOT_CATEGORY_ID, "Dresses", DisplayPlace.MENU)
         val category2 = Category(2, ROOT_CATEGORY_ID, "Tshirts", DisplayPlace.MENU)
 
-        val product101 = getProduct(101, listOf(category1.id), null)
-        val product102 = getProduct(102, listOf(category1.id), null)
-        val product103 = getProduct(103, listOf(category1.id), null)
+        // MENU
+        val category1Products = (101L..105L).map {
+            getProduct(it, listOf(category1.id), null)
+        }
+        val category2Products = (201L..205L).map {
+            getProduct(it, listOf(category2.id), null)
+        }
 
-        val product201 = getProduct(201, listOf(category2.id), null)
-        val product202 = getProduct(202, listOf(category2.id), null)
-        val product203 = getProduct(203, listOf(category2.id), null)
+        // HOME
+        val categoryHome1 = Category(1001, null, "Best sellers", DisplayPlace.HOME)
+        val categoryHome2 = Category(1002, null, "Just arrived", DisplayPlace.HOME)
+        val categoryHome3 = Category(1003, null, "Discover more", DisplayPlace.HOME)
+
+        val categoryHome1Products = (1001L..1008L).map {
+            getProduct(it, listOf(categoryHome1.id), null)
+        }
+
+        val categoryHome2Products = (2001L..2005L).map {
+            getProduct(it, listOf(categoryHome2.id), null)
+        }
+
+        val categoryHome3Products = (3001L..3010L).map {
+            getProduct(it, listOf(categoryHome3.id), null)
+        }
 
         return Menu(
-            listOf(categoryRoot, category1, category2),
-            listOf(product101, product102, product103, product201, product202, product203)
+            listOf(categoryRoot, category1, category2, categoryHome1, categoryHome2, categoryHome3),
+            listOf(category1Products, category2Products, categoryHome1Products, categoryHome2Products, categoryHome3Products).flatten()
         )
     }
 

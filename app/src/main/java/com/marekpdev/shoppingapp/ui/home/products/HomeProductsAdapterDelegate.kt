@@ -19,21 +19,9 @@ import com.marekpdev.shoppingapp.ui.productvh.ProductHeightConstAdapterDelegate
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class HomeProductsAdapterDelegate(private val onHomeProductClicked: (Product) -> Unit) :
+class HomeProductsAdapterDelegate(onProductClicked: (Product) -> Unit,
+                                  onToggleFavourite: (Product) -> Unit) :
     BaseAdapterDelegate<HomeProducts, BaseViewHolder<VhHomeProductsBinding>>(HomeProducts::class.java){
-
-    private val onShowMoreClicked: (String) -> Unit = {
-        Log.d("FEO33", "Clicked showMore")
-    }
-
-    private val onProductClicked: (Product) -> Unit = {
-        Log.d("FEO33", "Clicked product")
-        onHomeProductClicked(it)
-    }
-
-    private val onToggleFavourite: (Product) -> Unit = {
-        Log.d("FEO33", "onToggleFavourite product")
-    }
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()

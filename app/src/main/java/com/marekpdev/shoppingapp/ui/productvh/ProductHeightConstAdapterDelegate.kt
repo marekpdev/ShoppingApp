@@ -32,12 +32,12 @@ class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) 
 
                 ivProductImage.clipToOutline = true
 
-                ivFavouriteToggle.setOnClickListener { Log.d("FEO33", "Log") }
+                ivFavouriteToggle.setOnClickListener { onToggleFavourite(item) }
                 ivFavouriteToggle.clipToOutline = true
 
                 val favouriteIcon = when(item.isFavoured){
-                    true -> R.drawable.ic_favourite_2_red_filled
-                    else -> R.drawable.ic_favourite_1_red
+                    true -> R.drawable.ic_favourite_1_red
+                    else -> R.drawable.ic_favourite_1_black
                 }
                 ivFavouriteToggle.setImageResource(favouriteIcon)
             }
