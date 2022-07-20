@@ -23,6 +23,7 @@ class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) 
 
             root.setOnClickListener { onProductClicked(item) }
 
+
             productLayout.apply {
                 tvProductName.text = item.name
                 tvProductPrice.text = item.currency + "" + item.price
