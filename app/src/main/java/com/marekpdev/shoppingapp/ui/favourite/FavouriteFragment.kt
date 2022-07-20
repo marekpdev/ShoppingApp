@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentFavouriteBinding
 import com.marekpdev.shoppingapp.models.Product
@@ -82,6 +83,12 @@ class FavouriteFragment : Fragment(), MviView<FavouriteState, FavouriteCommand> 
     }
 
     override fun onCommand(command: FavouriteCommand) {
-        // todo
+        when(command){
+            is FavouriteCommand.ShowProductUnfavoured -> {
+                Snackbar.make(binding.root, "${command.product.name} removed from favourites", Snackbar.LENGTH_LONG)
+                    .apply { setAction("UNDO") { onToggleFavourite(command.product) } }
+                    .show()
+            }
+        }
     }
 }

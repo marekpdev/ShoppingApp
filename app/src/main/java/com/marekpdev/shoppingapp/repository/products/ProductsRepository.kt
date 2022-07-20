@@ -19,6 +19,6 @@ interface ProductsRepository {
 
     suspend fun getProduct(id: Long): Product?
 
-    suspend fun toggleFavourite(product: Product)
+    suspend fun toggleFavourite(product: Product): Product
 
 }

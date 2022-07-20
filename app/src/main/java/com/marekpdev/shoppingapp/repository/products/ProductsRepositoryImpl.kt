@@ -42,20 +42,22 @@ class ProductsRepositoryImpl @Inject constructor(
         product
     }
 
-    override suspend fun toggleFavourite(product: Product) {
+    override suspend fun toggleFavourite(product: Product): Product {
         val indexOf = allMenu.value.products.indexOf(product)
+
         if (indexOf > 0) {
-            Log.d("FEO410", "Index found $indexOf")
             val newFavourite = !product.isFavoured
             val newProduct = product.copy(isFavoured = newFavourite)
             val newProductsList = allMenu.value.products.toMutableList()
             newProductsList[indexOf] = newProduct
-            Log.d("FEO410", "UPDATING $indexOf")
             val newMenu = allMenu.value.copy(
                 products = newProductsList
             )
             allMenu.emit(newMenu)
+            return newProduct
         }
+
+        return product
     }
 
     override fun getAllMenu(): StateFlow<Menu> {

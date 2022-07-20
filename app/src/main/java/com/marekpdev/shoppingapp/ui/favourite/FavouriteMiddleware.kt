@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.favourite
 
+import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -49,7 +50,10 @@ class FavouriteMiddleware @Inject constructor(private val productsRepository: Pr
         requestAction: suspend (FavouriteAction) -> Unit,
         requestCommand: suspend (FavouriteCommand) -> Unit
     ) {
-        productsRepository.toggleFavourite(action.product)
+        val updatedProduct = productsRepository.toggleFavourite(action.product)
+        if(!updatedProduct.isFavoured) {
+            requestCommand(FavouriteCommand.ShowProductUnfavoured(updatedProduct))
+        }
     }
 
 }
