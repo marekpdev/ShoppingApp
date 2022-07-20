@@ -5,6 +5,7 @@ import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.DisplayPlace
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
+import com.marekpdev.shoppingapp.repository.homebanners.HomeBannersRepository
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.SearchAction
 import com.marekpdev.shoppingapp.ui.search.SearchCommand
@@ -18,7 +19,8 @@ import javax.inject.Inject
 /**
  * Created by Marek Pszczolka on 20/07/2022.
  */
-class HomeMiddleware @Inject constructor(private val productsRepository: ProductsRepository)
+class HomeMiddleware @Inject constructor(private val productsRepository: ProductsRepository,
+                                         private val homeBannersRepository: HomeBannersRepository)
     : Middleware<HomeState, HomeAction, HomeCommand> {
 
     override suspend fun bind(
@@ -36,6 +38,14 @@ class HomeMiddleware @Inject constructor(private val productsRepository: Product
                         .map { category -> category to allMenu.products.filter { product -> category.id in product.parentCategoryIds } }
 
                     requestAction(HomeAction.RefreshProductRecommendations(productRecommendations))
+                }
+        }
+
+        coroutineScope.launch {
+            homeBannersRepository.getHomeBanners()
+                .collectLatest { homeBanners ->
+                    Log.d("FEO999", "Mapping homeBanners 1")
+                    requestAction(HomeAction.RefreshHomeBanners(homeBanners))
                 }
         }
     }

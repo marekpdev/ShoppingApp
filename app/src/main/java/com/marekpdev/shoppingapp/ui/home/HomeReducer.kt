@@ -20,6 +20,12 @@ class HomeReducer: Reducer<HomeState, HomeAction> {
                     loadingProductRecommendations = false
                 )
             }
+            is HomeAction.RefreshHomeBanners -> {
+                currentState.copy(
+                    homeBanners = action.homeBanners,
+                    loadingBanners = false
+                )
+            }
             else -> {
                 currentState
             }

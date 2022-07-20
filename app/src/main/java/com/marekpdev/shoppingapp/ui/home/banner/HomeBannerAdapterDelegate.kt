@@ -14,7 +14,7 @@ import com.marekpdev.shoppingapp.ui.home.banner.items.old.HomeBannerAdapter
  * Created by Marek Pszczolka on 01/03/2022.
  */
 class HomeBannerAdapterDelegate(private val onBannerClicked: () -> Unit) :
-    BaseAdapterDelegate<HomeBannerImages, BaseViewHolder<VhHomeBannerBinding>>(HomeBannerImages::class.java){
+    BaseAdapterDelegate<HomeBanners, BaseViewHolder<VhHomeBannerBinding>>(HomeBanners::class.java){
 
     private val adapter =
         HomeBannerAdapter()
@@ -25,12 +25,12 @@ class HomeBannerAdapterDelegate(private val onBannerClicked: () -> Unit) :
 //                .addDelegate(BannerImageAdapterDelegate())
 //        )
 
-    override fun bindViewHolder(item: HomeBannerImages, holder: BaseViewHolder<VhHomeBannerBinding>) {
+    override fun bindViewHolder(item: HomeBanners, holder: BaseViewHolder<VhHomeBannerBinding>) {
         holder.bind {
             root.setOnClickListener { onBannerClicked() }
 
             vpHomeBanner.adapter = adapter
-            adapter.replaceData(item.images)
+            adapter.replaceData(item.homeBanners)
 
             TabLayoutMediator(tlHomeBanner, vpHomeBanner) { tab, position ->}.attach()
         }

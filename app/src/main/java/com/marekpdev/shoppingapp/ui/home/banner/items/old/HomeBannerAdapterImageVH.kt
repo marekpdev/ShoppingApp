@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.models.HomeBanner
 
 /**
  * Created by Marek Pszczolka on 08/02/2022.
@@ -22,7 +23,7 @@ class HomeBannerAdapterImageVH(view: View) : RecyclerView.ViewHolder(view) {
         // Define click listener for the ViewHolder's View.
     }
 
-    fun bind(imageRes: Int) {
-        ivBannerImage.setImageResource(imageRes)
+    fun bind(homeBanner: HomeBanner) {
+        ivBannerImage.setImageResource(homeBanner.imageResId)
     }
 }

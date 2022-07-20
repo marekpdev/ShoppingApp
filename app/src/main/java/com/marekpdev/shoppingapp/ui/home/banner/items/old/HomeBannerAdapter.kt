@@ -3,11 +3,12 @@ package com.marekpdev.shoppingapp.ui.home.banner.items.old
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.marekpdev.shoppingapp.models.HomeBanner
 
 /**
  * Created by Marek Pszczolka on 08/02/2022.
  */
-class HomeBannerAdapter(private var images: List<Int> = listOf()) : RecyclerView.Adapter<HomeBannerAdapterImageVH>(){
+class HomeBannerAdapter(private var homeBanners: List<HomeBanner> = listOf()) : RecyclerView.Adapter<HomeBannerAdapterImageVH>(){
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): HomeBannerAdapterImageVH {
         // Create a new view, which defines the UI of the list item
@@ -18,13 +19,13 @@ class HomeBannerAdapter(private var images: List<Int> = listOf()) : RecyclerView
     }
 
     override fun onBindViewHolder(viewHolder: HomeBannerAdapterImageVH, position: Int) {
-        viewHolder.bind(images[position])
+        viewHolder.bind(homeBanners[position])
     }
 
-    override fun getItemCount() = images.size
+    override fun getItemCount() = homeBanners.size
 
-    fun replaceData(images: List<Int>) {
-        this.images = images
+    fun replaceData(homeBanners: List<HomeBanner>) {
+        this.homeBanners = homeBanners
         notifyDataSetChanged()
     }
 }

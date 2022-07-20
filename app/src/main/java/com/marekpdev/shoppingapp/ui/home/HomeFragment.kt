@@ -18,7 +18,7 @@ import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerAdapterDelegate
-import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerImages
+import com.marekpdev.shoppingapp.ui.home.banner.HomeBanners
 import com.marekpdev.shoppingapp.ui.home.products.HomeProducts
 import com.marekpdev.shoppingapp.ui.home.products.HomeProductsAdapterDelegate
 import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeader
@@ -85,11 +85,8 @@ class HomeFragment : Fragment(), MviView<HomeState, HomeCommand> {
 
             Log.d("FEO999", "Rendering: ${state.productRecommendations.size}")
             val items = mutableListOf<Any>().apply {
-                add(HomeBannerImages(listOf(
-                    R.drawable.home_banner_1,
-                    R.drawable.home_banner_2,
-                    R.drawable.home_banner_3))
-                )
+
+                add(HomeBanners(state.homeBanners))
 
                 state.productRecommendations.forEach { (category, products) ->
                     add(HomeProductsHeader(category.name))
