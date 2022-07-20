@@ -34,6 +34,8 @@ class FavouriteFragment : Fragment(), MviView<FavouriteState, FavouriteCommand> 
 
     private lateinit var binding: FragmentFavouriteBinding
 
+    private var productUnfavouredSnackbar: Snackbar? = null
+
     private val onProductClicked: (Product) -> Unit = {
         viewModel.dispatch(FavouriteAction.ProductClicked(it.id))
     }
@@ -85,8 +87,10 @@ class FavouriteFragment : Fragment(), MviView<FavouriteState, FavouriteCommand> 
     override fun onCommand(command: FavouriteCommand) {
         when(command){
             is FavouriteCommand.ShowProductUnfavoured -> {
+                productUnfavouredSnackbar?.dismiss()
                 Snackbar.make(binding.root, "${command.product.name} removed from favourites", Snackbar.LENGTH_LONG)
                     .apply { setAction("UNDO") { onToggleFavourite(command.product) } }
+                    .also { productUnfavouredSnackbar = it }
                     .show()
             }
         }
