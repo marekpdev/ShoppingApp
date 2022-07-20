@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
 import com.marekpdev.shoppingapp.models.Category
+import com.marekpdev.shoppingapp.models.DisplayPlace
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
@@ -266,10 +267,11 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                                       displayState: DisplayState): List<Category>{
         return categories
             .filter { category ->
-                when(displayState) {
-                    is DisplayState.Category -> displayState.categoryId == category.parentCategoryId // only show categories for the given category
-                    is DisplayState.SearchResults -> false // no need to show categories
-                }
+                category.displayPlace == DisplayPlace.MENU &&
+                        when (displayState) {
+                            is DisplayState.Category -> displayState.categoryId == category.parentCategoryId // only show categories for the given category
+                            is DisplayState.SearchResults -> false // no need to show categories
+                        }
             }
     }
 

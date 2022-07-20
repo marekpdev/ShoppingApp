@@ -12,6 +12,7 @@ import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
+import com.marekpdev.shoppingapp.ui.favourite.FavouriteAction
 import com.marekpdev.shoppingapp.ui.home.products.items.HomeShowMoreAdapterDelegate
 import com.marekpdev.shoppingapp.ui.productvh.ProductHeightConstAdapterDelegate
 
@@ -30,10 +31,14 @@ class HomeProductsAdapterDelegate(private val onHomeProductClicked: (Product) ->
         onHomeProductClicked(it)
     }
 
+    private val onToggleFavourite: (Product) -> Unit = {
+        Log.d("FEO33", "onToggleFavourite product")
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(ProductHeightConstAdapterDelegate(onProductClicked))
-            .addDelegate(HomeShowMoreAdapterDelegate(onShowMoreClicked))
+            .addDelegate(ProductHeightConstAdapterDelegate(onProductClicked, onToggleFavourite))
+//            .addDelegate(HomeShowMoreAdapterDelegate(onShowMoreClicked)) // TODO not needed?
     )
 
     override fun bindViewHolder(item: HomeProducts, holder: BaseViewHolder<VhHomeProductsBinding>) {
@@ -42,11 +47,7 @@ class HomeProductsAdapterDelegate(private val onHomeProductClicked: (Product) ->
             rvHomeProducts.layoutManager = LinearLayoutManager(holder.context, LinearLayoutManager.HORIZONTAL, false)
             rvHomeProducts.adapter = adapter
 
-            val items = mutableListOf<Any>().apply {
-                item.products.forEach { add(it) }
-                add("Showmore")
-            }
-            adapter.replaceData(items)
+            adapter.replaceData(item.products)
         }
     }
 

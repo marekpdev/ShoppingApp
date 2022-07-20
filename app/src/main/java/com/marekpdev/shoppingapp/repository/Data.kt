@@ -80,7 +80,7 @@ object Data {
         ))
 
     private val names = Randomizer(
-        (1..100).map { "Product Name $it" }
+        (1..100).map { "Product $it" }
     )
 
 

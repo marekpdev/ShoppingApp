@@ -14,7 +14,8 @@ import com.squareup.picasso.Picasso
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) -> Unit) :
+class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) -> Unit,
+                                        private val onToggleFavourite: (Product) -> Unit) :
     BaseAdapterDelegate<Product, BaseViewHolder<VhProductGridHeightConstraintBinding>>(Product::class.java){
 
     override fun bindViewHolder(item: Product, holder: BaseViewHolder<VhProductGridHeightConstraintBinding>) {
@@ -24,6 +25,7 @@ class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) 
 
             productLayout.apply {
                 tvProductName.text = item.name
+                tvProductPrice.text = item.currency + "" + item.price
 
                 Picasso.get().load(item.images.first()).into(ivProductImage)
 
