@@ -54,7 +54,7 @@ class HomeFragment : Fragment(), MviView<HomeState, HomeCommand> {
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
             .addDelegate(HomeBannerAdapterDelegate {})
-            .addDelegate(HomeProductsHeaderAdapterDelegate {})
+            .addDelegate(HomeProductsHeaderAdapterDelegate(onShowMoreClicked))
             .addDelegate(HomeProductsAdapterDelegate(onProductClicked, onToggleFavourite))
     )
 
@@ -91,7 +91,7 @@ class HomeFragment : Fragment(), MviView<HomeState, HomeCommand> {
                 // need to fix issue: when product is favoured/unfavoured then the list jumps back
                 // to the beginning
                 state.productRecommendations.forEach { (category, products) ->
-                    add(HomeProductsHeader(category.name))
+                    add(HomeProductsHeader(category))
                     add(HomeProducts(products))
                 }
             }
