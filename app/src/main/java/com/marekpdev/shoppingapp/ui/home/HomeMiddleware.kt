@@ -31,8 +31,6 @@ class HomeMiddleware @Inject constructor(private val productsRepository: Product
         coroutineScope.launch {
             productsRepository.getAllMenu()
                 .collectLatest { allMenu ->
-                    Log.d("FEO999", "Mapping HomeMiddleware 1")
-
                     val productRecommendations = allMenu.categories
                         .filter { category -> category.displayPlace == DisplayPlace.HOME }
                         .map { category -> category to allMenu.products.filter { product -> category.id in product.parentCategoryIds } }
@@ -44,7 +42,6 @@ class HomeMiddleware @Inject constructor(private val productsRepository: Product
         coroutineScope.launch {
             homeBannersRepository.getHomeBanners()
                 .collectLatest { homeBanners ->
-                    Log.d("FEO999", "Mapping homeBanners 1")
                     requestAction(HomeAction.RefreshHomeBanners(homeBanners))
                 }
         }
@@ -67,7 +64,6 @@ class HomeMiddleware @Inject constructor(private val productsRepository: Product
         requestAction: suspend (HomeAction) -> Unit,
         requestCommand: suspend (HomeCommand) -> Unit
     ) {
-        Log.d("FEO999", "Toggle favourite: ${action.product.name}")
         productsRepository.toggleFavourite(action.product)
     }
 }

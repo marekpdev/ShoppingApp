@@ -42,7 +42,6 @@ class PaymentCardFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentPaymentCardBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
 
     }
 

@@ -11,14 +11,12 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
     override fun reduce(currentState: SearchState, action: SearchAction): SearchState {
         return when(action){
             is SearchAction.SearchQueryChanged -> {
-                Log.d("FEO160", "Changed State ${action.query}")
                 currentState.copy(searchQuery = action.query)
             }
             is SearchAction.Loading -> {
                 currentState.copy(searchInProgress = true)
             }
             is SearchAction.RefreshData -> {
-                Log.d("FEO111", "REFRESH DATA FILTERS ${action.filters}")
                 currentState.copy(
                     searchInProgress = false,
                     searchSummary = action.searchSummary,
@@ -36,7 +34,6 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
                 )
             }
             is SearchAction.InitFilters -> {
-                Log.d("FEO111", "INIT FILTERS")
                 currentState.copy(
                     filters = action.filters
                 )

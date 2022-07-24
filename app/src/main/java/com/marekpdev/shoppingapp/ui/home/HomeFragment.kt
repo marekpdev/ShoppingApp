@@ -83,7 +83,6 @@ class HomeFragment : Fragment(), MviView<HomeState, HomeCommand> {
     override fun render(state: HomeState) {
         binding.apply {
 
-            Log.d("FEO999", "Rendering: ${state.productRecommendations.size}")
             val items = mutableListOf<Any>().apply {
 
                 add(HomeBanners(state.homeBanners))

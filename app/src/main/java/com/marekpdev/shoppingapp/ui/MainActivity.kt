@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val current =  supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.first()!!
-        Log.d("FEO900", "onBackPressed ${current.javaClass.canonicalName}")
+        Log.d("TEST", "onBackPressed ${current.javaClass.canonicalName}")
         var onBackHandled = false
 
         if(current is OnBackPressedCallback){

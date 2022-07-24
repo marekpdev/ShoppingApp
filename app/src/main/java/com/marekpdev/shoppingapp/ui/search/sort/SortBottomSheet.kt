@@ -63,7 +63,6 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
         }
 
         btnConfirmSort.setOnClickListener {
-            Log.d("FEO800", "btnConfirmSort")
             viewModel.dispatch(SearchAction.SortConfirmed)
         }
     }
@@ -74,7 +73,6 @@ class SortBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchC
 
     override fun render(state: SearchState) {
         binding.apply {
-            Log.d("FEO81", "SORT Current state is ${state.sortType}")
             when(state.sortType.type.selected) {
                 SortType.Type.PRICE_LOWEST_FIRST -> { rbPriceLowestFirst.isChecked = true }
                 SortType.Type.PRICE_HIGHEST_FIRST -> { rbPriceHighestFirst.isChecked = true }

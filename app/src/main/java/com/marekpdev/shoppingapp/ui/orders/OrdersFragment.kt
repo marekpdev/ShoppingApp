@@ -23,7 +23,7 @@ class OrdersFragment : Fragment() {
     private lateinit var binding: FragmentOrdersBinding
 
     private val onOrderClicked: (Order) -> Unit = {
-        Log.d("FEO33", "Clicked order")
+
     }
 
     private val adapter = BaseAdapter(
@@ -58,7 +58,6 @@ class OrdersFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentOrdersBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
         rvOrders.layoutManager = LinearLayoutManager(context)
         rvOrders.adapter = adapter
         adapter.replaceData(items)
@@ -92,8 +91,6 @@ class OrdersFragment : Fragment() {
 //            val order = Data.getOrder(it.toLong())
 //            add(order)
 //        }
-//
-//        Log.d("FEO33", "Added some items")
     }
 
 }

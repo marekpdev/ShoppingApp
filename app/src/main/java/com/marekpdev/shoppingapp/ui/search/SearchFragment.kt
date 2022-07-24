@@ -111,13 +111,11 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
         viewModel.bind(viewLifecycleOwner, this@SearchFragment)
 
         etSearch.doAfterTextChanged {
-            Log.d("FEO150", "Text ${it.toString()}")
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
     }
 
     override fun render(state: SearchState) {
-        Log.d("FEO410", "Render")
         binding.apply {
             etSearch.setTextIfDifferent(state.searchQuery)
 
@@ -136,7 +134,6 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
     }
 
     override fun onCommand(command: SearchCommand) {
-        Log.d("FEO700", "Command $command")
         when(command){
             is SearchCommand.GoToProductDetailsScreen -> {
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))

@@ -22,7 +22,6 @@ class PaymentMethodsFragment : Fragment() {
     private lateinit var binding: FragmentPaymentMethodsBinding
 
     private val onPaymentCardClicked: (PaymentCard) -> Unit = {
-        Log.d("FEO33", "Clicked payment card")
         findNavController().navigate(R.id.action_paymentMethodsFragment_to_paymentCardFragment)
     }
 
@@ -57,7 +56,6 @@ class PaymentMethodsFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentPaymentMethodsBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
         rvPaymentMethods.layoutManager = LinearLayoutManager(context)
         rvPaymentMethods.adapter = adapter
         adapter.replaceData(items)

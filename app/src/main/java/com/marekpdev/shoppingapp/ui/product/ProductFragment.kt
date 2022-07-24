@@ -56,7 +56,6 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("FEO36", "product fragment")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
         return binding.root
     }
@@ -86,19 +85,16 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
     }
 
     private fun initLayout(binding: FragmentProductBinding) = binding.apply {
-        Log.d("FEO900", "INIT LAYOUT")
         viewModel.bind(viewLifecycleOwner, this@ProductFragment)
 
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.share -> {
-                    Log.d("FEO33", "Clicked share")
                     // Handle favorite icon press
                     true
                 }
                 R.id.favorite -> {
-                    Log.d("FEO33", "Clicked fav")
                     // Handle favorite icon press
                     true
                 }
@@ -127,7 +123,6 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 //        scrollViewProductCard.outlineProvider = ViewOutlineProvider.PADDED_BOUNDS
 //        scrollViewProductCard.clipToOutline = true
 
-        Log.d("FEO910", "Render $state")
         binding.apply {
 
             imagesAdapter.setData(state.product?.images ?: listOf())

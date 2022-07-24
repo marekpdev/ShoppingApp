@@ -26,11 +26,11 @@ class BasketFragment : Fragment() {
     private lateinit var binding: FragmentBasketBinding
 
     private val onProductClicked: (Product) -> Unit = {
-        Log.d("FEO33", "Clicked Product")
+
     }
 
     private val onProductLongClicked: (Product) -> Unit = {
-        Log.d("FEO33", "Long clicked Product")
+
     }
 
     private val adapter = BaseAdapter(
@@ -64,9 +64,7 @@ class BasketFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentBasketBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
 //        val items = Basket.basketItems
-//        Log.d("FEO33", "Basket items: ${items.size}")
 
 //        rvBasketProducts.layoutManager = LinearLayoutManager(context)
 //        rvBasketProducts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

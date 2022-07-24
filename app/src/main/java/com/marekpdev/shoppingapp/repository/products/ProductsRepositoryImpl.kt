@@ -29,16 +29,12 @@ class ProductsRepositoryImpl @Inject constructor(
     private val allMenu = MutableStateFlow(Data.getMenu())
 
     init {
-        Log.d("FEO440", "CREATING NEW ProductsRepositoryImpl")
+
     }
 
     override suspend fun getProduct(id: Long): Product? = withContext(Dispatchers.IO) {
         delay(1000L) // TODO just for testing
-        val product = allMenu.value.products.find {
-            Log.d("FEO400", "This id ${it.id} - searched $id")
-            it.id == id
-        }
-
+        val product = allMenu.value.products.find { it.id == id }
         product
     }
 

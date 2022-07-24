@@ -69,8 +69,6 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
             priceRange = IntermediateSelection(availablePriceRange, availablePriceRange, availablePriceRange)
         )
 
-        Log.d("FEO99", "Init filters $initFilters")
-
         return initFilters
     }
 

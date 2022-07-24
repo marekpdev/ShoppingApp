@@ -47,7 +47,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentLoginBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
         btnLogin.setOnClickListener {
 
         }

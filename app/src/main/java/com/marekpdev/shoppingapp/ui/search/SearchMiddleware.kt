@@ -36,7 +36,6 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         state: StateFlow<SearchState>,
         requestAction: suspend (SearchAction) -> Unit // TODO can remove 'suspend' from here?
     ) {
-        Log.d("FEO610", "Binding SearchMiddleware 1")
         coroutineScope.launch {
             searchQueryChangedActions
                 .debounce(400L)
@@ -47,17 +46,15 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
 
                     if(currentState.displayStates.isEmpty()) return@collectLatest
 
-                    Log.d("FEO900", "Current state ${currentState.sortType}")
                     val allMenu = productsRepository.getAllMenu().value
 
                     if(hasSearchQuery){
                         requestAction(SearchAction.Loading)
                         delay(1000L) // TODO simulating search - can remove later on
-                        Log.d("FEO150", "MAPPING")
 
                         val filteredProducts = getFilteredProducts(allMenu.products, action.query, DisplayState.SearchResults, currentState.filters, currentState.sortType)
                         val filteredCategories = getFilteredCategories(allMenu.categories, DisplayState.SearchResults)
-                        Log.d("FEO150", "COLLECTING")
+
                         val newMenu = allMenu.copy(
                             categories = filteredCategories,
                             products = filteredProducts
@@ -97,7 +94,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
 
                         val filteredProducts = getFilteredProducts(allMenu.products, action.query, displayStates.last(), currentState.filters, currentState.sortType)
                         val filteredCategories = getFilteredCategories(allMenu.categories, displayStates.last())
-                        Log.d("FEO150", "COLLECTING")
+
                         val newMenu = allMenu.copy(
                             categories = filteredCategories,
                             products = filteredProducts
@@ -109,11 +106,11 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                     }
                 }
         }
-        Log.d("FEO610", "Binding SearchMiddleware 2")
+
         coroutineScope.launch {
             productsRepository.getAllMenu()
                 .collectLatest { allMenu ->
-                    Log.d("FEO610", "Mapping productsFlow 1")
+
                     val currentState = state.value
 
                     if(currentState.displayStates.isEmpty()){
@@ -143,7 +140,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                     }
                 }
         }
-        Log.d("FEO610", "Binding SearchMiddleware 3")
+
     }
 
     override suspend fun process(
@@ -160,7 +157,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
             is SearchAction.CategoryClicked -> onCategoryClicked(action, currentState, requestAction, requestCommand)
             is SearchAction.BackPressed -> onBackPressed(action, currentState, requestAction, requestCommand)
             else -> {
-                Log.d("FEO800", "Action not handled in SearchMiddleware")
+
             }
         }
     }
@@ -178,7 +175,6 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction: suspend (SearchAction) -> Unit,
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
-        Log.d("FEO800", "onSearchQueryChanged")
         searchQueryChangedActions.emit(action)
     }
 
@@ -315,8 +311,6 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                                     filters: Filters?,
                                     sortType: SortType
     ): List<Product> {
-        Log.d("FEO150", "Products ${products.size}")
-        Log.d("FEO150", "SORTED with ${sortType.type.applied}")
         if(displayState == null) return emptyList()
 
         return products

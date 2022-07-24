@@ -30,11 +30,11 @@ class CheckoutOrderDetailsFragment : Fragment() {
     private lateinit var binding: FragmentCheckoutOrderDetailsBinding
 
     private val onProductClicked: (Product) -> Unit = {
-        Log.d("FEO33", "Clicked Product")
+
     }
 
     private val onProductLongClicked: (Product) -> Unit = {
-        Log.d("FEO33", "Long clicked Product")
+
     }
 
     private val adapter = BaseAdapter(
@@ -70,7 +70,6 @@ class CheckoutOrderDetailsFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentCheckoutOrderDetailsBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
         val items = mutableListOf<Any>()
 //        items.add(Data.getAddress())
         items.add(PaymentMethod("VISA - **** **** **** 4342"))

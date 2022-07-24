@@ -38,7 +38,6 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentRegistrationBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
 
         btnRegister.setOnClickListener {
