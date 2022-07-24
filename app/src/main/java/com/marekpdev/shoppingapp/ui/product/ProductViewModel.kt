@@ -22,9 +22,9 @@ class ProductViewModel @AssistedInject constructor(
     // todo need to use this variable in the constructor with 'assisted injection'? rather than
     // setting it via setter
     // need to use this with dagger
-    productStore: ProductStore,
+    store: ProductStore,
     @Assisted private val productId: Long,
-) : BaseViewModel<ProductState, ProductAction, ProductCommand>(productStore) {
+) : BaseViewModel<ProductState, ProductAction, ProductCommand>(store) {
 
     @AssistedFactory
     interface Factory {
@@ -52,7 +52,6 @@ class ProductViewModel @AssistedInject constructor(
     //val selectedSize = _selectedSize.asLiveData()
 
     init {
-        Log.d("FEO920", "Sending")
         dispatch(ProductAction.FetchProduct(productId))
     }
 }

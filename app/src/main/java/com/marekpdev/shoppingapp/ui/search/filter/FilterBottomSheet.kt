@@ -75,7 +75,6 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
         }
 
         rangeSliderPrice.addOnChangeListener { slider, value, fromUser ->
-            Log.d("FEO100", "Changed SLIDER: $slider VALUE: $value FROMUSER: $fromUser values ${rangeSliderPrice.values}")
             val minPrice = rangeSliderPrice.values[0].toInt()
             val maxPrice = rangeSliderPrice.values[1].toInt()
             viewModel.dispatch(SearchAction.FilterSelectedPriceRangeChanged(IntRange(minPrice, maxPrice)))
@@ -84,8 +83,6 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
 
     override fun render(state: SearchState) {
         binding.apply {
-            Log.d("FEO94", "FILTER Current state is ${state.filters}")
-
             state.filters?.let { filters ->
 
                 rangeSliderPrice.valueFrom = filters.priceRange.available.first.toFloat()

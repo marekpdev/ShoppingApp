@@ -56,15 +56,10 @@ open class Store <S: State, A: Action, C: Command> (
             }
         }
 
-
-        Log.d("FEO900", "Store INIT")
         coroutineScope.launch {
-            Log.d("FEO900", "Store INIT 2")
             actions.map { action ->
-                Log.d("FEO900", "Store actions.map $action")
                 val currentState = state.value
                 middlewares.forEach { middleware ->
-                    Log.d("FEO800", "${middlewares.size} - middleware $middleware -> $action")
                     // we want to do things in parallel here so we can call reducer.reduce immediately
                     // and not block the workflow here
                     launch {
@@ -76,16 +71,11 @@ open class Store <S: State, A: Action, C: Command> (
                         )
                     }
                 }
-                Log.d("FEO900", "Store actions.reduce $action")
+
                 reducer.reduce(currentState, action)
             }
                 .distinctUntilChanged()
                 .onEach { newState ->
-                    Log.d("FEO900", "collect $newState")
-                    if(newState is SearchState){
-                        Log.d("FEO900", "new state ${newState.sortType}")
-                    }
-
                     _state.emit(newState)
                 }
                 .collect()
@@ -96,7 +86,6 @@ open class Store <S: State, A: Action, C: Command> (
      * We can receive actions from both UI and external sources (such as middleware)
      */
     suspend fun dispatch(action: A){
-        Log.d("FEO900", "Store dispatch action")
         _actions.emit(action)
     }
 
@@ -104,8 +93,9 @@ open class Store <S: State, A: Action, C: Command> (
      * We cannot receive actions from UI but only from external sources (such as middleware)
      */
     private suspend fun dispatch(command: C){
-        Log.d("FEO900", "dispatch command $command")
         _commands.emit(command)
     }
+
+    open fun canHandleBackPressed(): Boolean = false
 
 }

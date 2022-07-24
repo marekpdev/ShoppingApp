@@ -9,13 +9,11 @@ import com.marekpdev.shoppingapp.mvi.Reducer
 class ProductReducer: Reducer<ProductState, ProductAction> {
 
     override fun reduce(currentState: ProductState, action: ProductAction): ProductState {
-        Log.d("FEO400", "action $action")
         return when(action){
             is ProductAction.Loading -> {
                 currentState.copy(loading = true)
             }
             is ProductAction.FetchProduct -> {
-                Log.d("FEO920", "FetchProduct reducer")
                 currentState.copy(
                     product = null,
                     selectedSize = null,
@@ -24,7 +22,6 @@ class ProductReducer: Reducer<ProductState, ProductAction> {
                 )
             }
             is ProductAction.ProductFetched -> {
-                Log.d("FEO400", "Product fetched ${action.product}")
                 currentState.copy(
                     product = action.product,
                     selectedSize = null,

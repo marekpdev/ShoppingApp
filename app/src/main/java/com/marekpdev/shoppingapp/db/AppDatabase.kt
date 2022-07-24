@@ -22,6 +22,7 @@ import com.marekpdev.shoppingapp.models.Product
     ColorListConverter::class,
     SizeListConverter::class,
     StringListConverter::class,
+    IntListConverter::class
 )
 abstract class AppDatabase : RoomDatabase() {
 

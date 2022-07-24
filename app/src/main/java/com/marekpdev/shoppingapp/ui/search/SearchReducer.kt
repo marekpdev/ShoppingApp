@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui.search
 
 import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Reducer
+import com.marekpdev.shoppingapp.repository.Menu
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.
@@ -10,41 +11,29 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
     override fun reduce(currentState: SearchState, action: SearchAction): SearchState {
         return when(action){
             is SearchAction.SearchQueryChanged -> {
-                Log.d("FEO160", "Changed State ${action.query}")
                 currentState.copy(searchQuery = action.query)
             }
             is SearchAction.Loading -> {
                 currentState.copy(searchInProgress = true)
             }
-            is SearchAction.InitialDataFetched -> {
-                Log.d("FEO111", "INITIAL DATA FILTERS ${action.filters}")
-                currentState.copy(
-                    searchInProgress = false,
-                    searchSummary = "Showing ${action.products.size} items",
-                    products = action.products,
-                    sortType = action.sortType,
-                    filters = action.filters
-                )
-            }
             is SearchAction.RefreshData -> {
-                Log.d("FEO111", "REFRESH DATA FILTERS ${action.filters}")
                 currentState.copy(
                     searchInProgress = false,
-                    searchSummary = "Showing ${action.products.size} items",
-                    products = action.products,
+                    searchSummary = action.searchSummary,
+                    menu = action.menu,
                     sortType = action.sortType,
-                    filters = action.filters
+                    filters = action.filters,
+                    displayStates = action.displayStates
                 )
             }
             is SearchAction.SearchError -> {
                 currentState.copy(
                     searchInProgress = false,
-                    searchSummary = "Search failed ${action.error?.toString()}",
-                    products = emptyList()
+//                    searchSummary = "Search failed ${action.error?.toString()}",
+                    menu = Menu(emptyList(), emptyList())
                 )
             }
             is SearchAction.InitFilters -> {
-                Log.d("FEO111", "INIT FILTERS")
                 currentState.copy(
                     filters = action.filters
                 )

@@ -3,6 +3,7 @@ package com.marekpdev.shoppingapp.repository.products
 import android.util.Log
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
+import com.marekpdev.shoppingapp.repository.Menu
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -25,36 +26,43 @@ class ProductsRepositoryImpl @Inject constructor(
     //private val productsDao: ProductsDao
 ): ProductsRepository {
 
-    private val allProductsFlow = MutableStateFlow(Data.products.toList())
+    private val allMenu = MutableStateFlow(Data.getMenu())
 
     init {
-        Log.d("FEO440", "CREATING NEW ProductsRepositoryImpl")
+
     }
 
     override suspend fun getProduct(id: Long): Product? = withContext(Dispatchers.IO) {
         delay(1000L) // TODO just for testing
-        val product = allProductsFlow.value.find {
-            Log.d("FEO400", "This id ${it.id} - searched $id")
-            it.id == id
-        }
-
+        val product = allMenu.value.products.find { it.id == id }
         product
     }
 
-    override suspend fun toggleFavourite(product: Product) {
-        val indexOf = allProductsFlow.value.indexOf(product)
+    override suspend fun toggleFavourite(product: Product): Product {
+        val indexOf = allMenu.value.products.indexOf(product)
+
         if (indexOf > 0) {
-            Log.d("FEO410", "Index found $indexOf")
             val newFavourite = !product.isFavoured
             val newProduct = product.copy(isFavoured = newFavourite)
-            val newList = allProductsFlow.value.toMutableList()
-            newList[indexOf] = newProduct
-            Log.d("FEO410", "UPDATING $indexOf")
-            allProductsFlow.emit(newList)
+            val newProductsList = allMenu.value.products.toMutableList()
+            newProductsList[indexOf] = newProduct
+            val newMenu = allMenu.value.copy(
+                products = newProductsList
+            )
+            allMenu.emit(newMenu)
+            return newProduct
         }
+
+        return product
     }
 
-    override fun productsFlow(): StateFlow<List<Product>> {
-        return allProductsFlow
+    override fun getAllMenu(): StateFlow<Menu> {
+        return allMenu
+    }
+
+    override suspend fun getMenuForCategory(categoryId: Int): Menu {
+        val categories = allMenu.value.categories.filter { categoryId ==  it.id }
+        val products = allMenu.value.products.filter { categoryId in it.parentCategoryIds }
+        return Menu(categories, products)
     }
 }

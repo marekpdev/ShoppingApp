@@ -14,7 +14,8 @@ import com.squareup.picasso.Picasso
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) -> Unit) :
+class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) -> Unit,
+                                        private val onToggleFavourite: (Product) -> Unit) :
     BaseAdapterDelegate<Product, BaseViewHolder<VhProductGridHeightConstraintBinding>>(Product::class.java){
 
     override fun bindViewHolder(item: Product, holder: BaseViewHolder<VhProductGridHeightConstraintBinding>) {
@@ -22,19 +23,21 @@ class ProductHeightConstAdapterDelegate(private val onProductClicked: (Product) 
 
             root.setOnClickListener { onProductClicked(item) }
 
+
             productLayout.apply {
                 tvProductName.text = item.name
+                tvProductPrice.text = item.currency + "" + item.price
 
                 Picasso.get().load(item.images.first()).into(ivProductImage)
 
                 ivProductImage.clipToOutline = true
 
-                ivFavouriteToggle.setOnClickListener { Log.d("FEO33", "Log") }
+                ivFavouriteToggle.setOnClickListener { onToggleFavourite(item) }
                 ivFavouriteToggle.clipToOutline = true
 
                 val favouriteIcon = when(item.isFavoured){
-                    true -> R.drawable.ic_favourite_2_red_filled
-                    else -> R.drawable.ic_favourite_1_red
+                    true -> R.drawable.ic_favourite_1_red
+                    else -> R.drawable.ic_favourite_1_black
                 }
                 ivFavouriteToggle.setImageResource(favouriteIcon)
             }

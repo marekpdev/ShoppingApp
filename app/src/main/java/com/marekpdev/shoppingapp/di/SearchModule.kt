@@ -1,5 +1,7 @@
 package com.marekpdev.shoppingapp.di
 
+import com.marekpdev.shoppingapp.models.ROOT_CATEGORY_ID
+import com.marekpdev.shoppingapp.repository.Menu
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.*
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
@@ -37,7 +39,7 @@ class SearchModule {
         searchFiltersMiddleware: SearchFiltersMiddleware
     ): SearchStore {
         return SearchStore(
-            SearchState("", false, "", emptyList(), SortType.INIT, Filters.INIT),
+            SearchState("", false, "", Menu(emptyList(), emptyList()), emptyList(), SortType.INIT, Filters.INIT),
             listOf(
                 searchMiddleware,
                 searchNavigationMiddleware,

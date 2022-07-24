@@ -40,7 +40,7 @@ class CheckoutProductAdapterDelegate(private val onProductClicked: (Product) -> 
                     item.availableSizes.map { it.name }
                 )
                 onItemSelectedListener = SpinnerItemListener(item.availableSizes) { size ->
-                    Log.d("FEO33", "Selected $size")
+
                 }
             }
 
@@ -51,7 +51,7 @@ class CheckoutProductAdapterDelegate(private val onProductClicked: (Product) -> 
                     item.availableColors.map { it.name }
                 )
                 onItemSelectedListener = SpinnerItemListener(item.availableColors) { color ->
-                    Log.d("FEO33", "Selected $color")
+
                 }
             }
 

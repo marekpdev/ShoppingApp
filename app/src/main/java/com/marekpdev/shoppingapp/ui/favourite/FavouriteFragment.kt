@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentFavouriteBinding
 import com.marekpdev.shoppingapp.models.Product
@@ -32,6 +33,8 @@ class FavouriteFragment : Fragment(), MviView<FavouriteState, FavouriteCommand> 
     private val viewModel by viewModels<FavouriteViewModel>()
 
     private lateinit var binding: FragmentFavouriteBinding
+
+    private var productUnfavouredSnackbar: Snackbar? = null
 
     private val onProductClicked: (Product) -> Unit = {
         viewModel.dispatch(FavouriteAction.ProductClicked(it.id))
@@ -82,6 +85,14 @@ class FavouriteFragment : Fragment(), MviView<FavouriteState, FavouriteCommand> 
     }
 
     override fun onCommand(command: FavouriteCommand) {
-        // todo
+        when(command){
+            is FavouriteCommand.ShowProductUnfavoured -> {
+                productUnfavouredSnackbar?.dismiss()
+                Snackbar.make(binding.root, "${command.product.name} removed from favourites", Snackbar.LENGTH_LONG)
+                    .apply { setAction("UNDO") { onToggleFavourite(command.product) } }
+                    .also { productUnfavouredSnackbar = it }
+                    .show()
+            }
+        }
     }
 }

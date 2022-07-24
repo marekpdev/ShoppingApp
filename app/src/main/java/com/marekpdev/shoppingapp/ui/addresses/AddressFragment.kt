@@ -42,8 +42,6 @@ class AddressFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentAddressBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
-
 
     }
 

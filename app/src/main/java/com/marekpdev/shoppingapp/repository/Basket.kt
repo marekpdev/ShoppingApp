@@ -7,8 +7,8 @@ import com.marekpdev.shoppingapp.models.Product
  */
 object Basket {
 
-    val basketItems = mutableListOf<Product>().apply {
-        addAll(Data.getProducts(4, 1))
-    }
+//    val basketItems = mutableListOf<Product>().apply {
+//        addAll(Data.getProducts(4, 1))
+//    }
 
 }

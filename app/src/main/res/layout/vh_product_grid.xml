@@ -41,6 +41,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/rubik_medium"
+            android:lines="1"
+            android:ellipsize="end"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/tvProductPrice"
             app:layout_constraintEnd_toEndOf="@id/ivProductImage"

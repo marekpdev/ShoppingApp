@@ -13,4 +13,9 @@ class SearchStore (
     initialState: SearchState,
     middlewares: List<Middleware<SearchState, SearchAction, SearchCommand>>,
     reducer: SearchReducer
-) : Store<SearchState, SearchAction, SearchCommand>(initialState, middlewares, reducer)
+) : Store<SearchState, SearchAction, SearchCommand>(initialState, middlewares, reducer) {
+
+    override fun canHandleBackPressed(): Boolean {
+        return state.value.displayStates.size > 1
+    }
+}

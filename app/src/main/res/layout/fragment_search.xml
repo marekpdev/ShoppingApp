@@ -8,23 +8,42 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/screen_background">
 
         <Space
-            android:id="@+id/actionBarSpace"
+            android:id="@+id/statusBarSpace"
             android:layout_width="0dp"
-            android:layout_height="@dimen/action_bar_height"
+            android:layout_height="@dimen/status_bar_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_search1"
+            app:layout_constraintBottom_toBottomOf="@id/etSearch"
+            app:layout_constraintStart_toStartOf="@id/etSearch"
+            app:layout_constraintTop_toTopOf="@id/etSearch" />
+
         <EditText
             android:id="@+id/etSearch"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/search_content_height"
+            android:maxLines="1"
+            android:hint="Search products"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/rubik"
+            android:background="@drawable/shape_rounded_color"
+            android:paddingStart="40dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivSort"
             app:layout_constraintEnd_toStartOf="@id/ivSort"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/actionBarSpace" />
+            app:layout_constraintTop_toTopOf="@id/ivSort" />
 
         <ProgressBar
             android:id="@+id/pbSearch"
@@ -38,36 +57,48 @@
 
         <ImageView
             android:id="@+id/ivSort"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/search_content_height"
+            android:layout_height="@dimen/search_content_height"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_baseline_sort_24"
+            android:background="@drawable/shape_rounded_color"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="6dp"
+            android:src="@drawable/ic_baseline_swap_vert_24"
             app:layout_constraintBottom_toBottomOf="@id/etSearch"
             app:layout_constraintEnd_toStartOf="@id/ivFilter"
-            app:layout_constraintTop_toTopOf="@id/etSearch" />
+            app:layout_constraintTop_toTopOf="@id/ivFilter" />
 
         <ImageView
             android:id="@+id/ivFilter"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/search_content_height"
+            android:layout_height="@dimen/search_content_height"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_baseline_filter_alt_24"
+            android:background="@drawable/shape_rounded_color"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="6dp"
+            android:src="@drawable/ic_baseline_tune_24"
             app:layout_constraintBottom_toBottomOf="@id/etSearch"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/etSearch" />
+            app:layout_constraintTop_toBottomOf="@id/statusBarSpace" />
 
         <TextView
             android:id="@+id/tvSummary"
             android:layout_width="0dp"
+            android:fontFamily="@font/rubik"
+            android:textSize="20sp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
             app:layout_constraintTop_toBottomOf="@id/etSearch" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProducts"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -27,7 +27,6 @@ class ImageVH(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     fun bind(imagePath: String) {
-        Log.d("FEO33", "Load $imagePath")
         Picasso.get().load(imagePath).into(ivProductImage)
     }
 }

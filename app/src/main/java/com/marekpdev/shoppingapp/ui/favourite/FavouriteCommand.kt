@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.favourite
 
+import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Command
 import com.marekpdev.shoppingapp.ui.search.SearchCommand
 
@@ -9,4 +10,5 @@ import com.marekpdev.shoppingapp.ui.search.SearchCommand
 sealed class FavouriteCommand: Command {
 
     class GoToProductDetailsScreen(val productId: Long): FavouriteCommand()
+    class ShowProductUnfavoured(val product: Product): FavouriteCommand()
 }

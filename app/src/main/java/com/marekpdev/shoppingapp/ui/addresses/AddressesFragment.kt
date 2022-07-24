@@ -22,7 +22,6 @@ class AddressesFragment : Fragment() {
     private lateinit var binding: FragmentAddressesBinding
 
     private val onAddressClicked: (Address) -> Unit = {
-        Log.d("FEO33", "Clicked order")
         findNavController().navigate(R.id.action_addressesFragment_to_addressFragment)
     }
 
@@ -57,7 +56,6 @@ class AddressesFragment : Fragment() {
     }
 
     private fun initLayout(binding: FragmentAddressesBinding) = binding.apply {
-        Log.d("FEO33", "initLayout")
         rvAddresses.layoutManager = LinearLayoutManager(context)
         rvAddresses.adapter = adapter
         adapter.replaceData(items)

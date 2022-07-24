@@ -30,7 +30,6 @@ class SearchNavigationMiddleware: Middleware<SearchState, SearchAction, SearchCo
                 requestCommand(SearchCommand.GoToProductDetailsScreen(action.productId))
             }
             is SearchAction.SortClicked -> {
-                Log.d("FEO700", "SORT")
                 requestCommand(SearchCommand.ShowSortBottomSheet)
             }
             is SearchAction.SortConfirmed -> {

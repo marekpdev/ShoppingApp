@@ -13,8 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
+import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.MviView
+import com.marekpdev.shoppingapp.navigation.OnBackPressedCallback
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.productvh.ProductWidthConstAdapterDelegate
@@ -27,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by Marek Pszczolka on 14/04/2021.
  */
 @AndroidEntryPoint
-class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
+class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPressedCallback {
 
     // todo
     // need to add
@@ -45,10 +47,15 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         viewModel.dispatch(SearchAction.ToggleFavouriteClicked(it))
     }
 
+    private val onCategoryClicked: (Category) -> Unit = {
+        viewModel.dispatch(SearchAction.CategoryClicked(it))
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
 //            .addDelegate(ProductAdapterDelegate(onProductClicked, onToggleFavourite))
             .addDelegate(ProductWidthConstAdapterDelegate(onProductClicked, onToggleFavourite))
+            .addDelegate(MenuCategoryDelegate(onCategoryClicked))
     )
 
     override fun onCreateView(
@@ -81,26 +88,44 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
     }
 
     private fun initLayout(binding: FragmentSearchBinding) = binding.apply {
-        rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        layoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (adapter.getItems()[position]){
+                    is Category -> 2
+                    is Product -> 1
+                    else -> 1
+                }
+            }
+        }
+
+        rvProducts.layoutManager = layoutManager
         rvProducts.adapter = adapter
 
+        ivSort.clipToOutline = true
+        ivFilter.clipToOutline = true
+        
         ivSort.setOnClickListener { viewModel.dispatch(SearchAction.SortClicked) }
         ivFilter.setOnClickListener { viewModel.dispatch(SearchAction.FilterClicked) }
 
         viewModel.bind(viewLifecycleOwner, this@SearchFragment)
 
         etSearch.doAfterTextChanged {
-            Log.d("FEO150", "Text ${it.toString()}")
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
     }
 
     override fun render(state: SearchState) {
-        Log.d("FEO410", "Render")
         binding.apply {
             etSearch.setTextIfDifferent(state.searchQuery)
-            adapter.replaceData(state.products)
+
+            val newData = mutableListOf<Any>().apply {
+                addAll(state.menu.categories)
+                addAll(state.menu.products)
+            }
+            adapter.replaceData(newData)
             tvSummary.text = state.searchSummary
+            tvSummary.visibility = if(state.searchSummary.isNotBlank()) View.VISIBLE else View.GONE
             pbSearch.visibility = when (state.searchInProgress) {
                 true -> View.VISIBLE
                 else -> View.GONE
@@ -109,7 +134,6 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
     }
 
     override fun onCommand(command: SearchCommand) {
-        Log.d("FEO700", "Command $command")
         when(command){
             is SearchCommand.GoToProductDetailsScreen -> {
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductFragment(productId = command.productId))
@@ -123,4 +147,12 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand> {
         }
     }
 
+    override fun onBackPressed(): Boolean {
+        return if(viewModel.canHandleBackPressed()){
+            viewModel.dispatch(SearchAction.BackPressed)
+            true
+        } else {
+            false
+        }
+    }
 }

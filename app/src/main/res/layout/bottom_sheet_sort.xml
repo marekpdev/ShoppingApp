@@ -7,19 +7,20 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="@color/red_heart"
             android:id="@+id/llBottomSheet"
+            style="?attr/bottomSheetStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"
+            android:background="@color/red_heart"
             android:orientation="vertical"
-            style="?attr/bottomSheetStyle"
+            android:padding="16dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <TextView
                 android:id="@+id/tvModal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
                 android:text="Sort by"
                 android:textSize="24dp" />
 
@@ -33,12 +34,14 @@
                     android:id="@+id/rbPriceLowestFirst"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:text="Price: Lowest First" />
 
                 <RadioButton
                     android:id="@+id/rbPriceHighestFirst"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
                     android:text="Price: Highest first" />
             </RadioGroup>
 

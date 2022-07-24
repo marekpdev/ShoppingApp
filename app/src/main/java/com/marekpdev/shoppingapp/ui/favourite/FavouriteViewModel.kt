@@ -13,7 +13,6 @@ import javax.inject.Inject
 class FavouriteViewModel @Inject constructor(favouriteStore: FavouriteStore): BaseViewModel<FavouriteState, FavouriteAction, FavouriteCommand>(favouriteStore) {
 
     init {
-        Log.d("FEO70", "init FavouriteViewModel")
 //        favouriteStore.dispatch(FavouriteAction.FetchInitialData)
     }
 }
