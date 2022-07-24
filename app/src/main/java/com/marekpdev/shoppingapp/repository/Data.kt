@@ -8,6 +8,8 @@ import com.marekpdev.shoppingapp.models.order.PaymentMethod
 import com.marekpdev.shoppingapp.ui.home.products.HomeProducts
 import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeader
 import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.random.Random
 
 /**
@@ -147,48 +149,51 @@ object Data {
         getMenu().products
     }
 
+    private var categoryId = AtomicInteger(1)
+    private var productId = AtomicLong(1)
+
     fun getMenu(): Menu {
 
         val categoryRoot = Category(ROOT_CATEGORY_ID, null, "ROOT", DisplayPlace.MENU)
-        val category1 = Category(1, ROOT_CATEGORY_ID, "Dresses", DisplayPlace.MENU)
-        val category2 = Category(2, ROOT_CATEGORY_ID, "Tshirts", DisplayPlace.MENU)
+
+        val categoryWomen = Category(categoryId.getAndIncrement(), categoryRoot.id, "Women", DisplayPlace.MENU)
+        val categoryMen = Category(categoryId.getAndIncrement(), categoryRoot.id, "Men", DisplayPlace.MENU)
+        val categoryKids = Category(categoryId.getAndIncrement(), categoryRoot.id, "Kids", DisplayPlace.MENU)
+        val categoryAccessories = Category(categoryId.getAndIncrement(), categoryRoot.id, "Accessories", DisplayPlace.MENU)
+
+        val categoryWomen1 = Category(categoryId.getAndIncrement(), categoryWomen.id, "Dresses", DisplayPlace.MENU)
+        val categoryWomen2 = Category(categoryId.getAndIncrement(), categoryWomen.id, "Tshirts", DisplayPlace.MENU)
 
         // MENU
-        val category1Products = (101L..105L).map {
-            getProduct(it, listOf(category1.id), null)
+        val categoryWomen1Products = (1..5).map {
+            getProduct(productId.getAndIncrement(), listOf(categoryWomen1.id), null)
         }
-        val category2Products = (201L..205L).map {
-            getProduct(it, listOf(category2.id), null)
+        val categoryWomen2Products = (1..5).map {
+            getProduct(productId.getAndIncrement(), listOf(categoryWomen2.id), null)
         }
 
         // HOME
-        val categoryHome1 = Category(1001, null, "Best sellers", DisplayPlace.HOME)
-        val categoryHome2 = Category(1002, null, "Just arrived", DisplayPlace.HOME)
-        val categoryHome3 = Category(1003, null, "Discover more", DisplayPlace.HOME)
+        val categoryHome1 = Category(categoryId.getAndIncrement(), null, "Best sellers", DisplayPlace.HOME)
+        val categoryHome2 = Category(categoryId.getAndIncrement(), null, "Just arrived", DisplayPlace.HOME)
+        val categoryHome3 = Category(categoryId.getAndIncrement(), null, "Discover more", DisplayPlace.HOME)
 
-        val categoryHome1Products = (1001L..1008L).map {
-            getProduct(it, listOf(categoryHome1.id), null)
+        val categoryHome1Products = (1..8).map {
+            getProduct(productId.getAndIncrement(), listOf(categoryHome1.id), null)
         }
 
-        val categoryHome2Products = (2001L..2005L).map {
-            getProduct(it, listOf(categoryHome2.id), null)
+        val categoryHome2Products = (1..5).map {
+            getProduct(productId.getAndIncrement(), listOf(categoryHome2.id), null)
         }
 
-        val categoryHome3Products = (3001L..3010L).map {
-            getProduct(it, listOf(categoryHome3.id), null)
+        val categoryHome3Products = (1..10).map {
+            getProduct(productId.getAndIncrement(), listOf(categoryHome3.id), null)
         }
 
         return Menu(
-            listOf(categoryRoot, category1, category2, categoryHome1, categoryHome2, categoryHome3),
-            listOf(category1Products, category2Products, categoryHome1Products, categoryHome2Products, categoryHome3Products).flatten()
+            listOf(categoryRoot, categoryWomen, categoryMen, categoryKids, categoryAccessories, categoryWomen1, categoryWomen2, categoryHome1, categoryHome2, categoryHome3),
+            listOf(categoryWomen1Products, categoryWomen2Products, categoryHome1Products, categoryHome2Products, categoryHome3Products).flatten()
         )
     }
-
-    var categoryId = 1
-    fun getNextCategoryId() = categoryId++
-
-    var productId = 1L
-    fun getNextProductId() = productId++
 
 }
 
