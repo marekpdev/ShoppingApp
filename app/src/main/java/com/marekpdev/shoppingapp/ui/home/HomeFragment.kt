@@ -87,6 +87,9 @@ class HomeFragment : Fragment(), MviView<HomeState, HomeCommand> {
 
                 add(HomeBanners(state.homeBanners))
 
+                // todo
+                // need to fix issue: when product is favoured/unfavoured then the list jumps back
+                // to the beginning
                 state.productRecommendations.forEach { (category, products) ->
                     add(HomeProductsHeader(category.name))
                     add(HomeProducts(products))
