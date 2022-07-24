@@ -17,21 +17,11 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             is SearchAction.Loading -> {
                 currentState.copy(searchInProgress = true)
             }
-            is SearchAction.InitialDataFetched -> {
-                Log.d("FEO111", "INITIAL DATA FILTERS ${action.filters}")
-                currentState.copy(
-                    searchInProgress = false,
-                    searchSummary = "Showing ${action.menu.products.size} items",
-                    menu = action.menu,
-                    sortType = action.sortType,
-                    filters = action.filters
-                )
-            }
             is SearchAction.RefreshData -> {
                 Log.d("FEO111", "REFRESH DATA FILTERS ${action.filters}")
                 currentState.copy(
                     searchInProgress = false,
-                    searchSummary = "Showing ${action.menu.products.size} items",
+                    searchSummary = action.searchSummary,
                     menu = action.menu,
                     sortType = action.sortType,
                     filters = action.filters,
@@ -41,7 +31,7 @@ class SearchReducer: Reducer<SearchState, SearchAction> {
             is SearchAction.SearchError -> {
                 currentState.copy(
                     searchInProgress = false,
-                    searchSummary = "Search failed ${action.error?.toString()}",
+//                    searchSummary = "Search failed ${action.error?.toString()}",
                     menu = Menu(emptyList(), emptyList())
                 )
             }

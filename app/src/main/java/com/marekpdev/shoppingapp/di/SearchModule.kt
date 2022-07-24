@@ -39,7 +39,7 @@ class SearchModule {
         searchFiltersMiddleware: SearchFiltersMiddleware
     ): SearchStore {
         return SearchStore(
-            SearchState("", false, "", Menu(emptyList(), emptyList()), listOf(DisplayState.Category(ROOT_CATEGORY_ID)), SortType.INIT, Filters.INIT),
+            SearchState("", false, "", Menu(emptyList(), emptyList()), emptyList(), SortType.INIT, Filters.INIT),
             listOf(
                 searchMiddleware,
                 searchNavigationMiddleware,

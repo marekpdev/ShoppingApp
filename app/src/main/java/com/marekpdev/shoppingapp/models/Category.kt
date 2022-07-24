@@ -8,7 +8,9 @@ data class Category (
     val parentCategoryId: Int?,
     val name: String,
     val displayPlace: DisplayPlace
-)
+) {
+    fun isRootCategory() = id == ROOT_CATEGORY_ID
+}
 
 enum class DisplayPlace (val jsonString: String) {
     MENU("menu"),

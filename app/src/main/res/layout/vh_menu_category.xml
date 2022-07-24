@@ -5,13 +5,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:background="?attr/selectableItemBackground"
         android:layout_height="100dp">
 
         <TextView
             android:id="@+id/tvCategoryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
             android:text="Category Name"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"

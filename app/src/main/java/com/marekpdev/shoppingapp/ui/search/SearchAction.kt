@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
@@ -19,12 +20,11 @@ sealed class SearchAction : Action {
 
     class SearchQueryChanged(val query: String): SearchAction()
     object Loading: SearchAction()
-    data class InitialDataFetched(val menu: Menu, val sortType: SortType, val filters: Filters?): SearchAction()
-    data class RefreshData(val menu: Menu, val displayStates: List<DisplayState>, val sortType: SortType, val filters: Filters?): SearchAction()
+    data class RefreshData(val menu: Menu, val searchSummary: String, val displayStates: List<DisplayState>, val sortType: SortType, val filters: Filters?): SearchAction()
     class SearchError(val error: Throwable?): SearchAction()
 
     class ProductClicked(val productId: Long): SearchAction()
-    class CategoryClicked(val categoryId: Int): SearchAction()
+    class CategoryClicked(val category: Category): SearchAction()
     object BackPressed: SearchAction()
     class ToggleFavouriteClicked(val product: Product): SearchAction()
 

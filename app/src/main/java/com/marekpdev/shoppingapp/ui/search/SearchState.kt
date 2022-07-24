@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.mvi.State
 import com.marekpdev.shoppingapp.repository.Menu
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
@@ -21,7 +22,7 @@ data class SearchState(
 
 sealed class DisplayState {
 
-    data class Category(val categoryId: Int): DisplayState()
+    data class Category(val category: com.marekpdev.shoppingapp.models.Category): DisplayState()
     object SearchResults : DisplayState()
 
 }

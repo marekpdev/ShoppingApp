@@ -48,7 +48,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
     }
 
     private val onCategoryClicked: (Category) -> Unit = {
-        viewModel.dispatch(SearchAction.CategoryClicked(it.id))
+        viewModel.dispatch(SearchAction.CategoryClicked(it))
     }
 
     private val adapter = BaseAdapter(
@@ -102,6 +102,9 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
         rvProducts.layoutManager = layoutManager
         rvProducts.adapter = adapter
 
+        ivSort.clipToOutline = true
+        ivFilter.clipToOutline = true
+        
         ivSort.setOnClickListener { viewModel.dispatch(SearchAction.SortClicked) }
         ivFilter.setOnClickListener { viewModel.dispatch(SearchAction.FilterClicked) }
 
@@ -124,6 +127,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
             }
             adapter.replaceData(newData)
             tvSummary.text = state.searchSummary
+            tvSummary.visibility = if(state.searchSummary.isNotBlank()) View.VISIBLE else View.GONE
             pbSearch.visibility = when (state.searchInProgress) {
                 true -> View.VISIBLE
                 else -> View.GONE

@@ -4,6 +4,7 @@ import android.util.Log
 import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.DisplayPlace
 import com.marekpdev.shoppingapp.models.Product
+import com.marekpdev.shoppingapp.models.ROOT_CATEGORY_ID
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
@@ -43,9 +44,11 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                     val hasSearchQuery = action.query.isNotBlank()
 
                     val currentState = state.value
+
+                    if(currentState.displayStates.isEmpty()) return@collectLatest
+
                     Log.d("FEO900", "Current state ${currentState.sortType}")
                     val allMenu = productsRepository.getAllMenu().value
-
 
                     if(hasSearchQuery){
                         requestAction(SearchAction.Loading)
@@ -73,7 +76,9 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                             }
                         }
 
-                        requestAction(SearchAction.RefreshData(newMenu, displayStates, currentState.sortType , currentState.filters))
+                        val searchSummary = getSearchSummary(filteredProducts, displayStates.last())
+
+                        requestAction(SearchAction.RefreshData(newMenu, searchSummary, displayStates, currentState.sortType , currentState.filters))
                     } else {
                         val lastDisplayState = currentState.displayStates.last()
 
@@ -98,7 +103,9 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                             products = filteredProducts
                         )
 
-                        requestAction(SearchAction.RefreshData(newMenu, displayStates, currentState.sortType , currentState.filters))
+                        val searchSummary = getSearchSummary(filteredProducts, displayStates.last())
+
+                        requestAction(SearchAction.RefreshData(newMenu, searchSummary, displayStates, currentState.sortType , currentState.filters))
                     }
                 }
         }
@@ -108,13 +115,32 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                 .collectLatest { allMenu ->
                     Log.d("FEO610", "Mapping productsFlow 1")
                     val currentState = state.value
-                    val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, currentState.displayStates.last(), currentState.filters, currentState.sortType)
-                    val filteredCategories = getFilteredCategories(allMenu.categories, currentState.displayStates.last())
-                    val newMenu = allMenu.copy(
-                        categories = filteredCategories,
-                        products = filteredProducts
-                    )
-                    requestAction(SearchAction.RefreshData(newMenu, currentState.displayStates, currentState.sortType , currentState.filters))
+
+                    if(currentState.displayStates.isEmpty()){
+                        val rootCategory = allMenu.categories.find { it.isRootCategory() }
+                        rootCategory?.let {
+
+                            val displayStates = listOf(DisplayState.Category(rootCategory))
+
+                            val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, displayStates.last(), currentState.filters, currentState.sortType)
+                            val filteredCategories = getFilteredCategories(allMenu.categories, displayStates.last())
+                            val newMenu = allMenu.copy(
+                                categories = filteredCategories,
+                                products = filteredProducts
+                            )
+                            val searchSummary = getSearchSummary(filteredProducts, displayStates.last())
+                            requestAction(SearchAction.RefreshData(newMenu, searchSummary, displayStates, currentState.sortType , currentState.filters))
+                        }
+                    } else {
+                        val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, currentState.displayStates.last(), currentState.filters, currentState.sortType)
+                        val filteredCategories = getFilteredCategories(allMenu.categories, currentState.displayStates.last())
+                        val newMenu = allMenu.copy(
+                            categories = filteredCategories,
+                            products = filteredProducts
+                        )
+                        val searchSummary = getSearchSummary(filteredProducts, currentState.displayStates.last())
+                        requestAction(SearchAction.RefreshData(newMenu, searchSummary, currentState.displayStates, currentState.sortType , currentState.filters))
+                    }
                 }
         }
         Log.d("FEO610", "Binding SearchMiddleware 3")
@@ -162,16 +188,16 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction: suspend (SearchAction) -> Unit,
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
+        if(currentState.displayStates.isEmpty()) return
         requestAction(SearchAction.Loading)
         delay(500L) // TODO simulating search - can remove later on
 
         val allMenu = productsRepository.getAllMenu().value
-        val categoryId = action.categoryId
 
         val displayStates = currentState.displayStates
             .map { it }
             .toMutableList()
-            .apply { add(DisplayState.Category(categoryId)) }
+            .apply { add(DisplayState.Category(action.category)) }
             .toList()
 
         val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, displayStates.last(), currentState.filters, currentState.sortType)
@@ -180,7 +206,8 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
             categories = filteredCategories,
             products = filteredProducts
         )
-        requestAction(SearchAction.RefreshData(newMenu, displayStates, currentState.sortType , currentState.filters))
+        val searchSummary = getSearchSummary(filteredProducts, displayStates.last())
+        requestAction(SearchAction.RefreshData(newMenu, searchSummary, displayStates, currentState.sortType , currentState.filters))
     }
 
     private suspend fun onBackPressed(
@@ -189,6 +216,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction: suspend (SearchAction) -> Unit,
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
+        if(currentState.displayStates.isEmpty()) return
 
         if(currentState.displayStates.size > 1){ // todo need to handle workflow properly
             requestAction(SearchAction.Loading)
@@ -208,7 +236,8 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
                 categories = filteredCategories,
                 products = filteredProducts
             )
-            requestAction(SearchAction.RefreshData(newMenu, displayStates, currentState.sortType , currentState.filters))
+            val searchSummary = getSearchSummary(filteredProducts, displayStates.last())
+            requestAction(SearchAction.RefreshData(newMenu, searchSummary, displayStates, currentState.sortType , currentState.filters))
         }
     }
 
@@ -218,15 +247,17 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction: suspend (SearchAction) -> Unit,
         requestCommand: suspend (SearchCommand) -> Unit
     ) {
+
         val allMenu = productsRepository.getAllMenu().value
         val confirmedSortType = currentState.sortType.confirmSelection()
-        val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, currentState.displayStates.last(), currentState.filters, confirmedSortType)
-        val filteredCategories = getFilteredCategories(allMenu.categories, currentState.displayStates.last())
+        val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, currentState.displayStates.lastOrNull(), currentState.filters, confirmedSortType)
+        val filteredCategories = getFilteredCategories(allMenu.categories, currentState.displayStates.lastOrNull())
         val newMenu = allMenu.copy(
             categories = filteredCategories,
             products = filteredProducts
         )
-        requestAction(SearchAction.RefreshData(newMenu, currentState.displayStates, confirmedSortType , currentState.filters))
+        val searchSummary = getSearchSummary(filteredProducts, currentState.displayStates.lastOrNull())
+        requestAction(SearchAction.RefreshData(newMenu, searchSummary, currentState.displayStates, confirmedSortType , currentState.filters))
     }
 
     private suspend fun onFilterConfirmed(
@@ -237,14 +268,15 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
     ) {
         val allMenu = productsRepository.getAllMenu().value
         val confirmedFilters = currentState.filters?.confirmSelection()
-        val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, currentState.displayStates.last(), confirmedFilters, currentState.sortType)
-        val filteredCategories = getFilteredCategories(allMenu.categories, currentState.displayStates.last())
+        val filteredProducts = getFilteredProducts(allMenu.products, currentState.searchQuery, currentState.displayStates.lastOrNull(), confirmedFilters, currentState.sortType)
+        val filteredCategories = getFilteredCategories(allMenu.categories, currentState.displayStates.lastOrNull())
         val newMenu = allMenu.copy(
             categories = filteredCategories,
             products = filteredProducts
         )
 
-        requestAction(SearchAction.RefreshData(newMenu, currentState.displayStates, currentState.sortType , confirmedFilters))
+        val searchSummary = getSearchSummary(filteredProducts, currentState.displayStates.lastOrNull())
+        requestAction(SearchAction.RefreshData(newMenu, searchSummary, currentState.displayStates, currentState.sortType , confirmedFilters))
     }
 
     private suspend fun onToggleFavourite(
@@ -264,12 +296,14 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
     )
 
     private fun getFilteredCategories(categories: List<Category>,
-                                      displayState: DisplayState): List<Category>{
+                                      displayState: DisplayState?): List<Category>{
+        if(displayState == null) return emptyList()
+
         return categories
             .filter { category ->
                 category.displayPlace == DisplayPlace.MENU &&
                         when (displayState) {
-                            is DisplayState.Category -> displayState.categoryId == category.parentCategoryId // only show categories for the given category
+                            is DisplayState.Category -> displayState.category.id == category.parentCategoryId // only show categories for the given category
                             is DisplayState.SearchResults -> false // no need to show categories
                         }
             }
@@ -277,21 +311,33 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
 
     private fun getFilteredProducts(products: List<Product>,
                                     searchQuery: String,
-                                    displayState: DisplayState,
+                                    displayState: DisplayState?,
                                     filters: Filters?,
                                     sortType: SortType
     ): List<Product> {
         Log.d("FEO150", "Products ${products.size}")
         Log.d("FEO150", "SORTED with ${sortType.type.applied}")
+        if(displayState == null) return emptyList()
+
         return products
             .filter { product ->
                 when(displayState) {
-                    is DisplayState.Category -> displayState.categoryId in product.parentCategoryIds // only show products for the given category
+                    is DisplayState.Category -> displayState.category.id in product.parentCategoryIds // only show products for the given category
                     else -> true // no filtering needed
                 }
             }
             .filter { product -> getFilterRequirements(searchQuery, filters).all { predicate -> predicate(product) } }
             .sortedWith(sortType.type.applied.comparator)
+    }
+
+    private fun getSearchSummary(products: List<Product>, displayState: DisplayState?): String {
+        if(displayState == null) return ""
+
+        return when {
+            displayState is DisplayState.SearchResults -> "Found ${products.size} products"
+            displayState is DisplayState.Category && !displayState.category.isRootCategory() -> "${displayState.category.name} (${products.size})"
+            else -> ""
+        }
     }
 
 }
