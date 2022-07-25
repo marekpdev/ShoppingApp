@@ -19,6 +19,8 @@ import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.MviView
+import com.marekpdev.shoppingapp.ui.base.BaseBottomSheetDialogFragment
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.search.SearchAction
 import com.marekpdev.shoppingapp.ui.search.SearchCommand
 import com.marekpdev.shoppingapp.ui.search.SearchState
@@ -32,7 +34,7 @@ import kotlin.math.abs
  * Created by Marek Pszczolka on 07/06/2022.
  */
 @AndroidEntryPoint
-class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, SearchCommand> {
+class FilterBottomSheet: BaseBottomSheetDialogFragment<SearchState, SearchAction, SearchCommand, BottomSheetFilterBinding>(R.layout.bottom_sheet_filter) {
 
     companion object {
         const val TAG = "ModalBottomSheetFilter"
@@ -40,34 +42,12 @@ class FilterBottomSheet: BottomSheetDialogFragment(), MviView<SearchState, Searc
         private const val MIN_SEPARATION_VALUE = 2f
     }
 
-    private val viewModel by viewModels<FilterBottomSheetViewModel>()
-
-    private lateinit var binding: BottomSheetFilterBinding
+    override val viewModel by viewModels<FilterBottomSheetViewModel>()
 
     private val sizesViewMappings = mutableMapOf<Size, Chip>()
     private val colorsViewMappings = mutableMapOf<Color, Chip>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_filter, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
-            lifecycleOwner = this@FilterBottomSheet
-            initLayout(this)
-        }
-
-    }
-
-    private fun initLayout(binding: BottomSheetFilterBinding) = binding.apply {
-        viewModel.bind(viewLifecycleOwner, this@FilterBottomSheet)
-
+    override fun initLayout(binding: BottomSheetFilterBinding) = with(binding) {
         BottomSheetBehavior.from(binding.llBottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
 
         btnConfirmFilter.setOnClickListener {
