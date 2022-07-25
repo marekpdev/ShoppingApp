@@ -25,7 +25,7 @@ class BasketNavigationMiddleware: Middleware<BasketState, BasketAction, BasketCo
         requestCommand: suspend (BasketCommand) -> Unit
     ) {
         when(action){
-            is BasketAction.BasketProductClicked -> requestCommand(BasketCommand.EditBasketProduct(action.basketProductId))
+            is BasketAction.BasketProductClicked -> requestCommand(BasketCommand.EditBasketProduct(action.basketProduct.id))
             is BasketAction.ContinueCheckout -> {
                 Log.d("FEO33", "onContinueCheckout middleware")
                 requestCommand(BasketCommand.ContinueCheckout)

@@ -22,7 +22,11 @@ class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, Fr
     override val viewModel by viewModels<BasketViewModel>()
 
     private val onBasketProductClicked: (BasketProduct) -> Unit = {
-        viewModel.dispatch(BasketAction.BasketProductClicked(it.id))
+        viewModel.dispatch(BasketAction.BasketProductClicked(it))
+    }
+
+    private val onRemoveBasketProductClicked: (BasketProduct) -> Unit = {
+        viewModel.dispatch(BasketAction.RemoveBasketProduct(it))
     }
 
     private val onContinueCheckout: () -> Unit = {
@@ -32,7 +36,7 @@ class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, Fr
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(BasketProductAdapterDelegate(onBasketProductClicked))
+            .addDelegate(BasketProductAdapterDelegate(onBasketProductClicked, onRemoveBasketProductClicked))
             .addDelegate(BasketTotalCostAdapterDelegate())
             .addDelegate(BasketContinueCheckoutAdapterDelegate(onContinueCheckout))
     )

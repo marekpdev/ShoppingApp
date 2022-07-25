@@ -13,7 +13,8 @@ import com.squareup.picasso.Picasso
 /**
  * Created by Marek Pszczolka on 01/03/2022.
  */
-class BasketProductAdapterDelegate(private val onBasketProductClicked: (BasketProduct) -> Unit) :
+class BasketProductAdapterDelegate(private val onBasketProductClicked: (BasketProduct) -> Unit,
+                                   private val onRemoveBasketProductClicked: (BasketProduct) -> Unit) :
     BaseAdapterDelegate<BasketProduct, BaseViewHolder<VhBasketProductBinding>>(BasketProduct::class.java){
 
     override fun bindViewHolder(item: BasketProduct, holder: BaseViewHolder<VhBasketProductBinding>) {
@@ -24,6 +25,8 @@ class BasketProductAdapterDelegate(private val onBasketProductClicked: (BasketPr
             tvProductPrice.text = item.currency + "" + item.price
 
             Picasso.get().load(item.images.first()).into(ivProductImage)
+
+            ivRemove.setOnClickListener { onRemoveBasketProductClicked(item) }
 
 //            spProductSize.apply {
 //                adapter = ArrayAdapter(

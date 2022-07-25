@@ -11,7 +11,8 @@ sealed class BasketAction: Action {
     object Loading: BasketAction()
     data class RefreshData(val basketProducts: List<BasketProduct>, val totalCost: Double): BasketAction()
 
-    class BasketProductClicked(val basketProductId: Long): BasketAction()
+    class BasketProductClicked(val basketProduct: BasketProduct): BasketAction()
+    class RemoveBasketProduct(val basketProduct: BasketProduct): BasketAction()
 
     object ContinueCheckout: BasketAction()
 }
