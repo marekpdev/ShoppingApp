@@ -16,6 +16,9 @@ class BasketMiddleware @Inject constructor(private val productsRepository: Produ
                                            private val basketRepository: BasketRepository)
     :Middleware<BasketState, BasketAction, BasketCommand> {
 
+    // TODO only for testing
+    private var testProductsAdded = false
+
     override suspend fun bind(
         coroutineScope: CoroutineScope,
         state: StateFlow<BasketState>,
@@ -25,6 +28,22 @@ class BasketMiddleware @Inject constructor(private val productsRepository: Produ
             basketRepository.observeBasketProducts()
                 .collectLatest { basketProducts ->
                     requestAction(BasketAction.RefreshData(basketProducts, basketProducts.sumOf { it.price }))
+                }
+        }
+
+        coroutineScope.launch {
+            productsRepository.getAllMenu()
+                .collectLatest { menu ->
+                    if(!testProductsAdded) {
+                        menu.products.take(3).forEach {
+                            basketRepository.addToBasket(
+                                it,
+                                it.availableSizes.firstOrNull(),
+                                it.availableColors.firstOrNull()
+                            )
+                        }
+                        testProductsAdded = true
+                    }
                 }
         }
     }

@@ -189,11 +189,9 @@ object Data {
             getProduct(productId.getAndIncrement(), listOf(categoryHome3.id), null)
         }
 
-        val rootTestProduct = getProduct(productId.getAndIncrement(), listOf(categoryRoot.id), null)
-
         return Menu(
             listOf(categoryRoot, categoryWomen, categoryMen, categoryKids, categoryAccessories, categoryWomen1, categoryWomen2, categoryHome1, categoryHome2, categoryHome3),
-            listOf(categoryWomen1Products, categoryWomen2Products, categoryHome1Products, categoryHome2Products, categoryHome3Products).flatten() + rootTestProduct
+            listOf(categoryWomen1Products, categoryWomen2Products, categoryHome1Products, categoryHome2Products, categoryHome3Products).flatten()
         )
     }
 
