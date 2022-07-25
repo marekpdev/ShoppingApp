@@ -65,12 +65,6 @@ class ProductFragment : BaseFragment<ProductState, ProductAction, ProductCommand
     // open ProductFragment with product2
     // the product1 is still being shown and after 2 seconds we can see product2
 
-    // TODO need to remove it and find a better way
-    // beause we are using viewModel by lazy then
-    // the 'init' of view model is not being called and hence
-    // productStore.dispatch(ProductAction.FetchProduct(productId)) doesnt work
-//        viewModel.toString()
-
     override fun initLayout(binding: FragmentProductBinding) = with(binding) {
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->

@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.product
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.marekpdev.shoppingapp.ui.base.BaseViewModel
@@ -51,6 +52,7 @@ class ProductViewModel @AssistedInject constructor(
     //val selectedSize = _selectedSize.asLiveData()
 
     init {
+        Log.d("FEO33", "INIT ProductViewModel")
         dispatch(ProductAction.FetchProduct(productId))
     }
 }
