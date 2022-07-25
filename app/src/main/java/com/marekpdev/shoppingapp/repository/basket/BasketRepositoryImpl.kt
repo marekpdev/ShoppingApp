@@ -5,6 +5,7 @@ import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
@@ -15,6 +16,10 @@ class BasketRepositoryImpl @Inject constructor(): BasketRepository {
 
     private val basketProductId = AtomicLong()
     private val basketProducts = MutableStateFlow(emptyList<BasketProduct>())
+
+    override suspend fun observeBasketProducts(): StateFlow<List<BasketProduct>> {
+        return basketProducts
+    }
 
     override suspend fun addToBasket(product: Product,
                                      selectedSize: Size?,

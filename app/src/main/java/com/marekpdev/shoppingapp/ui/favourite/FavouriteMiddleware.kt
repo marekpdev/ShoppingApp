@@ -21,14 +21,12 @@ class FavouriteMiddleware @Inject constructor(private val productsRepository: Pr
         requestAction: suspend (FavouriteAction) -> Unit
     ) {
         coroutineScope.launch {
-            coroutineScope.launch {
-                productsRepository.getAllMenu()
-                    .collectLatest { menu ->
-                        val currentState = state.value
-                        val favouredProducts = menu.products.filter { it.isFavoured }
-                        requestAction(FavouriteAction.RefreshData(favouredProducts))
-                    }
-            }
+            productsRepository.getAllMenu()
+                .collectLatest { menu ->
+                    val currentState = state.value
+                    val favouredProducts = menu.products.filter { it.isFavoured }
+                    requestAction(FavouriteAction.RefreshData(favouredProducts))
+                }
         }
     }
 

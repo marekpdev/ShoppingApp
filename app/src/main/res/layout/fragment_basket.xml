@@ -8,45 +8,50 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/screen_background">
 
-        <TextView
-            android:id="@+id/tvAddedProducts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Added Products"
-            android:textSize="24sp"
+        <Space
+            android:id="@+id/statusBarSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_bar_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvBasketHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/rubik_medium"
+            android:text="Basket"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusBarSpace" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBasketProducts"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/tvTotalPrice"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAddedProducts" />
-
-        <TextView
-            android:id="@+id/tvTotalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total Price"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@id/btnContinue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btnContinue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Continue"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBasketHeader" />
+
+        <ProgressBar
+            android:id="@+id/pbBasketProducts"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/rvBasketProducts"
+            app:layout_constraintEnd_toEndOf="@id/rvBasketProducts"
+            app:layout_constraintStart_toStartOf="@id/rvBasketProducts"
+            app:layout_constraintTop_toTopOf="@id/rvBasketProducts" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

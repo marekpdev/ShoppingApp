@@ -16,7 +16,7 @@ import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutDeliveryAddressDelegate
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutPaymentMethodDelegate
-import com.marekpdev.shoppingapp.ui.checkout.CheckoutProductAdapterDelegate
+import com.marekpdev.shoppingapp.ui.basket.BasketProductAdapterDelegate
 
 
 /**
@@ -38,7 +38,7 @@ class CheckoutOrderDetailsFragment : Fragment() {
         delegatesManager = AdapterDelegatesManager()
             .addDelegate(CheckoutDeliveryAddressDelegate {})
             .addDelegate(CheckoutPaymentMethodDelegate {})
-            .addDelegate(CheckoutProductAdapterDelegate(onProductClicked, onProductLongClicked))
+//            .addDelegate(BasketProductAdapterDelegate(onProductClicked, onProductLongClicked))
     )
 
     override fun onCreateView(
