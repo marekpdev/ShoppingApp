@@ -34,6 +34,18 @@ abstract class BaseFragment<S: State, A: Action, C: Command, B: ViewDataBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // https://developer.android.com/codelabs/kotlin-android-training-live-data#4
+        // here there is some info so might need to add observers in onCreateView instead
+//        Why use viewLifecycleOwner?
+//        Fragment views get destroyed when a user navigates away from a fragment,
+//        even though the fragment itself is not destroyed. This essentially creates
+//        two lifecycles, the lifecycle of the fragment, and the lifecycle of the
+//        fragment's view. Referring to the fragment's lifecycle instead of the
+//        fragment view's lifecycle can cause subtle bugs when updating the fragment's
+//        view. Therefore, when setting up observers that affect the fragment's view you should:
+//        1. Set up the observers in onCreateView()
+//        2. Pass in viewLifecycleOwner to observers
+
         binding.apply {
             lifecycleOwner = this@BaseFragment
             viewModel.bind(viewLifecycleOwner, this@BaseFragment)

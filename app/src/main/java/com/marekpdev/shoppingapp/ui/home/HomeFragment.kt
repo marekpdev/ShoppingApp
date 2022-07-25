@@ -11,12 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentHomeBinding
+import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.home.banner.HomeBannerAdapterDelegate
 import com.marekpdev.shoppingapp.ui.home.banner.HomeBanners
 import com.marekpdev.shoppingapp.ui.home.products.HomeProducts
@@ -33,11 +35,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by Marek Pszczolka on 14/04/2021.
  */
 @AndroidEntryPoint
-class HomeFragment : Fragment(), MviView<HomeState, HomeCommand> {
+class HomeFragment : BaseFragment<HomeState, HomeAction, HomeCommand, FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val viewModel by viewModels<HomeViewModel>()
-
-    private lateinit var binding: FragmentHomeBinding
+    override val viewModel by viewModels<HomeViewModel>()
 
     private val onProductClicked: (Product) -> Unit = {
         viewModel.dispatch(HomeAction.ProductClicked(it.id))
@@ -58,26 +58,9 @@ class HomeFragment : Fragment(), MviView<HomeState, HomeCommand> {
             .addDelegate(HomeProductsAdapterDelegate(onProductClicked, onToggleFavourite))
     )
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //findNavController().navigate(R.id.action_homeFragment_to_productFragment)
-        binding.apply {
-            lifecycleOwner = this@HomeFragment
-            initLayout(this)
-        }
-    }
-
-    private fun initLayout(binding: FragmentHomeBinding) = binding.apply {
+    override fun initLayout(binding: FragmentHomeBinding) = with(binding) {
         rvHomeContent.layoutManager = LinearLayoutManager(context)
         rvHomeContent.adapter = adapter
-
-        viewModel.bind(viewLifecycleOwner, this@HomeFragment)
     }
 
     override fun render(state: HomeState) {

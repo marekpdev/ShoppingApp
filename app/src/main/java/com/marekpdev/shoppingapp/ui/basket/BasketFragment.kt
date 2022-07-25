@@ -1,22 +1,15 @@
 package com.marekpdev.shoppingapp.ui.basket
 
-import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentBasketBinding
 import com.marekpdev.shoppingapp.models.BasketProduct
-import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.basket.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,11 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by Marek Pszczolka on 14/04/2021.
  */
 @AndroidEntryPoint
-class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
+class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, FragmentBasketBinding>(R.layout.fragment_basket){
 
-    private val viewModel by viewModels<BasketViewModel>()
-
-    private lateinit var binding: FragmentBasketBinding
+    override val viewModel by viewModels<BasketViewModel>()
 
     private val onBasketProductClicked: (BasketProduct) -> Unit = {
         viewModel.dispatch(BasketAction.BasketProductClicked(it.id))
@@ -46,29 +37,10 @@ class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
             .addDelegate(BasketContinueCheckoutAdapterDelegate(onContinueCheckout))
     )
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_basket, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
-            lifecycleOwner = this@BasketFragment
-            initLayout(this)
-        }
-    }
-
-    private fun initLayout(binding: FragmentBasketBinding) = binding.apply {
+    override fun initLayout(binding: FragmentBasketBinding) = with(binding) {
         rvBasketProducts.layoutManager = LinearLayoutManager(context)
 //        rvBasketProducts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         rvBasketProducts.adapter = adapter
-
-        viewModel.bind(viewLifecycleOwner, this@BasketFragment)
     }
 
     override fun render(state: BasketState) {
