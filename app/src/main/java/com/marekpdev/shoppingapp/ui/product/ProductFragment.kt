@@ -11,6 +11,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
@@ -210,7 +211,10 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 
     override fun onCommand(command: ProductCommand) {
         when(command){
-            is ProductCommand.ProductAddedToBasket -> Toast.makeText(requireContext(), "Product added to basket", Toast.LENGTH_SHORT).show()
+            is ProductCommand.ProductAddedToBasket -> {
+                Toast.makeText(requireContext(), "Product added to basket", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            }
         }
     }
 }

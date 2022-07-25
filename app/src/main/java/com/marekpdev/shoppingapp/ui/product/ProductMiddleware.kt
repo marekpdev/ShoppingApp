@@ -61,8 +61,10 @@ class ProductMiddleware @Inject constructor(
         requestAction: suspend (ProductAction) -> Unit,
         requestCommand: suspend (ProductCommand) -> Unit
     ) {
-        currentState.product?.let { basketRepository.addProduct(it) }
-        requestCommand(ProductCommand.ProductAddedToBasket)
+        currentState.product?.let { product ->
+            basketRepository.addToBasket(product, currentState.selectedSize, currentState.selectedColor)
+            requestCommand(ProductCommand.ProductAddedToBasket)
+        }
     }
 
 }
