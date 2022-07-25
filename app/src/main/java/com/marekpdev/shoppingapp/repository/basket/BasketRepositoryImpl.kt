@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.repository.basket
 
+import android.util.Log
 import com.marekpdev.shoppingapp.models.BasketProduct
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
@@ -25,7 +26,7 @@ class BasketRepositoryImpl @Inject constructor(): BasketRepository {
                                      selectedSize: Size?,
                                      selectedColor: Color?) {
         val updatedBasketProducts = basketProducts.value.toMutableList().apply {
-            add(createBasketProduct(product, selectedSize, selectedColor))
+            add(product.toBasketProduct(selectedSize, selectedColor))
         }
         basketProducts.emit(updatedBasketProducts)
     }
@@ -49,19 +50,42 @@ class BasketRepositoryImpl @Inject constructor(): BasketRepository {
         basketProducts.emit(updatedBasketProducts)
     }
 
-    private fun createBasketProduct(product: Product,
-                                    selectedSize: Size?,
-                                    selectedColor: Color?): BasketProduct {
+    override suspend fun updateSize(basketProduct: BasketProduct, size: Size) {
+        Log.d("FEO33", "Update size" + size)
+        val updatedBasketProducts = basketProducts.value.map {
+            when (it.id == basketProduct.id) {
+                true -> it.copy(selectedSize = size)
+                else -> it
+            }
+        }
+        basketProducts.emit(updatedBasketProducts)
+    }
+
+    override suspend fun updateColor(basketProduct: BasketProduct, color: Color) {
+        Log.d("FEO33", "Update color" + color + "for ${basketProduct.id}")
+        val updatedBasketProducts = basketProducts.value.map {
+            when (it.id == basketProduct.id) {
+                true -> it.copy(selectedColor = color)
+                else -> it
+            }
+        }
+        basketProducts.emit(updatedBasketProducts)
+    }
+
+    private fun Product.toBasketProduct(selectedSize: Size?, selectedColor: Color?): BasketProduct {
         return BasketProduct(
             id = basketProductId.getAndIncrement(),
-            productId = product.id,
-            name = product.name,
-            description = product.description,
-            price = product.price,
-            currency = product.currency,
-            images = product.images,
+            productId = id,
+            name = name,
+            description = description,
+            price = price,
+            currency = currency,
+            availableColors = availableColors,
+            availableSizes = availableSizes,
+            images = images,
             selectedSize = selectedSize,
             selectedColor = selectedColor
         )
     }
+
 }

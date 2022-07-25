@@ -59,6 +59,8 @@ class BasketMiddleware @Inject constructor(private val productsRepository: Produ
     ) {
         when(action){
             is BasketAction.RemoveBasketProduct -> onRemoveBasketProduct(action, currentState, requestAction, requestCommand)
+            is BasketAction.UpdateSize -> onUpdateSize(action, currentState, requestAction, requestCommand)
+            is BasketAction.UpdateColor -> onUpdateColor(action, currentState, requestAction, requestCommand)
         }
     }
 
@@ -69,5 +71,23 @@ class BasketMiddleware @Inject constructor(private val productsRepository: Produ
         requestCommand: suspend (BasketCommand) -> Unit
     ) {
         basketRepository.removeFromBasket(action.basketProduct)
+    }
+
+    private suspend fun onUpdateSize(
+        action: BasketAction.UpdateSize,
+        currentState: BasketState,
+        requestAction: suspend (BasketAction) -> Unit,
+        requestCommand: suspend (BasketCommand) -> Unit
+    ) {
+        basketRepository.updateSize(action.basketProduct, action.size)
+    }
+
+    private suspend fun onUpdateColor(
+        action: BasketAction.UpdateColor,
+        currentState: BasketState,
+        requestAction: suspend (BasketAction) -> Unit,
+        requestCommand: suspend (BasketCommand) -> Unit
+    ) {
+        basketRepository.updateColor(action.basketProduct, action.color)
     }
 }

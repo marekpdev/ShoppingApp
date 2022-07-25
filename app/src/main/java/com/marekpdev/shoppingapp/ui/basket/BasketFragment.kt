@@ -6,7 +6,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentBasketBinding
-import com.marekpdev.shoppingapp.models.BasketProduct
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
@@ -21,24 +20,22 @@ class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, Fr
 
     override val viewModel by viewModels<BasketViewModel>()
 
-    private val onBasketProductClicked: (BasketProduct) -> Unit = {
-        viewModel.dispatch(BasketAction.BasketProductClicked(it))
-    }
-
-    private val onRemoveBasketProductClicked: (BasketProduct) -> Unit = {
-        viewModel.dispatch(BasketAction.RemoveBasketProduct(it))
-    }
-
-    private val onContinueCheckout: () -> Unit = {
-        Log.d("FEO33", "onContinueCheckout 1")
-        viewModel.dispatch(BasketAction.ContinueCheckout)
-    }
-
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(BasketProductAdapterDelegate(onBasketProductClicked, onRemoveBasketProductClicked))
+            .addDelegate(
+                BasketProductAdapterDelegate(
+                    onBasketProductClicked = { viewModel.dispatch(BasketAction.BasketProductClicked(it)) },
+                    onRemoveBasketProductClicked = { viewModel.dispatch(BasketAction.RemoveBasketProduct(it)) },
+                    onUpdateSize = { basketProduct, size -> viewModel.dispatch(BasketAction.UpdateSize(basketProduct, size)) },
+                    onUpdateColor = { basketProduct, color -> viewModel.dispatch(BasketAction.UpdateColor(basketProduct, color)) }
+                )
+            )
             .addDelegate(BasketTotalCostAdapterDelegate())
-            .addDelegate(BasketContinueCheckoutAdapterDelegate(onContinueCheckout))
+            .addDelegate(
+                BasketContinueCheckoutAdapterDelegate(
+                    onContinueCheckoutClicked = { viewModel.dispatch(BasketAction.ContinueCheckout) }
+                )
+            )
     )
 
     override fun initLayout(binding: FragmentBasketBinding) = with(binding) {
@@ -48,6 +45,7 @@ class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, Fr
     }
 
     override fun render(state: BasketState) {
+        Log.d("FEO33", "Render basket" + System.currentTimeMillis())
         binding.apply {
             val items = mutableListOf<Any>().apply {
                 state.basketProducts.forEach { add(it) }

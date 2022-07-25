@@ -11,6 +11,8 @@ data class BasketProduct (
     val description: String,
     val price: Double,
     val currency: String,
+    val availableColors: List<Color>,
+    val availableSizes: List<Size>,
     val images: List<String>,
     // order selections
     val selectedSize: Size?,

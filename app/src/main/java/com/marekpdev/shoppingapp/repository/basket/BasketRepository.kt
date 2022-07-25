@@ -25,4 +25,8 @@ interface BasketRepository {
 
     suspend fun observeBasketProducts(): StateFlow<List<BasketProduct>>
 
+    suspend fun updateSize(basketProduct: BasketProduct, size: Size)
+
+    suspend fun updateColor(basketProduct: BasketProduct, color: Color)
+
 }
