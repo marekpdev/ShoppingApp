@@ -1,6 +1,6 @@
 package com.marekpdev.shoppingapp.ui.home
 
-import com.marekpdev.shoppingapp.mvi.*
+import com.marekpdev.shoppingapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

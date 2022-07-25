@@ -1,9 +1,8 @@
 package com.marekpdev.shoppingapp.ui.product
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.marekpdev.shoppingapp.mvi.BaseViewModel
+import com.marekpdev.shoppingapp.ui.base.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

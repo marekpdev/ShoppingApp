@@ -1,35 +1,45 @@
 package com.marekpdev.shoppingapp.ui.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.hadilq.liveevent.LiveEvent
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
-import javax.inject.Inject
+import androidx.lifecycle.*
+import com.marekpdev.shoppingapp.mvi.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
- * Created by Marek Pszczolka on 07/05/2022.
+ * Created by Marek Pszczolka on 05/06/2022.
  */
-open class BaseViewModelOld @Inject constructor(): ViewModel() {
+open class BaseViewModel <S: State, A: Action, C: Command>(protected val store: Store<S, A, C>): ViewModel() {
 
-    private val inProgress = LiveEvent<Boolean>()
-
-    protected val compositeDisposable = CompositeDisposable()
-    protected val error = LiveEvent<Throwable>()
-
-    fun observeProgress(): LiveData<Boolean> = inProgress
-    fun observeErrors(): LiveData<Throwable> = error
-
-    fun startProgress() = inProgress.postValue(true)
-    fun stopProgress() = inProgress.postValue(false)
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
+    fun dispatch(action: A){
+        viewModelScope.launch {
+            store.dispatch(action)
+        }
     }
 
-    protected fun Disposable.addToDisposable() {
-        compositeDisposable.add(this)
+    fun bind(
+        owner: LifecycleOwner,
+        mviView: MviView<S, C>
+    ) {
+        // TODO for some reason we when we put 2x or more collectLatest (or generally any other coroutine?)
+        // in one launchWhenStarted then only the first one is working - not sure why
+        // https://stackoverflow.com/questions/67861592/calling-multiple-viewmodel-methods-from-launchwhenstarted-does-not-work
+        owner.lifecycleScope.launchWhenStarted {
+            withContext(Dispatchers.Main) {
+                store.state.collectLatest { mviView.render(it) }
+            }
+        }
+        owner.lifecycleScope.launchWhenStarted {
+            withContext(Dispatchers.Main) {
+                // TODO might need to change collectLatest to collect because we are interested in all
+                // commands and not only the latest one
+                store.commands.collectLatest { mviView.onCommand(it) }
+            }
+        }
     }
+
+    open fun canHandleBackPressed(): Boolean = false
 
 }
+
