@@ -206,6 +206,14 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         requestAction(SearchAction.RefreshData(newMenu, searchSummary, displayStates, currentState.sortType , currentState.filters))
     }
 
+    // TODO
+    // there is lots of copy/paste when passing all these parameters
+    // action: SearchAction.BackPressed,
+    // currentState: SearchState,
+    // requestAction: suspend (SearchAction) -> Unit,
+    // requestCommand: suspend (SearchCommand) -> Unit
+    // need to come up with some smarter workflow
+    // maybe just wrap it in data class UseCaseDependencies?
     private suspend fun onBackPressed(
         action: SearchAction.BackPressed,
         currentState: SearchState,

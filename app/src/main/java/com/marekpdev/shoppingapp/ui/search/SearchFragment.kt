@@ -78,6 +78,8 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
         etSearch.doAfterTextChanged {
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
+        // TODO need to use some different scope function so i don't need to
+        // explicitly say 'return@with' - maybe create my own?
         return@with
     }
 
