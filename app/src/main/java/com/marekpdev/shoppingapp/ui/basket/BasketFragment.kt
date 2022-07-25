@@ -49,6 +49,7 @@ class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
