@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.basket
+package com.marekpdev.shoppingapp.ui.basket.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

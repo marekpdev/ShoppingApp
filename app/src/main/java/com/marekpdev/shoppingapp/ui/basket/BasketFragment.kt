@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.ui.basket
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.marekpdev.shoppingapp.models.BasketProduct
 import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.basket.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -33,12 +35,15 @@ class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
     }
 
     private val onContinueCheckout: () -> Unit = {
+        Log.d("FEO33", "onContinueCheckout 1")
         viewModel.dispatch(BasketAction.ContinueCheckout)
     }
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-//            .addDelegate(CheckoutProductAdapterDelegate(onProductClicked, onProductLongClicked))
+            .addDelegate(BasketProductAdapterDelegate(onBasketProductClicked))
+            .addDelegate(BasketTotalCostAdapterDelegate())
+            .addDelegate(BasketContinueCheckoutAdapterDelegate(onContinueCheckout))
     )
 
     override fun onCreateView(
@@ -48,7 +53,6 @@ class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_basket, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,7 +65,7 @@ class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
 
     private fun initLayout(binding: FragmentBasketBinding) = binding.apply {
         rvBasketProducts.layoutManager = LinearLayoutManager(context)
-        rvBasketProducts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+//        rvBasketProducts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         rvBasketProducts.adapter = adapter
 
         viewModel.bind(viewLifecycleOwner, this@BasketFragment)
@@ -71,6 +75,8 @@ class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
         binding.apply {
             val items = mutableListOf<Any>().apply {
                 state.basketProducts.forEach { add(it) }
+                add(TotalCost(state.totalCost))
+                add(ContinueCheckout)
             }
 
             adapter.replaceData(items)
@@ -80,6 +86,7 @@ class BasketFragment : Fragment(), MviView<BasketState, BasketCommand> {
     override fun onCommand(command: BasketCommand) {
         when (command){
             is BasketCommand.ContinueCheckout -> {
+                Log.d("FEO33", "onContinueCheckout 2")
                 findNavController().navigate(R.id.action_checkoutFragment_to_checkoutOrderDetailsFragment)
             }
         }

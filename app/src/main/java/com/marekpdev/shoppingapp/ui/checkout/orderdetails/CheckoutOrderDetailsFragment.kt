@@ -16,7 +16,6 @@ import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutDeliveryAddressDelegate
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutPaymentMethodDelegate
-import com.marekpdev.shoppingapp.ui.basket.BasketProductAdapterDelegate
 
 
 /**

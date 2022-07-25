@@ -3,10 +3,8 @@ package com.marekpdev.shoppingapp.di
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
 import com.marekpdev.shoppingapp.repository.basket.BasketRepositoryImpl
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
-import com.marekpdev.shoppingapp.ui.basket.BasketMiddleware
-import com.marekpdev.shoppingapp.ui.basket.BasketReducer
-import com.marekpdev.shoppingapp.ui.basket.BasketState
-import com.marekpdev.shoppingapp.ui.basket.BasketStore
+import com.marekpdev.shoppingapp.ui.basket.*
+import com.marekpdev.shoppingapp.ui.search.SearchNavigationMiddleware
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -30,13 +28,18 @@ class BasketModule {
 
     @Provides
     @Singleton
+    fun provideBasketNavigationMiddleware() = BasketNavigationMiddleware()
+
+    @Provides
+    @Singleton
     fun provideBasketStore(
         basketMiddleware: BasketMiddleware,
+        basketNavigationMiddleware: BasketNavigationMiddleware
     ): BasketStore {
         return BasketStore(
             BasketState(emptyList(), false, 0.0),
             listOf(
-                basketMiddleware
+                basketMiddleware, basketNavigationMiddleware
             ),
             BasketReducer()
         )
