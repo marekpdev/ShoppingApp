@@ -12,7 +12,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(): UserRepository {
 
     // todo only for testing workflow
-    private val users = listOf(User(1, "test@test.com", "password"))
+    private val users = listOf(User(1, "test@test.com", "password", "TestName", "TestSurname"))
 
     private var loggedInUser = MutableStateFlow<User?>(null)
 

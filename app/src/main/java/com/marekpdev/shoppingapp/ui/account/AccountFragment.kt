@@ -26,7 +26,7 @@ class AccountFragment : BaseFragment<AccountState, AccountAction, AccountCommand
 
     override fun render(state: AccountState) {
         binding.apply {
-            tvUserLabel.text = state.email
+            tvUserLabel.text = if(state.username.isNotBlank()) "Hi ${state.username}!" else "Hi!"
         }
     }
 

@@ -14,6 +14,6 @@ sealed class AccountAction : Action {
     object SettingsClicked: AccountAction()
     object LogoutClicked: AccountAction()
 
-    data class RefreshUserData(val email: String): AccountAction()
+    data class RefreshUserData(val username: String): AccountAction()
 
 }

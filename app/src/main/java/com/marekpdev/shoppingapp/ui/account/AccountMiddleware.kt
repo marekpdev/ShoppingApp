@@ -23,7 +23,7 @@ class AccountMiddleware @Inject constructor(val userRepository: UserRepository) 
         coroutineScope.launch {
             userRepository.getUser()
                 .collectLatest { user ->
-                    requestAction(AccountAction.RefreshUserData(user?.email ?: "N/A"))
+                    requestAction(AccountAction.RefreshUserData(user?.name ?: "N/A"))
                 }
         }
     }

@@ -9,7 +9,7 @@ class AccountReducer: Reducer<AccountState, AccountAction> {
 
     override fun reduce(currentState: AccountState, action: AccountAction): AccountState {
         return when (action){
-            is AccountAction.RefreshUserData -> currentState.copy(email = action.email)
+            is AccountAction.RefreshUserData -> currentState.copy(username = action.username)
             else -> {
                 currentState
             }

@@ -6,5 +6,5 @@ import com.marekpdev.shoppingapp.mvi.State
  * Created by Marek Pszczolka on 26/07/2022.
  */
 data class AccountState(
-    val email: String
+    val username: String
 ): State
