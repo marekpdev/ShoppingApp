@@ -10,6 +10,7 @@ sealed class LoginAction : Action {
     data class InputChanged(val email: String, val password: String): LoginAction()
     data class RequestLogin(val email: String, val password: String): LoginAction()
     data class LoginError(val error: String): LoginAction()
+    object LoginSuccessful: LoginAction()
     object Loading: LoginAction()
 
     object RegisterClicked: LoginAction()

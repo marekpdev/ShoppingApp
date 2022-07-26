@@ -18,6 +18,14 @@ class LoginReducer: Reducer<LoginState, LoginAction> {
             is LoginAction.Loading -> {
                 currentState.copy(loading = true)
             }
+            is LoginAction.LoginSuccessful -> {
+                currentState.copy(
+                    email = "",
+                    password = "",
+                    error = "",
+                    loading = false
+                )
+            }
             is LoginAction.LoginError -> {
                 currentState.copy(
                     error = action.error,

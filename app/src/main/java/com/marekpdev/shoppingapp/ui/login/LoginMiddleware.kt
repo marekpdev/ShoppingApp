@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.login
 
+import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
@@ -40,8 +41,9 @@ class LoginMiddleware @Inject constructor(private val userRepository: UserReposi
     ) {
         requestAction(LoginAction.Loading)
         val loginSuccess = userRepository.loginUser(action.email, action.password)
+        Log.d("FEO33", "Login success ? $loginSuccess")
         if(loginSuccess) {
-            requestCommand(LoginCommand.GoToAccountScreen)
+            requestAction(LoginAction.LoginSuccessful)
         } else {
             requestAction(LoginAction.LoginError("Wrong email or password"))
         }

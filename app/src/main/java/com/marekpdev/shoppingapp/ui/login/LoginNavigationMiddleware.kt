@@ -28,6 +28,7 @@ class LoginNavigationMiddleware @Inject constructor() :
     ) {
         when(action){
             is LoginAction.RegisterClicked -> requestCommand(LoginCommand.GoToRegistrationScreen)
+            is LoginAction.LoginSuccessful -> requestCommand(LoginCommand.GoToAccountScreen)
             else -> {}
         }
     }
