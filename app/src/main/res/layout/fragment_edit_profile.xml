@@ -13,7 +13,8 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="Edit Profile"
+            android:id="@+id/tvEmail"
+            android:text="Email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

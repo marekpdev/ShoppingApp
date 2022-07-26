@@ -20,6 +20,8 @@ interface UserRepository {
 
     suspend fun logoutUser(userId: Long): Boolean
 
+    suspend fun updateUserData(name: String, surname: String)
+
     fun getUser(): StateFlow<User?>
 
 //    suspend fun registerUser(email: String, password: String): Boolean
