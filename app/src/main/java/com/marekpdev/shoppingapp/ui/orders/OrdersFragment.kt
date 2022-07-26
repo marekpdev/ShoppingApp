@@ -51,8 +51,9 @@ class OrdersFragment : BaseFragment<OrdersState, OrdersAction, OrdersCommand, Fr
 
     override fun render(state: OrdersState) {
         binding.apply {
-            adapter.replaceData(state.orders)
             pbOrders.visibility = if(state.loading) View.VISIBLE else View.GONE
+
+            adapter.replaceData(state.orders)
         }
     }
 
