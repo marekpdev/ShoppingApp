@@ -24,6 +24,8 @@ class OrdersMiddleware @Inject constructor(private val userRepository: UserRepos
         requestAction: suspend (OrdersAction) -> Unit
     ) {
         coroutineScope.launch {
+            // todo figure out a better way to chain these flows
+            // userRepository.getUser() & ordersRepository.getOrders(it.id)
             userRepository.getUser()
                 .collectLatest { user ->
                     user?.let {
