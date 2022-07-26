@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.home
+package com.marekpdev.shoppingapp.ui.basket
 
 import com.marekpdev.shoppingapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,4 +9,4 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(store: HomeStore): BaseViewModel<HomeState, HomeAction, HomeCommand>(store)
+class BasketViewModel @Inject constructor(store: BasketStore): BaseViewModel<BasketState, BasketAction, BasketCommand>(store)

@@ -19,6 +19,7 @@ import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.navigation.OnBackPressedCallback
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.productvh.ProductWidthConstAdapterDelegate
 import com.marekpdev.shoppingapp.ui.search.filter.FilterBottomSheet
 import com.marekpdev.shoppingapp.ui.search.sort.SortBottomSheet
@@ -29,15 +30,10 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by Marek Pszczolka on 14/04/2021.
  */
 @AndroidEntryPoint
-class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPressedCallback {
+class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, FragmentSearchBinding>(R.layout.fragment_search),
+    OnBackPressedCallback {
 
-    // todo
-    // need to add
-    // FILTER and SORT workflows
-
-    private val viewModel by viewModels<SearchViewModel>()
-
-    private lateinit var binding: FragmentSearchBinding
+    override val viewModel by viewModels<SearchViewModel>()
 
     private val onProductClicked: (Product) -> Unit = {
         viewModel.dispatch(SearchAction.ProductClicked(it.id))
@@ -58,36 +54,7 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
             .addDelegate(MenuCategoryDelegate(onCategoryClicked))
     )
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // https://developer.android.com/codelabs/kotlin-android-training-live-data#4
-        // here there is some info so might need to add observers in onCreateView instead
-//        Why use viewLifecycleOwner?
-//        Fragment views get destroyed when a user navigates away from a fragment,
-//        even though the fragment itself is not destroyed. This essentially creates
-//        two lifecycles, the lifecycle of the fragment, and the lifecycle of the
-//        fragment's view. Referring to the fragment's lifecycle instead of the
-//        fragment view's lifecycle can cause subtle bugs when updating the fragment's
-//        view. Therefore, when setting up observers that affect the fragment's view you should:
-//        1. Set up the observers in onCreateView()
-//        2. Pass in viewLifecycleOwner to observers
-
-        binding.apply {
-            lifecycleOwner = this@SearchFragment
-            initLayout(this)
-        }
-    }
-
-    private fun initLayout(binding: FragmentSearchBinding) = binding.apply {
+    override fun initLayout(binding: FragmentSearchBinding) = with(binding) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         layoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -108,11 +75,12 @@ class SearchFragment : Fragment(), MviView<SearchState, SearchCommand>, OnBackPr
         ivSort.setOnClickListener { viewModel.dispatch(SearchAction.SortClicked) }
         ivFilter.setOnClickListener { viewModel.dispatch(SearchAction.FilterClicked) }
 
-        viewModel.bind(viewLifecycleOwner, this@SearchFragment)
-
         etSearch.doAfterTextChanged {
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
+        // TODO need to use some different scope function so i don't need to
+        // explicitly say 'return@with' - maybe create my own?
+        return@with
     }
 
     override fun render(state: SearchState) {

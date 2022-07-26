@@ -24,8 +24,8 @@ class ProductReducer: Reducer<ProductState, ProductAction> {
             is ProductAction.ProductFetched -> {
                 currentState.copy(
                     product = action.product,
-                    selectedSize = null,
-                    selectedColor = null,
+                    selectedSize = action.product.availableSizes.firstOrNull(),
+                    selectedColor = action.product.availableColors.firstOrNull(),
                     loading = false
                 )
             }

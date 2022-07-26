@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.ui.checkout.orderdetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +12,10 @@ import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentCheckoutOrderDetailsBinding
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.order.PaymentMethod
-import com.marekpdev.shoppingapp.repository.Basket
-import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutDeliveryAddressDelegate
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutPaymentMethodDelegate
-import com.marekpdev.shoppingapp.ui.checkout.CheckoutProductAdapterDelegate
 
 
 /**
@@ -41,7 +37,7 @@ class CheckoutOrderDetailsFragment : Fragment() {
         delegatesManager = AdapterDelegatesManager()
             .addDelegate(CheckoutDeliveryAddressDelegate {})
             .addDelegate(CheckoutPaymentMethodDelegate {})
-            .addDelegate(CheckoutProductAdapterDelegate(onProductClicked, onProductLongClicked))
+//            .addDelegate(BasketProductAdapterDelegate(onProductClicked, onProductLongClicked))
     )
 
     override fun onCreateView(

@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.marekpdev.shoppingapp.mvi.Action
 import com.marekpdev.shoppingapp.mvi.Command
 import com.marekpdev.shoppingapp.mvi.MviView
@@ -16,8 +17,8 @@ import com.marekpdev.shoppingapp.mvi.State
 /**
  * Created by Marek Pszczolka on 25/07/2022.
  */
-abstract class BaseFragment<S: State, A: Action, C: Command, B: ViewDataBinding>(@LayoutRes val contentLayoutId: Int):
-    Fragment(), MviView<S, C>  {
+abstract class BaseBottomSheetDialogFragment<S: State, A: Action, C: Command, B: ViewDataBinding>(@LayoutRes val contentLayoutId: Int):
+    BottomSheetDialogFragment(), MviView<S, C>  {
 
     protected lateinit var binding: B
 
@@ -47,8 +48,8 @@ abstract class BaseFragment<S: State, A: Action, C: Command, B: ViewDataBinding>
 //        2. Pass in viewLifecycleOwner to observers
 
         binding.apply {
-            lifecycleOwner = this@BaseFragment
-            viewModel.bind(viewLifecycleOwner, this@BaseFragment)
+            lifecycleOwner = this@BaseBottomSheetDialogFragment
+            viewModel.bind(viewLifecycleOwner, this@BaseBottomSheetDialogFragment)
             initLayout(this)
         }
     }

@@ -11,16 +11,22 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
+import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.repository.Data
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
+import com.marekpdev.shoppingapp.ui.search.SearchAction
+import com.marekpdev.shoppingapp.ui.search.SearchCommand
+import com.marekpdev.shoppingapp.ui.search.SearchState
 import com.marekpdev.shoppingapp.ui.search.SearchViewModel
 import com.marekpdev.shoppingapp.views.ChipsHelper
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,9 +38,8 @@ import javax.inject.Inject
  * Created by Marek Pszczolka on 14/04/2021.
  */
 @AndroidEntryPoint
-class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
+class ProductFragment : BaseFragment<ProductState, ProductAction, ProductCommand, FragmentProductBinding>(R.layout.fragment_product) {
 
-    private lateinit var binding: FragmentProductBinding
     private val navArgs: ProductFragmentArgs by navArgs()
 
     private val sizesViewMappings = mutableMapOf<Size, Chip>()
@@ -45,19 +50,11 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
     @Inject
     lateinit var productViewModelFactory: ProductViewModel.Factory
 
-    private val viewModel by viewModels<ProductViewModel> {
+    override val viewModel by viewModels<ProductViewModel> {
         ProductViewModel.provideFactory(
             assistedFactory = productViewModelFactory,
             productId = navArgs.productId
         )
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
-        return binding.root
     }
 
     // TODO
@@ -68,25 +65,7 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
     // open ProductFragment with product2
     // the product1 is still being shown and after 2 seconds we can see product2
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//
-        binding.apply {
-            lifecycleOwner = this@ProductFragment
-            initLayout(this)
-        }
-
-        // TODO need to remove it and find a better way
-        // beause we are using viewModel by lazy then
-        // the 'init' of view model is not being called and hence
-        // productStore.dispatch(ProductAction.FetchProduct(productId)) doesnt work
-//        viewModel.toString()
-
-    }
-
-    private fun initLayout(binding: FragmentProductBinding) = binding.apply {
-        viewModel.bind(viewLifecycleOwner, this@ProductFragment)
-
+    override fun initLayout(binding: FragmentProductBinding) = with(binding) {
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -113,6 +92,8 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
             (btnAddProduct.layoutParams as CoordinatorLayout.LayoutParams).behavior =
                 StickyBottomBehavior(btnAddProductAnchor, resources.getDimensionPixelOffset(R.dimen.btn_add_product_margins))
         }
+
+        return@with
     }
 
     override fun render(state: ProductState) {
@@ -210,7 +191,10 @@ class ProductFragment : Fragment(), MviView<ProductState, ProductCommand> {
 
     override fun onCommand(command: ProductCommand) {
         when(command){
-            is ProductCommand.ProductAddedToBasket -> Toast.makeText(requireContext(), "Product added to basket", Toast.LENGTH_SHORT).show()
+            is ProductCommand.ProductAddedToBasket -> {
+                Toast.makeText(requireContext(), "Product added to basket", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            }
         }
     }
 }

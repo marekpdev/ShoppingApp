@@ -4,9 +4,12 @@ import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
+import com.marekpdev.shoppingapp.ui.basket.BasketAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -23,7 +26,6 @@ class ProductMiddleware @Inject constructor(
         state: StateFlow<ProductState>,
         requestAction: suspend (ProductAction) -> Unit
     ) {
-
     }
 
     override suspend fun process(
@@ -61,8 +63,10 @@ class ProductMiddleware @Inject constructor(
         requestAction: suspend (ProductAction) -> Unit,
         requestCommand: suspend (ProductCommand) -> Unit
     ) {
-        currentState.product?.let { basketRepository.addProduct(it) }
-        requestCommand(ProductCommand.ProductAddedToBasket)
+        currentState.product?.let { product ->
+            basketRepository.addToBasket(product, currentState.selectedSize, currentState.selectedColor)
+            requestCommand(ProductCommand.ProductAddedToBasket)
+        }
     }
 
 }
