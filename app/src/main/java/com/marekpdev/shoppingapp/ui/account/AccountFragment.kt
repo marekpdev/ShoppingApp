@@ -26,7 +26,7 @@ class AccountFragment : BaseFragment<AccountState, AccountAction, AccountCommand
 
     override fun render(state: AccountState) {
         binding.apply {
-            userLabel.text = state.email
+            tvUserLabel.text = state.email
         }
     }
 
