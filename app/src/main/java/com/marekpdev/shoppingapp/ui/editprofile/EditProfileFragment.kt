@@ -31,6 +31,7 @@ class EditProfileFragment : BaseFragment<EditProfileState, EditProfileAction, Ed
         when(command) {
             EditProfileCommand.GoBackToAccountScreen -> {
                 // TODO
+                // figure out a correct way to go to previous screen in navigation component
             }
         }
     }
