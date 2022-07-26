@@ -40,4 +40,12 @@ class UserRepositoryImpl @Inject constructor(): UserRepository {
         loggedInUser.value = null
         return true
     }
+
+    override suspend fun updateUserData(name: String, surname: String) {
+        delay(1000L)
+        loggedInUser.value?.let {
+            val updatedUser = it.copy(name = name, surname = surname)
+            loggedInUser.emit(updatedUser)
+        }
+    }
 }
