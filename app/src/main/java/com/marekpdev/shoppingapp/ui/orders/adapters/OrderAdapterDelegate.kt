@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.orders
+package com.marekpdev.shoppingapp.ui.orders.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,8 +19,8 @@ class OrderAdapterDelegate(private val onOrderClicked: (Order) -> Unit) :
         holder.bind {
             root.setOnClickListener { onOrderClicked(item) }
 
-            tvOrderId.text = "Order Id"
-            tvOrderStatus.text = "Order status"
+            tvOrderId.text = "Order #${item.id}"
+            tvOrderStatus.text = "Total cost ${item.totalCost} - status ${item.status.label}"
             btnViewDetails.text = "View Details"
         }
     }

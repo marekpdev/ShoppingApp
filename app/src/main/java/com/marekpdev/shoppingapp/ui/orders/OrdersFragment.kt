@@ -7,23 +7,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.databinding.FragmentEditProfileBinding
 import com.marekpdev.shoppingapp.databinding.FragmentOrdersBinding
 import com.marekpdev.shoppingapp.models.order.Order
-import com.marekpdev.shoppingapp.repository.Data
-import com.marekpdev.shoppingapp.repository.products.ProductsRepositoryImpl
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.ui.base.BaseViewModel
+import com.marekpdev.shoppingapp.ui.editprofile.EditProfileAction
+import com.marekpdev.shoppingapp.ui.editprofile.EditProfileCommand
+import com.marekpdev.shoppingapp.ui.editprofile.EditProfileState
+import com.marekpdev.shoppingapp.ui.editprofile.EditProfileViewModel
+import com.marekpdev.shoppingapp.ui.orders.adapters.OrderAdapterDelegate
+import com.marekpdev.shoppingapp.ui.orders.adapters.OrdersHeaderAdapterDelegate
+import dagger.hilt.android.AndroidEntryPoint
+import org.joda.time.DateTime
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class OrdersFragment : Fragment() {
-    private lateinit var binding: FragmentOrdersBinding
+@AndroidEntryPoint
+class OrdersFragment : BaseFragment<OrdersState, OrdersAction, OrdersCommand, FragmentOrdersBinding>(R.layout.fragment_orders) {
+
+    override val viewModel by viewModels<OrdersViewModel>()
 
     private val onOrderClicked: (Order) -> Unit = {
-
+        Log.d("FEO33", "On order clicked")
     }
 
     private val adapter = BaseAdapter(
@@ -32,35 +44,35 @@ class OrdersFragment : Fragment() {
             .addDelegate(OrderAdapterDelegate(onOrderClicked))
         )
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false)
-        return binding.root
+
+    override fun initLayout(binding: FragmentOrdersBinding) = with(binding){
+        rvOrders.layoutManager = LinearLayoutManager(context)
+        rvOrders.adapter = adapter
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun render(state: OrdersState) {
         binding.apply {
-            lifecycleOwner = this@OrdersFragment
-//            productViewModel = viewModel
-//            btnLogin.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-//            }
-//
-//            btnRegistration.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
-//            }
-            initLayout(this)
+            pbOrders.visibility = if(state.loading) View.VISIBLE else View.GONE
+
+            val now = DateTime.now()
+            val items = mutableListOf<Any>()
+
+            state.orders.groupBy {
+                OrderGroup.getOrderGroup(DateTime(it.createdAt), now)
+            }.forEach { (orderGroup, orders) ->
+                items.add(orderGroup.label)
+                orders.forEach { order -> items.add(order) }
+            }
+            adapter.replaceData(items)
         }
     }
 
-    private fun initLayout(binding: FragmentOrdersBinding) = binding.apply {
-        rvOrders.layoutManager = LinearLayoutManager(context)
-        rvOrders.adapter = adapter
-        adapter.replaceData(items)
+    override fun onCommand(command: OrdersCommand) {
+        when (command) {
+            OrdersCommand.GoBackToAccountScreen -> {
+                // todo
+            }
+        }
     }
 
     private val items = mutableListOf<Any>().apply {

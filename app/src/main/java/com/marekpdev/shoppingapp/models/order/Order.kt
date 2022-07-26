@@ -7,6 +7,7 @@ import com.marekpdev.shoppingapp.models.Address
  */
 data class Order (
     val id: Long,
+    val userId: Long,
     val products: List<OrderProduct>,
     val totalCost: Double,
     val deliveryAddress: Address,
