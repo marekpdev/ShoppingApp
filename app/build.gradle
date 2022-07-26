@@ -93,6 +93,7 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'net.danlew:android.joda:2.10.14'
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:30.0.0')

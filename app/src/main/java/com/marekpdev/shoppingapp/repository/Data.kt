@@ -107,21 +107,20 @@ object Data {
 //        return (1..count).map { getProduct(it.toLong(), categoryId) }
 //    }
 
-    fun List<Product>.toOrderProducts(): List<OrderProduct> = map { product ->
+    fun Product.toOrderProduct(): OrderProduct =
         OrderProduct(
-            id = 1L * product.id,
-            productId = product.id,
-            name = product.name,
-            description = product.description,
-            price = product.price,
-            currency = product.currency,
-            images = product.images,
-            selectedSize = product.availableSizes.firstOrNull(),
-            selectedColor = product.availableColors.firstOrNull(),
+            id = 1L * id,
+            productId = id,
+            name = name,
+            description = description,
+            price = price,
+            currency = currency,
+            images = images,
+            selectedSize = availableSizes.firstOrNull(),
+            selectedColor = availableColors.firstOrNull(),
         )
-    }
 
-    fun getAddress() = Address(
+    private fun getDeliveryAddress() = Address(
         "Street1",
         "Street2",
         "EH1111",
@@ -129,21 +128,21 @@ object Data {
         "UK"
     )
 
-//    fun getOrder(id: Long) = Order(
-//        id,
-//        getProducts(5, 1).toOrderProducts(),
-//        300.0,
-//        getAddress(),
-//        PaymentMethod("VISA **** 1234"),
-//        1000000L,
-//        OrderStatus.IN_PROGRESS
-//    )
+    private var orderId = AtomicLong(1)
 
-//    fun getOrders(count: Int): List<Order>{
-//        return (1..count).map { getOrder(it.toLong()) }
-//    }
-
-
+    fun getOrder(userId: Long, createdAt: Long, productsCount: Int): Order {
+        val products = (1..productsCount).map { getProduct(it.toLong(), emptyList(), null).toOrderProduct() }
+        return Order(
+            id = orderId.getAndIncrement(),
+            userId = userId,
+            products = products,
+            totalCost = products.sumOf { it.price },
+            deliveryAddress = getDeliveryAddress(),
+            paymentMethod = PaymentMethod("Visa **** 1234"),
+            createdAt = createdAt,
+            status = OrderStatus.IN_PROGRESS
+        )
+    }
 
     val products by lazy {
         getMenu().products
