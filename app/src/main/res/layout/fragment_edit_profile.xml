@@ -6,35 +6,102 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/screen_background">
+
+        <Space
+            android:id="@+id/statusBarSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_bar_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/rubik_medium"
+            android:text="Edit Profile"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusBarSpace" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineButtonsStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="64dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineButtonsEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="64dp" />
 
         <TextView
             android:id="@+id/tvEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/rubik"
+            android:gravity="center"
             android:text="Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/etName"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/tvHeader"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <EditText
             android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:hint="Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintBottom_toTopOf="@id/etSurname"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/tvEmail" />
 
         <EditText
             android:id="@+id/etSurname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:hint="Surname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintBottom_toTopOf="@id/btnUpdate"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/etName" />
 
         <Button
             android:id="@+id/btnUpdate"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="Update"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/etSurname" />
 
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/pbUpdate"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/btnUpdate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

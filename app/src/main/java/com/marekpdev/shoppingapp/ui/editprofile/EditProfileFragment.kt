@@ -1,9 +1,12 @@
 package com.marekpdev.shoppingapp.ui.editprofile
 
+import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentEditProfileBinding
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.ui.login.LoginAction
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,6 +20,16 @@ class EditProfileFragment : BaseFragment<EditProfileState, EditProfileAction, Ed
 
     override fun initLayout(binding: FragmentEditProfileBinding) = with(binding) {
         btnUpdate.setOnClickListener { viewModel.dispatch(EditProfileAction.UpdateClicked) }
+
+        etName.doAfterTextChanged {
+            viewModel.dispatch(EditProfileAction.InputChanged(etName.text.toString(), etSurname.text.toString()))
+        }
+
+        etSurname.doAfterTextChanged {
+            viewModel.dispatch(EditProfileAction.InputChanged(etName.text.toString(), etSurname.text.toString()))
+        }
+
+        return@with
     }
 
     override fun render(state: EditProfileState) {
@@ -24,6 +37,8 @@ class EditProfileFragment : BaseFragment<EditProfileState, EditProfileAction, Ed
             tvEmail.setTextIfDifferent(state.email)
             etName.setTextIfDifferent(state.name)
             etSurname.setTextIfDifferent(state.surname)
+            pbUpdate.visibility = if(state.loading) View.VISIBLE else View.GONE
+            btnUpdate.isEnabled = !state.loading
         }
     }
 
