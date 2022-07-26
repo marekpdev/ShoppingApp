@@ -24,15 +24,26 @@ class OrdersRepositoryImpl @Inject constructor(): OrdersRepository{
 
     private fun getTestOrders(userId: Long): List<Order> {
         val currentTime = DateTime.now()
+        // the actual time vary based on the current time
         return listOf(
-            Data.getOrder(userId, currentTime.minusDays(1).millis, 4),
+            // TODAY
+            Data.getOrder(userId, currentTime.minusDays(0).millis, 4),
+            // YESTERDAY
+            Data.getOrder(userId, currentTime.minusDays(1).millis, 2),
+            Data.getOrder(userId, currentTime.minusDays(1).millis, 1),
+            // THIS_WEEK
             Data.getOrder(userId, currentTime.minusDays(1).millis, 5),
-            Data.getOrder(userId, currentTime.minusDays(2).millis, 2),
-            Data.getOrder(userId, currentTime.minusDays(2).millis, 3),
-            Data.getOrder(userId, currentTime.minusDays(4).millis, 7),
-            Data.getOrder(userId, currentTime.minusDays(8).millis, 1),
-            Data.getOrder(userId, currentTime.minusDays(9).millis, 3),
-            Data.getOrder(userId, currentTime.minusDays(16).millis, 8),
+            // LAST_WEEK
+            Data.getOrder(userId, currentTime.minusDays(4).millis, 4),
+            Data.getOrder(userId, currentTime.minusDays(5).millis, 7),
+            Data.getOrder(userId, currentTime.minusDays(6).millis, 5),
+            // LAST_MONTH
+            Data.getOrder(userId, currentTime.minusDays(30).millis, 6),
+            Data.getOrder(userId, currentTime.minusDays(40).millis, 2),
+            Data.getOrder(userId, currentTime.minusDays(50).millis, 8),
+            // LATER
+            Data.getOrder(userId, currentTime.minusDays(100).millis, 2),
+            Data.getOrder(userId, currentTime.minusDays(120).millis, 3),
         )
     }
 }

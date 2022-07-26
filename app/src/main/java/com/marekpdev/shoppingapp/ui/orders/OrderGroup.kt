@@ -13,16 +13,19 @@ enum class OrderGroup(val label: String) {
     LAST_MONTH("Last month"),
     LATER("Later");
 
-    fun getOrderGroup(test: DateTime, now: DateTime): OrderGroup{
-        if(test.year < now.year) return LATER
 
-        return when {
-            test.dayOfYear == now.dayOfYear -> TODAY
-            test.dayOfYear == now.dayOfYear - 1 -> YESTERDAY
-            test.weekOfWeekyear == now.weekOfWeekyear -> THIS_WEEK
-            test.weekOfWeekyear == now.weekOfWeekyear - 1 -> LAST_WEEK
-            test.monthOfYear == now.monthOfYear -1 -> LAST_MONTH
-            else -> LATER
+    companion object {
+        fun getOrderGroup(test: DateTime, now: DateTime): OrderGroup{
+            if(test.year < now.year) return LATER
+
+            return when {
+                test.dayOfYear == now.dayOfYear -> TODAY
+                test.dayOfYear == now.dayOfYear - 1 -> YESTERDAY
+                test.weekOfWeekyear == now.weekOfWeekyear -> THIS_WEEK
+                test.weekOfWeekyear == now.weekOfWeekyear - 1 -> LAST_WEEK
+                test.monthOfYear == now.monthOfYear -1 -> LAST_MONTH
+                else -> LATER
+            }
         }
     }
 

@@ -24,6 +24,7 @@ import com.marekpdev.shoppingapp.ui.editprofile.EditProfileViewModel
 import com.marekpdev.shoppingapp.ui.orders.adapters.OrderAdapterDelegate
 import com.marekpdev.shoppingapp.ui.orders.adapters.OrdersHeaderAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
+import org.joda.time.DateTime
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
@@ -53,7 +54,16 @@ class OrdersFragment : BaseFragment<OrdersState, OrdersAction, OrdersCommand, Fr
         binding.apply {
             pbOrders.visibility = if(state.loading) View.VISIBLE else View.GONE
 
-            adapter.replaceData(state.orders)
+            val now = DateTime.now()
+            val items = mutableListOf<Any>()
+
+            state.orders.groupBy {
+                OrderGroup.getOrderGroup(DateTime(it.createdAt), now)
+            }.forEach { (orderGroup, orders) ->
+                items.add(orderGroup.label)
+                orders.forEach { order -> items.add(order) }
+            }
+            adapter.replaceData(items)
         }
     }
 
