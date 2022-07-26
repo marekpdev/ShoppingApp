@@ -1,41 +1,34 @@
 package com.marekpdev.shoppingapp.repository.user
 
-import com.marekpdev.shoppingapp.api.AuthApi
-import com.marekpdev.shoppingapp.domain.LoginUserResponse
-import com.marekpdev.shoppingapp.domain.LogoutUserResponse
-import com.marekpdev.shoppingapp.domain.RegisterUserResponse
 import com.marekpdev.shoppingapp.models.User
-import com.marekpdev.shoppingapp.user.UserManager
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 /**
  * Created by Marek Pszczolka on 13/07/2021.
  */
-class UserRepositoryImpl @Inject constructor(private val userManager: UserManager,
-                                             private val authApi: AuthApi): UserRepository {
+class UserRepositoryImpl @Inject constructor(): UserRepository {
 
-    override var user: User? = null
+    // todo only for testing workflow
+    private val users = listOf(User(1, "test@test.com", "password"))
 
-    override fun isUserLoggedIn(): Boolean {
-        return user != null
+    private var loggedInUser: User? = null
+
+    override suspend fun isUserLoggedIn(): Boolean {
+        return loggedInUser != null
     }
 
-    override fun registerUser(email: String, password: String): Single<RegisterUserResponse> {
-        return authApi.registerUser(email, password)
-    }
-
-    override fun loginUser(email: String, password: String): Single<LoginUserResponse> {
-        return authApi.loginUser(email, password).map { response ->
-            user = response.user
-            response
+    override suspend fun loginUser(email: String, password: String): Boolean {
+        delay(1000L) // todo remove - only for testing
+        for(user in users){
+            if(user.email == email && user.password == password) return true
         }
+        return false
     }
 
-    override fun logoutUser(userId: Long): Single<LogoutUserResponse> {
-        return authApi.logoutUser(userId).map { response ->
-            if(response.success) user = null
-            response
-        }
+    override suspend fun logoutUser(userId: Long): Boolean {
+        delay(1000L) // todo remove - only for testing
+        loggedInUser = null
+        return true
     }
 }

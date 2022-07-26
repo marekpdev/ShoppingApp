@@ -1,59 +1,58 @@
 package com.marekpdev.shoppingapp.ui.login
 
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.databinding.FragmentLoginBinding
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.utils.setTextIfDifferent
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class LoginFragment : Fragment() {
+@AndroidEntryPoint
+class LoginFragment : BaseFragment<LoginState, LoginAction, LoginCommand, FragmentLoginBinding>(R.layout.fragment_login) {
 
-    private lateinit var binding: FragmentLoginBinding
+    override val viewModel by viewModels<LoginViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
-            lifecycleOwner = this@LoginFragment
-//            productViewModel = viewModel
-//            btnLogin.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-//            }
-//
-//            btnRegistration.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
-//            }
-            initLayout(this)
+    override fun initLayout(binding: FragmentLoginBinding) = with(binding) {
+        etEmail.doAfterTextChanged {
+            viewModel.dispatch(LoginAction.InputChanged(etEmail.text.toString(), etPassword.text.toString()))
         }
-    }
 
-    private fun initLayout(binding: FragmentLoginBinding) = binding.apply {
+        etPassword.doAfterTextChanged {
+            viewModel.dispatch(LoginAction.InputChanged(etEmail.text.toString(), etPassword.text.toString()))
+        }
+
         btnLogin.setOnClickListener {
-
+            viewModel.dispatch(LoginAction.RequestLogin(etEmail.text.toString(), etPassword.text.toString()))
         }
         btnRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+            viewModel.dispatch(LoginAction.RegisterClicked)
         }
+    }
 
+    override fun render(state: LoginState) {
+        binding.apply {
+            etEmail.setTextIfDifferent(state.email)
+            etPassword.setTextIfDifferent(state.password)
+            tvError.setTextIfDifferent(state.error)
+            pbLogin.visibility = if(state.loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    override fun onCommand(command: LoginCommand) {
+        when(command){
+            is LoginCommand.GoToAccountScreen -> {
+                findNavController().navigate(R.id.action_loginFragment_to_accountFragment)
+            }
+            is LoginCommand.GoToRegistrationScreen -> {
+                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+            }
+        }
     }
 
 }

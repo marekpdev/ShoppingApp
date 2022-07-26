@@ -13,14 +13,12 @@ import retrofit2.http.GET
  */
 interface UserRepository {
 
-    var user: User?
+    suspend fun isUserLoggedIn(): Boolean
 
-    fun isUserLoggedIn(): Boolean
+    suspend fun loginUser(email: String, password: String): Boolean
 
-    fun registerUser(email: String, password: String): Single<RegisterUserResponse>
+    suspend fun logoutUser(userId: Long): Boolean
 
-    fun loginUser(email: String, password: String): Single<LoginUserResponse>
-
-    fun logoutUser(userId: Long): Single<LogoutUserResponse>
+//    suspend fun registerUser(email: String, password: String): Boolean
 
 }
