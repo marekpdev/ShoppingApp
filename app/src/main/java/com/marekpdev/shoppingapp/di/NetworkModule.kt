@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder
 import com.marekpdev.shoppingapp.api.AuthApi
 import com.marekpdev.shoppingapp.api.ProductsApi
 import com.marekpdev.shoppingapp.api.RetrofitProvider
-import com.marekpdev.shoppingapp.api.remote.FakeWebService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

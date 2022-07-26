@@ -9,6 +9,6 @@ import com.marekpdev.shoppingapp.ui.search.SearchCommand
  */
 sealed class FavouriteCommand: Command {
 
-    class GoToProductDetailsScreen(val productId: Long): FavouriteCommand()
-    class ShowProductUnfavoured(val product: Product): FavouriteCommand()
+    class GoToProductDetailsScreen(val productId: Long): FavouriteCommand() // todo change to data class?
+    class ShowProductUnfavoured(val product: Product): FavouriteCommand() // todo change to data class?
 }
