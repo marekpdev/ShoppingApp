@@ -6,6 +6,7 @@ import com.marekpdev.shoppingapp.domain.RegisterUserResponse
 import com.marekpdev.shoppingapp.models.User
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.StateFlow
 import retrofit2.http.GET
 
 /**
@@ -18,6 +19,8 @@ interface UserRepository {
     suspend fun loginUser(email: String, password: String): Boolean
 
     suspend fun logoutUser(userId: Long): Boolean
+
+    fun getUser(): StateFlow<User?>
 
 //    suspend fun registerUser(email: String, password: String): Boolean
 

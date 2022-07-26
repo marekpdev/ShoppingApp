@@ -1,55 +1,43 @@
 package com.marekpdev.shoppingapp.ui.account
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentAccountBinding
-import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class AccountFragment : Fragment() {
-    private lateinit var binding: FragmentAccountBinding
+@AndroidEntryPoint
+class AccountFragment : BaseFragment<AccountState, AccountAction, AccountCommand, FragmentAccountBinding>(R.layout.fragment_account) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
-        return binding.root
+    override val viewModel by viewModels<AccountViewModel>()
+
+    override fun initLayout(binding: FragmentAccountBinding) = with(binding){
+        btnEditProfile.setOnClickListener { viewModel.dispatch(AccountAction.EditProfileClicked) }
+        btnOrders.setOnClickListener { viewModel.dispatch(AccountAction.OrdersClicked) }
+        btnAddresses.setOnClickListener { viewModel.dispatch(AccountAction.AddressesClicked) }
+        btnPaymentMethods.setOnClickListener { viewModel.dispatch(AccountAction.PaymentMethodsClicked) }
+        btnSettings.setOnClickListener { viewModel.dispatch(AccountAction.SettingsClicked) }
+        btnLogout.setOnClickListener { viewModel.dispatch(AccountAction.LogoutClicked) }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun render(state: AccountState) {
         binding.apply {
-            lifecycleOwner = this@AccountFragment
-//            productViewModel = viewModel
-            btnEditProfile.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_editProfileFragment)
-            }
-            btnOrders.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_ordersFragment)
-            }
-            btnAddresses.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_addressesFragment)
-            }
-            btnPaymentMethods.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_paymentMethodsFragment)
-            }
-            btnSettings.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_settingsFragment)
-            }
-            btnLogout.setOnClickListener {
-                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-            }
+            tvUserLabel.text = if(state.username.isNotBlank()) "Hi ${state.username}!" else "Hi!"
+        }
+    }
+
+    override fun onCommand(command: AccountCommand) {
+        when(command){
+            AccountCommand.GoToEditProfileScreen -> { findNavController().navigate(R.id.action_accountFragment_to_editProfileFragment) }
+            AccountCommand.GoToOrdersScreen -> { findNavController().navigate(R.id.action_accountFragment_to_ordersFragment) }
+            AccountCommand.GoToAddressesScreen -> { findNavController().navigate(R.id.action_accountFragment_to_addressesFragment) }
+            AccountCommand.GoToPaymentMethodsScreen -> { findNavController().navigate(R.id.action_accountFragment_to_paymentMethodsFragment) }
+            AccountCommand.GoToSettingsScreen -> { findNavController().navigate(R.id.action_accountFragment_to_settingsFragment) }
+            AccountCommand.GoBackToLoginScreen -> { findNavController().navigate(R.id.action_accountFragment_to_loginFragment) }
         }
     }
 

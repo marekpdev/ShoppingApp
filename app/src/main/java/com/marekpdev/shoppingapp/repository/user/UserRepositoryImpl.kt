@@ -2,6 +2,8 @@ package com.marekpdev.shoppingapp.repository.user
 
 import com.marekpdev.shoppingapp.models.User
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 /**
@@ -10,25 +12,32 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(): UserRepository {
 
     // todo only for testing workflow
-    private val users = listOf(User(1, "test@test.com", "password"))
+    private val users = listOf(User(1, "test@test.com", "password", "TestName", "TestSurname"))
 
-    private var loggedInUser: User? = null
+    private var loggedInUser = MutableStateFlow<User?>(null)
+
+    override fun getUser(): StateFlow<User?> {
+        return loggedInUser
+    }
 
     override suspend fun isUserLoggedIn(): Boolean {
-        return loggedInUser != null
+        return loggedInUser.value != null
     }
 
     override suspend fun loginUser(email: String, password: String): Boolean {
         delay(1000L) // todo remove - only for testing
         for(user in users){
-            if(user.email == email && user.password == password) return true
+            if(user.email == email && user.password == password) {
+                loggedInUser.value = user
+                return true
+            }
         }
         return false
     }
 
     override suspend fun logoutUser(userId: Long): Boolean {
         delay(1000L) // todo remove - only for testing
-        loggedInUser = null
+        loggedInUser.value = null
         return true
     }
 }

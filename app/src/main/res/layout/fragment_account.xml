@@ -6,53 +6,126 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/screen_background">
+
+        <Space
+            android:id="@+id/statusBarSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_bar_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/userLabel"
-            android:text="Name Surname"
+            android:id="@+id/tvHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/rubik_medium"
+            android:text="Account"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusBarSpace" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineButtonsStart"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="64dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineButtonsEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="64dp" />
+
+        <TextView
+            android:id="@+id/tvUserLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/rubik"
+            android:gravity="center"
+            android:text="Hi, Test account"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/btnEditProfile"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/tvHeader"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintVertical_chainStyle="packed"
+
+            />
 
         <Button
             android:id="@+id/btnEditProfile"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Edit Profile" />
+            android:text="Edit Profile"
+            app:layout_constraintBottom_toTopOf="@id/btnOrders"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/tvUserLabel" />
 
         <Button
             android:id="@+id/btnOrders"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Orders" />
+            android:text="Orders"
+            app:layout_constraintBottom_toTopOf="@id/btnAddresses"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/btnEditProfile" />
 
         <Button
             android:id="@+id/btnAddresses"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Addresses" />
+            android:text="Addresses"
+            app:layout_constraintBottom_toTopOf="@id/btnPaymentMethods"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/btnOrders" />
 
         <Button
             android:id="@+id/btnPaymentMethods"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Payment methods" />
+            android:text="Payment methods"
+            app:layout_constraintBottom_toTopOf="@id/btnSettings"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/btnAddresses" />
 
         <Button
             android:id="@+id/btnSettings"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Settings" />
+            android:text="Settings"
+            app:layout_constraintBottom_toTopOf="@id/btnLogout"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/btnPaymentMethods" />
 
         <Button
             android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Log out" />
+            android:text="Log out"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/btnSettings" />
 
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

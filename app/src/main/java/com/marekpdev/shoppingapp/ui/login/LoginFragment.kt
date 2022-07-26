@@ -1,6 +1,9 @@
 package com.marekpdev.shoppingapp.ui.login
 
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -33,6 +36,9 @@ class LoginFragment : BaseFragment<LoginState, LoginAction, LoginCommand, Fragme
         btnRegister.setOnClickListener {
             viewModel.dispatch(LoginAction.RegisterClicked)
         }
+
+        // todo only for testing
+        viewModel.dispatch(LoginAction.InputChanged("test@test.com", "password"))
     }
 
     override fun render(state: LoginState) {
@@ -54,5 +60,4 @@ class LoginFragment : BaseFragment<LoginState, LoginAction, LoginCommand, Fragme
             }
         }
     }
-
 }
