@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.product.images
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.LayoutRes

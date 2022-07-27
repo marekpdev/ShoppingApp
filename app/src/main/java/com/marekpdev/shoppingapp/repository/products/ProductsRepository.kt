@@ -2,10 +2,6 @@ package com.marekpdev.shoppingapp.repository.products
 
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Menu
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 /**

@@ -2,7 +2,6 @@ package com.marekpdev.shoppingapp.utils
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 /**
  * Created by Marek Pszczolka on 25/04/2021.

@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.search
 
-import android.util.Log
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size

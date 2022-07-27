@@ -4,8 +4,6 @@ import com.marekpdev.shoppingapp.models.BasketProduct
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.models.Size
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.StateFlow
 
 /**

@@ -1,8 +1,6 @@
 package com.marekpdev.shoppingapp.ui.search
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 

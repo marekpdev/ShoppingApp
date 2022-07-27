@@ -1,10 +1,5 @@
 package com.marekpdev.shoppingapp.di
 
-import com.marekpdev.shoppingapp.storage.SharedPreferencesStorage
-import com.marekpdev.shoppingapp.storage.Storage
-import dagger.Binds
-import dagger.Module
-
 /**
  * Created by Marek Pszczolka on 13/07/2021.
  */

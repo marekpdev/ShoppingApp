@@ -1,24 +1,16 @@
 package com.marekpdev.shoppingapp.ui.addresses
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
-import com.marekpdev.shoppingapp.databinding.FragmentOrdersBinding
 import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.addresses.adapters.AddressAdapterDelegate
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
-import com.marekpdev.shoppingapp.ui.base.BaseViewModel
-import com.marekpdev.shoppingapp.ui.orders.*
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

@@ -1,11 +1,5 @@
 package com.marekpdev.shoppingapp.di
 
-import android.content.Context
-import com.marekpdev.shoppingapp.db.AppDatabase
-import com.marekpdev.shoppingapp.db.ProductsDao
-import dagger.Module
-import dagger.Provides
-
 /**
  * Created by Marek Pszczolka on 12/07/2021.
  */

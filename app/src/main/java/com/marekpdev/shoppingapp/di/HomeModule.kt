@@ -3,7 +3,6 @@ package com.marekpdev.shoppingapp.di
 import com.marekpdev.shoppingapp.repository.homebanners.HomeBannersRepository
 import com.marekpdev.shoppingapp.repository.homebanners.HomeBannersRepositoryImpl
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
-import com.marekpdev.shoppingapp.repository.products.ProductsRepositoryImpl
 import com.marekpdev.shoppingapp.ui.home.HomeMiddleware
 import com.marekpdev.shoppingapp.ui.home.HomeReducer
 import com.marekpdev.shoppingapp.ui.home.HomeState

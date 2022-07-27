@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.favourite
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Reducer
 
 /**

@@ -8,7 +8,6 @@ import com.marekpdev.shoppingapp.databinding.VhCheckoutDeliveryAddressBinding
 import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
-import java.lang.StringBuilder
 
 /**
  * Created by Marek Pszczolka on 01/03/2022.

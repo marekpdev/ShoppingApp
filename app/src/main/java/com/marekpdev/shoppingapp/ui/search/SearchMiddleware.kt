@@ -1,17 +1,19 @@
 package com.marekpdev.shoppingapp.ui.search
 
-import android.util.Log
 import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.DisplayPlace
 import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.models.ROOT_CATEGORY_ID
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**

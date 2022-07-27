@@ -1,11 +1,8 @@
 package com.marekpdev.shoppingapp.ui.editprofile
 
 import com.marekpdev.shoppingapp.mvi.Middleware
-import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**

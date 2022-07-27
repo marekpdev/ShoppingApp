@@ -1,8 +1,8 @@
 package com.marekpdev.shoppingapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,7 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.ActivityMainBinding
 import com.marekpdev.shoppingapp.navigation.OnBackPressedCallback
-import com.marekpdev.shoppingapp.ui.search.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

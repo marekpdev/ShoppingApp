@@ -4,7 +4,6 @@ import com.marekpdev.shoppingapp.repository.basket.BasketRepository
 import com.marekpdev.shoppingapp.repository.basket.BasketRepositoryImpl
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.basket.*
-import com.marekpdev.shoppingapp.ui.search.SearchNavigationMiddleware
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

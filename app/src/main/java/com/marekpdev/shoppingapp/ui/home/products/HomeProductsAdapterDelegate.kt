@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.home.products
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -12,8 +11,6 @@ import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
-import com.marekpdev.shoppingapp.ui.favourite.FavouriteAction
-import com.marekpdev.shoppingapp.ui.home.products.items.HomeShowMoreAdapterDelegate
 import com.marekpdev.shoppingapp.ui.productvh.ProductHeightConstAdapterDelegate
 
 /**

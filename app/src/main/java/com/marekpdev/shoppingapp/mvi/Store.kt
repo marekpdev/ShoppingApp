@@ -1,9 +1,9 @@
 package com.marekpdev.shoppingapp.mvi
 
-import android.util.Log
-import com.marekpdev.shoppingapp.ui.search.SearchState
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.

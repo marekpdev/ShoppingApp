@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.repository.addresses
 
 import com.marekpdev.shoppingapp.models.Address
-import com.marekpdev.shoppingapp.models.order.Order
 import kotlinx.coroutines.flow.StateFlow
 
 /**

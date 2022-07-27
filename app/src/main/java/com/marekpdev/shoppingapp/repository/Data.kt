@@ -5,12 +5,8 @@ import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.models.order.OrderProduct
 import com.marekpdev.shoppingapp.models.order.OrderStatus
 import com.marekpdev.shoppingapp.models.order.PaymentMethod
-import com.marekpdev.shoppingapp.ui.home.products.HomeProducts
-import com.marekpdev.shoppingapp.ui.home.productsheader.HomeProductsHeader
-import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
-import kotlin.random.Random
 
 /**
  * Created by Marek Pszczolka on 02/03/2022.

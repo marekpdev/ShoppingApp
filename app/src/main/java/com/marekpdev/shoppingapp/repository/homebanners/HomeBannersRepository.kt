@@ -1,8 +1,6 @@
 package com.marekpdev.shoppingapp.repository.homebanners
 
 import com.marekpdev.shoppingapp.models.HomeBanner
-import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.repository.Menu
 import kotlinx.coroutines.flow.StateFlow
 
 /**

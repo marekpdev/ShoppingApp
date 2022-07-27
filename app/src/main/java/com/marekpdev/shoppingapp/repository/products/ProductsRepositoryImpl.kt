@@ -1,21 +1,13 @@
 package com.marekpdev.shoppingapp.repository.products
 
-import android.util.Log
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.repository.Menu
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import javax.inject.Inject
 
 /**

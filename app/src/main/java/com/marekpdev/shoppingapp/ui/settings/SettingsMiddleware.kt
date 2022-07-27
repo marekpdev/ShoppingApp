@@ -1,15 +1,7 @@
 package com.marekpdev.shoppingapp.ui.settings
 
-import android.util.Log
-import com.marekpdev.shoppingapp.models.Setting
 import com.marekpdev.shoppingapp.mvi.Middleware
-import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
-import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.settings.SettingsRepository
-import com.marekpdev.shoppingapp.repository.user.UserRepository
-import com.marekpdev.shoppingapp.ui.favourite.FavouriteAction
-import com.marekpdev.shoppingapp.ui.favourite.FavouriteCommand
-import com.marekpdev.shoppingapp.ui.favourite.FavouriteState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest

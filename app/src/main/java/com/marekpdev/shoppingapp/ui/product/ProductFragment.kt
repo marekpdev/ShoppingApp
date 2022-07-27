@@ -1,15 +1,8 @@
 package com.marekpdev.shoppingapp.ui.product
 
-import android.content.Context
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,17 +10,10 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
-import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Size
-import com.marekpdev.shoppingapp.mvi.MviView
-import com.marekpdev.shoppingapp.repository.Data
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.product.images.ImagesAdapter
-import com.marekpdev.shoppingapp.ui.search.SearchAction
-import com.marekpdev.shoppingapp.ui.search.SearchCommand
-import com.marekpdev.shoppingapp.ui.search.SearchState
-import com.marekpdev.shoppingapp.ui.search.SearchViewModel
 import com.marekpdev.shoppingapp.views.ChipsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

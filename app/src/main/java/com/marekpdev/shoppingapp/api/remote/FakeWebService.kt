@@ -1,13 +1,5 @@
 package com.marekpdev.shoppingapp.api.remote
 
-import com.marekpdev.shoppingapp.api.AuthApi
-import com.marekpdev.shoppingapp.domain.LoginUserResponse
-import com.marekpdev.shoppingapp.domain.LogoutUserResponse
-import com.marekpdev.shoppingapp.domain.RegisterUserResponse
-import com.marekpdev.shoppingapp.models.User
-import io.reactivex.rxjava3.core.Single
-import java.util.concurrent.atomic.AtomicLong
-
 /**
  * Created by Marek Pszczolka on 07/05/2022.
  */

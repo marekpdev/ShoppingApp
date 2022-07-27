@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentCheckoutOrderDetailsBinding
 import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.models.order.PaymentMethod
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutDeliveryAddressDelegate

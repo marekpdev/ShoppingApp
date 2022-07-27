@@ -1,12 +1,7 @@
 package com.marekpdev.shoppingapp.di
 
-import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
-import com.marekpdev.shoppingapp.ui.favourite.*
 import com.marekpdev.shoppingapp.ui.login.*
-import com.marekpdev.shoppingapp.ui.search.*
-import com.marekpdev.shoppingapp.ui.search.filter.Filters
-import com.marekpdev.shoppingapp.ui.search.sort.SortType
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,16 +1,10 @@
 package com.marekpdev.shoppingapp.ui.product
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
-import com.marekpdev.shoppingapp.ui.basket.BasketAction
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**

@@ -1,15 +1,12 @@
 package com.marekpdev.shoppingapp.di
 
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
-import com.marekpdev.shoppingapp.repository.products.ProductsRepositoryImpl
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
+import com.marekpdev.shoppingapp.repository.products.ProductsRepositoryImpl
 import com.marekpdev.shoppingapp.ui.product.ProductMiddleware
 import com.marekpdev.shoppingapp.ui.product.ProductReducer
 import com.marekpdev.shoppingapp.ui.product.ProductState
 import com.marekpdev.shoppingapp.ui.product.ProductStore
-import com.marekpdev.shoppingapp.ui.search.*
-import com.marekpdev.shoppingapp.ui.search.filter.Filters
-import com.marekpdev.shoppingapp.ui.search.sort.SortType
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

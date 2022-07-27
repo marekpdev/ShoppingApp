@@ -2,9 +2,6 @@ package com.marekpdev.shoppingapp.ui.favourite
 
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Action
-import com.marekpdev.shoppingapp.ui.search.SearchAction
-import com.marekpdev.shoppingapp.ui.search.filter.Filters
-import com.marekpdev.shoppingapp.ui.search.sort.SortType
 
 /**
  * Created by Marek Pszczolka on 12/07/2022.

@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.ui.account
 
 import com.marekpdev.shoppingapp.mvi.Middleware
-import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

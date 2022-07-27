@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.ui.account
 
 import com.marekpdev.shoppingapp.mvi.Command
-import com.marekpdev.shoppingapp.ui.search.SearchCommand
 
 /**
  * Created by Marek Pszczolka on 20/07/2022.

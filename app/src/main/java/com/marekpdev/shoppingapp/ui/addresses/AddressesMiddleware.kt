@@ -3,7 +3,6 @@ package com.marekpdev.shoppingapp.ui.addresses
 import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
-import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow

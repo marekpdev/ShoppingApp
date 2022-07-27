@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.search
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Reducer
 import com.marekpdev.shoppingapp.repository.Menu
 

@@ -1,11 +1,9 @@
 package com.marekpdev.shoppingapp.ui.search
 
-import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.mvi.State
 import com.marekpdev.shoppingapp.repository.Menu
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import com.marekpdev.shoppingapp.ui.search.sort.SortType
-import java.util.*
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.

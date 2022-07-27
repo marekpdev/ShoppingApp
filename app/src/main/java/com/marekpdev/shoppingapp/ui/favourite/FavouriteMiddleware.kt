@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.favourite
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import kotlinx.coroutines.CoroutineScope

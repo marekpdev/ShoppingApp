@@ -3,7 +3,6 @@ package com.marekpdev.shoppingapp.ui.product.images
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.marekpdev.shoppingapp.R
 
 /**
  * Created by Marek Pszczolka on 25/04/2021.

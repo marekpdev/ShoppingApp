@@ -1,28 +1,14 @@
 package com.marekpdev.shoppingapp.ui.paymentmethods
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.databinding.FragmentPaymentMethodsBinding
-import com.marekpdev.shoppingapp.models.PaymentCard
 import com.marekpdev.shoppingapp.models.order.PaymentMethod
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.addresses.AddressesAction
-import com.marekpdev.shoppingapp.ui.addresses.AddressesCommand
-import com.marekpdev.shoppingapp.ui.addresses.AddressesState
-import com.marekpdev.shoppingapp.ui.addresses.AddressesViewModel
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
-import com.marekpdev.shoppingapp.ui.base.BaseViewModel
-import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentCardAdapterDelegate
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentMethodAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
 

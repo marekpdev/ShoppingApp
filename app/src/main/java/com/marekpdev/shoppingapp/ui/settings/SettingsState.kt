@@ -1,8 +1,6 @@
 package com.marekpdev.shoppingapp.ui.settings
 
-import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.models.Setting
-import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.mvi.State
 
 /**

@@ -1,11 +1,5 @@
 package com.marekpdev.shoppingapp.di
 
-import android.content.Context
-import com.marekpdev.shoppingapp.ui.MainActivity
-import com.marekpdev.shoppingapp.ui.product.ProductFragment
-import dagger.BindsInstance
-import dagger.Component
-
 /**
  * Created by Marek Pszczolka on 13/07/2021.
  */

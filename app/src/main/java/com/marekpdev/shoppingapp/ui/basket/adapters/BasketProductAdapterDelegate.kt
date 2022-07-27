@@ -3,7 +3,6 @@ package com.marekpdev.shoppingapp.ui.basket.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import com.marekpdev.shoppingapp.R

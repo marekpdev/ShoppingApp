@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentEditProfileBinding
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
-import com.marekpdev.shoppingapp.ui.login.LoginAction
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,13 +1,7 @@
 package com.marekpdev.shoppingapp.ui.search
 
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,7 +9,6 @@ import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.Product
-import com.marekpdev.shoppingapp.mvi.MviView
 import com.marekpdev.shoppingapp.navigation.OnBackPressedCallback
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter

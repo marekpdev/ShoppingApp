@@ -4,7 +4,6 @@ import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.HomeBanner
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Action
-import com.marekpdev.shoppingapp.ui.search.SearchAction
 
 /**
  * Created by Marek Pszczolka on 20/07/2022.

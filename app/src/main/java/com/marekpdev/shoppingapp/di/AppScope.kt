@@ -1,7 +1,5 @@
 package com.marekpdev.shoppingapp.di
 
-import javax.inject.Scope
-
 /**
  * Created by Marek Pszczolka on 13/07/2021.
  *

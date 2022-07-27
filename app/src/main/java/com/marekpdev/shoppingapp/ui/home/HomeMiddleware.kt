@@ -1,15 +1,9 @@
 package com.marekpdev.shoppingapp.ui.home
 
-import android.util.Log
-import com.marekpdev.shoppingapp.models.Category
 import com.marekpdev.shoppingapp.models.DisplayPlace
-import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.homebanners.HomeBannersRepository
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
-import com.marekpdev.shoppingapp.ui.search.SearchAction
-import com.marekpdev.shoppingapp.ui.search.SearchCommand
-import com.marekpdev.shoppingapp.ui.search.SearchState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
