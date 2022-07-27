@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.addresses
+package com.marekpdev.shoppingapp.ui.addresses.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

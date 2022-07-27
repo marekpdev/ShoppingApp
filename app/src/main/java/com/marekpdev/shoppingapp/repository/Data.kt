@@ -120,7 +120,11 @@ object Data {
             selectedColor = availableColors.firstOrNull(),
         )
 
+    private var deliveryAddressId = AtomicLong(1)
+
     private fun getDeliveryAddress() = Address(
+        deliveryAddressId.getAndIncrement(),
+        1,
         "Street1",
         "Street2",
         "EH1111",
