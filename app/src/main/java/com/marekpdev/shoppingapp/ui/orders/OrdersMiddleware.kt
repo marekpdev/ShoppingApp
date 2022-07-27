@@ -30,6 +30,7 @@ class OrdersMiddleware @Inject constructor(private val userRepository: UserRepos
                 .collectLatest { user ->
                     user?.let {
                         Log.d("FEO33", "Orders middleware id ${it.id}")
+                        requestAction(OrdersAction.Loading)
                         ordersRepository.getOrders(it.id).collectLatest { orders ->
                             Log.d("FEO33", "get latest middleware ${orders.size}")
                             requestAction(OrdersAction.RefreshData(orders))

@@ -2,9 +2,11 @@ package com.marekpdev.shoppingapp.repository.orders
 
 import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.repository.Data
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import javax.inject.Inject
 
@@ -22,6 +24,12 @@ class OrdersRepositoryImpl @Inject constructor(): OrdersRepository{
         return ordersPerUser[userId] ?: MutableStateFlow(emptyList())
     }
 
+    override suspend fun getOrder(orderId: Long): Order? = withContext(Dispatchers.IO) {
+        delay(1000L) // TODO just for testing
+        val order = ordersPerUser.flatMap { it.value.value }.find { it.id == orderId }
+        order
+    }
+
     private fun getTestOrders(userId: Long): List<Order> {
         val currentTime = DateTime.now()
         // the actual time vary based on the current time
@@ -32,7 +40,7 @@ class OrdersRepositoryImpl @Inject constructor(): OrdersRepository{
             Data.getOrder(userId, currentTime.minusDays(1).millis, 2),
             Data.getOrder(userId, currentTime.minusDays(1).millis, 1),
             // THIS_WEEK
-            Data.getOrder(userId, currentTime.minusDays(1).millis, 5),
+            Data.getOrder(userId, currentTime.minusDays(2).millis, 5),
             // LAST_WEEK
             Data.getOrder(userId, currentTime.minusDays(4).millis, 4),
             Data.getOrder(userId, currentTime.minusDays(5).millis, 7),

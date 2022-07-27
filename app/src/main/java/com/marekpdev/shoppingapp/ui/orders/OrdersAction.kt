@@ -14,4 +14,6 @@ sealed class OrdersAction : Action {
 
     data class RefreshData(val orders: List<Order>): OrdersAction()
 
+    data class OrderClicked(val orderId: Long): OrdersAction()
+
 }

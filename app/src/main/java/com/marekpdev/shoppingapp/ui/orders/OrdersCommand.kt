@@ -8,4 +8,5 @@ import com.marekpdev.shoppingapp.mvi.Command
 sealed class OrdersCommand: Command {
 
     object GoBackToAccountScreen: OrdersCommand()
+    data class GoToOrderDetails(val orderId: Long): OrdersCommand()
 }
