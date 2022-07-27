@@ -57,6 +57,7 @@ class AddressesFragment : BaseFragment<AddressesState, AddressesAction, Addresse
             }
             AddressesCommand.GoBackToAccountScreen -> {
                 // todo
+
             }
         }
     }
