@@ -142,7 +142,7 @@ object Data {
             products = products,
             totalCost = products.sumOf { it.price },
             deliveryAddress = getDeliveryAddress(),
-            paymentMethod = PaymentMethod("Visa **** 1234"),
+            paymentMethod = PaymentMethod(1, 1, "Visa **** 1234"),
             createdAt = createdAt,
             status = OrderStatus.IN_PROGRESS
         )
