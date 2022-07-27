@@ -39,12 +39,6 @@
                 android:text="Order status"
                 android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/btnViewDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View Details" />
-
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

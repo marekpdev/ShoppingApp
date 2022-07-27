@@ -30,6 +30,8 @@ class OrdersNavigationMiddleware @Inject constructor() :
         requestAction: suspend (OrdersAction) -> Unit,
         requestCommand: suspend (OrdersCommand) -> Unit
     ) {
-
+        when(action){
+            is OrdersAction.OrderClicked -> requestCommand(OrdersCommand.GoToOrderDetails(action.orderId))
+        }
     }
 }

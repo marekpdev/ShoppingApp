@@ -9,4 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 interface OrdersRepository {
 
     suspend fun getOrders(userId: Long): StateFlow<List<Order>>
+
+    suspend fun getOrder(orderId: Long): Order?
 }
