@@ -7,39 +7,55 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentAccountBinding
+import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.databinding.FragmentSettingsBinding
+import com.marekpdev.shoppingapp.models.Address
+import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
+import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.addresses.*
+import com.marekpdev.shoppingapp.ui.addresses.adapters.AddressAdapterDelegate
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.ui.settings.adapters.NotificationsAdapterDelegate
+import com.marekpdev.shoppingapp.ui.settings.adapters.RecommendationsAdapterDelegate
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class SettingsFragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
+@AndroidEntryPoint
+class SettingsFragment : BaseFragment<SettingsState, SettingsAction, SettingsCommand, FragmentSettingsBinding>(R.layout.fragment_settings) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
-        return binding.root
+    override val viewModel by viewModels<SettingsViewModel>()
+
+    private val adapter = BaseAdapter(
+        delegatesManager = AdapterDelegatesManager()
+            .addDelegate(NotificationsAdapterDelegate { viewModel.dispatch(SettingsAction.ToggleNotifications(it)) })
+            .addDelegate(RecommendationsAdapterDelegate { viewModel.dispatch(SettingsAction.ToggleRecommendations(it)) })
+    )
+
+    override fun initLayout(binding: FragmentSettingsBinding) = with(binding){
+        rvSettings.layoutManager = LinearLayoutManager(context)
+        rvSettings.adapter = adapter
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun render(state: SettingsState) {
         binding.apply {
-            lifecycleOwner = this@SettingsFragment
-//            productViewModel = viewModel
-//            btnLogin.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-//            }
-//
-//            btnRegistration.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
-//            }
+            pbSettings.visibility = if(state.loading) View.VISIBLE else View.GONE
+            adapter.replaceData(state.settings)
+        }
+    }
+
+    override fun onCommand(command: SettingsCommand) {
+        when (command) {
+            SettingsCommand.GoBackToAccountScreen -> {
+                // todo
+            }
         }
     }
 

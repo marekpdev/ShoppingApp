@@ -41,7 +41,7 @@ class ProductsRepositoryImpl @Inject constructor(
     override suspend fun toggleFavourite(product: Product): Product {
         val indexOf = allMenu.value.products.indexOf(product)
 
-        if (indexOf > 0) {
+        if (indexOf >= 0) {
             val newFavourite = !product.isFavoured
             val newProduct = product.copy(isFavoured = newFavourite)
             val newProductsList = allMenu.value.products.toMutableList()
