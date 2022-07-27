@@ -6,5 +6,6 @@ package com.marekpdev.shoppingapp.models
 sealed class Setting {
 
     data class Notifications(val enabled: Boolean): Setting()
+    data class Recommendations(val enabled: Boolean): Setting()
 
 }

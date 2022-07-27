@@ -15,11 +15,14 @@ import com.marekpdev.shoppingapp.databinding.FragmentAccountBinding
 import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.databinding.FragmentProductBinding
 import com.marekpdev.shoppingapp.databinding.FragmentSettingsBinding
+import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.addresses.*
 import com.marekpdev.shoppingapp.ui.addresses.adapters.AddressAdapterDelegate
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.ui.settings.adapters.NotificationsAdapterDelegate
+import com.marekpdev.shoppingapp.ui.settings.adapters.RecommendationsAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -32,7 +35,8 @@ class SettingsFragment : BaseFragment<SettingsState, SettingsAction, SettingsCom
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-//            .addDelegate(AddressAdapterDelegate(onAddressClicked))
+            .addDelegate(NotificationsAdapterDelegate { viewModel.dispatch(SettingsAction.ToggleNotifications(it)) })
+            .addDelegate(RecommendationsAdapterDelegate { viewModel.dispatch(SettingsAction.ToggleRecommendations(it)) })
     )
 
     override fun initLayout(binding: FragmentSettingsBinding) = with(binding){
@@ -51,7 +55,6 @@ class SettingsFragment : BaseFragment<SettingsState, SettingsAction, SettingsCom
         when (command) {
             SettingsCommand.GoBackToAccountScreen -> {
                 // todo
-
             }
         }
     }

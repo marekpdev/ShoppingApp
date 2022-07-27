@@ -18,4 +18,7 @@ sealed class SettingsAction : Action {
 
     data class UpdateSetting(val setting: Setting): SettingsAction()
 
+    data class ToggleNotifications(val notifications: Setting.Notifications): SettingsAction()
+    data class ToggleRecommendations(val recommendations: Setting.Recommendations): SettingsAction()
+
 }

@@ -12,4 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 interface SettingsRepository {
 
     suspend fun getSettings(): StateFlow<List<Setting>>
+
+    suspend fun updateSetting(oldSetting: Setting, newSetting: Setting)
 }

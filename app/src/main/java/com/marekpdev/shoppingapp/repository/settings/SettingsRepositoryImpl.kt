@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.repository.settings
 
+import android.util.Log
 import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.models.Setting
 import com.marekpdev.shoppingapp.models.order.Order
@@ -19,14 +20,24 @@ import javax.inject.Inject
 class SettingsRepositoryImpl @Inject constructor(): SettingsRepository{
 
     private val settings = MutableStateFlow(
-        listOf(
-            Setting.Notifications(false)
+        listOf<Setting>(
+            Setting.Notifications(false),
+            Setting.Recommendations(false)
         )
     )
 
     override suspend fun getSettings(): StateFlow<List<Setting>> {
         delay(1000L) // todo only for testing
         return settings
+    }
+
+    override suspend fun updateSetting(oldSetting: Setting, newSetting: Setting) {
+        val indexOf = settings.value.indexOf(oldSetting)
+        if(indexOf >= 0){
+            val updatedSettings = settings.value.toMutableList()
+            updatedSettings[indexOf] = newSetting
+            settings.emit(updatedSettings)
+        }
     }
 
 }
