@@ -1,69 +1,67 @@
 package com.marekpdev.shoppingapp.ui.paymentmethods
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
+import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.databinding.FragmentPaymentMethodsBinding
 import com.marekpdev.shoppingapp.models.PaymentCard
+import com.marekpdev.shoppingapp.models.order.PaymentMethod
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.addresses.AddressesAction
+import com.marekpdev.shoppingapp.ui.addresses.AddressesCommand
+import com.marekpdev.shoppingapp.ui.addresses.AddressesState
+import com.marekpdev.shoppingapp.ui.addresses.AddressesViewModel
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.ui.base.BaseViewModel
+import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentCardAdapterDelegate
+import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentMethodAdapterDelegate
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class PaymentMethodsFragment : Fragment() {
-    private lateinit var binding: FragmentPaymentMethodsBinding
+@AndroidEntryPoint
+class PaymentMethodsFragment : BaseFragment<PaymentMethodsState, PaymentMethodsAction, PaymentMethodsCommand, FragmentPaymentMethodsBinding>(R.layout.fragment_payment_methods) {
 
-    private val onPaymentCardClicked: (PaymentCard) -> Unit = {
-        findNavController().navigate(R.id.action_paymentMethodsFragment_to_paymentCardFragment)
+    override val viewModel by viewModels<PaymentMethodsViewModel>()
+
+    private val onPaymentMethodClicked: (PaymentMethod) -> Unit = {
+        viewModel.dispatch(PaymentMethodsAction.PaymentMethodClicked(it))
     }
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(PaymentCardAdapterDelegate(onPaymentCardClicked))
+            .addDelegate(PaymentMethodAdapterDelegate(onPaymentMethodClicked))
     )
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_payment_methods, container, false)
-        return binding.root
+    override fun initLayout(binding: FragmentPaymentMethodsBinding) = with(binding){
+        rvPaymentMethods.layoutManager = LinearLayoutManager(context)
+        rvPaymentMethods.adapter = adapter
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun render(state: PaymentMethodsState) {
         binding.apply {
-            lifecycleOwner = this@PaymentMethodsFragment
-//            productViewModel = viewModel
-//            btnLogin.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-//            }
-//
-//            btnRegistration.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
-//            }
-            initLayout(this)
+            pbPaymentMethods.visibility = if(state.loading) View.VISIBLE else View.GONE
+            adapter.replaceData(state.paymentMethods)
         }
     }
 
-    private fun initLayout(binding: FragmentPaymentMethodsBinding) = binding.apply {
-        rvPaymentMethods.layoutManager = LinearLayoutManager(context)
-        rvPaymentMethods.adapter = adapter
-        adapter.replaceData(items)
+    override fun onCommand(command: PaymentMethodsCommand) {
+        when(command){
+            is PaymentMethodsCommand.GoToPaymentMethodDetails -> {
+                // todo
+                //findNavController().navigate(R.id.action_paymentMethodsFragment_to_paymentCardFragment)
+            }
+        }
     }
-
-    private val items = (1..4).map { id ->
-        PaymentCard(id, "hash$id", "VISA", "123${id}")
-    }
-
 
 }

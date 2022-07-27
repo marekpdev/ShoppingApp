@@ -68,7 +68,7 @@ class CheckoutOrderDetailsFragment : Fragment() {
     private fun initLayout(binding: FragmentCheckoutOrderDetailsBinding) = binding.apply {
         val items = mutableListOf<Any>()
 //        items.add(Data.getAddress())
-        items.add(PaymentMethod("VISA - **** **** **** 4342"))
+//        items.add(PaymentMethod("VISA - **** **** **** 4342"))
 //        items.addAll(Basket.basketItems)
 
         rvOrderDetails.layoutManager = LinearLayoutManager(context)

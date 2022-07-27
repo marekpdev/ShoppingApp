@@ -90,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/paymentCardFragment"
-        android:name="com.marekpdev.shoppingapp.ui.paymentmethods.PaymentCardFragment"
+        android:name="com.marekpdev.shoppingapp.ui.paymentcard.PaymentCardFragment"
         android:label="PaymentCardFragment" />
     <fragment
         android:id="@+id/orderFragment"

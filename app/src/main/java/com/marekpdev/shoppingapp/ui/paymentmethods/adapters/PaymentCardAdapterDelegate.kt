@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.paymentmethods
+package com.marekpdev.shoppingapp.ui.paymentmethods.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
