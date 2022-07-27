@@ -6,16 +6,50 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/screen_background">
+
+        <Space
+            android:id="@+id/statusBarSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_bar_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/rubik_medium"
             android:text="Settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusBarSpace" />
 
-    </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSettings"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+
+        <ProgressBar
+            android:id="@+id/pbSettings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/rvSettings"
+            app:layout_constraintEnd_toEndOf="@id/rvSettings"
+            app:layout_constraintStart_toStartOf="@id/rvSettings"
+            app:layout_constraintTop_toTopOf="@id/rvSettings" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
