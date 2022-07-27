@@ -79,8 +79,15 @@
         android:label="SettingsFragment" />
     <fragment
         android:id="@+id/addressFragment"
-        android:name="com.marekpdev.shoppingapp.ui.addresses.AddressFragment"
-        android:label="AddressFragment" />
+        android:name="com.marekpdev.shoppingapp.ui.address.AddressFragment"
+        android:label="AddressFragment">
+
+        <argument
+            android:name="addressId"
+            app:argType="long"
+            android:defaultValue="0L" />
+
+    </fragment>
     <fragment
         android:id="@+id/paymentCardFragment"
         android:name="com.marekpdev.shoppingapp.ui.paymentmethods.PaymentCardFragment"
