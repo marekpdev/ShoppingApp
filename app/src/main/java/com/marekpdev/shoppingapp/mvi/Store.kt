@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.mvi
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -14,32 +15,7 @@ open class Store <S: State, A: Action, C: Command> (
     private val reducer: Reducer<S, A>
 ) {
 
-    // TODO 1
-    // there was an issue that when we are processing action (going through all middlewares etc)
-    // then when in the meantime we request new action (by requestAction(action)) then the remaining
-    // workflow (going through all other middlewares and then reduce) is suspended and then we the
-    // actions workflow has been blocked
-    // see more info here
-    // https://itnext.io/mutablesharedflow-is-kind-of-complicated-61af68011eae
-    // "Emitters and Collectors are independent of each other.
-    // Emitters try to emit an event to the MutableSharedFlow and
-    // they don’t necessarily wait for Collectors to collect them."
-    // for the moment we set buffer capacity to some value but that is probably not ideal solution -
-    // might need to investigate that later
-    // TODO 2
-    // also there is an issue for ProductFragment workflow
-    // 1) Store is being initialized ( init{} )
-    // 2) ProductViewModel is being initialized (init {}) and sends FetchProduct action
-    // 3) Store's coroutineScope launch is being executed and only then actions are being properly read one by one
-    // 4) because we sent FetchProduct before the coroutine has been launched and because actions is hot observable
-    // then we don't receive the action
-    // To make a quick fix for that I set replay = 1 but might need to look into a better solution
-    // UPDATE: when in AddressViewModel when we are editing item we are firing two actions at the same time
-    // so we need to change the replay to 2 - but preferably we want to be able to fire even more actions
-    // so I just set the value replay to 10. Need to fix it later on so we don't need to use hacks to process
-    // all needed actions
-    private val _actions = MutableSharedFlow<A>(replay = 10, extraBufferCapacity = 20)
-    val actions = _actions.asSharedFlow()
+    private val actions = Channel<A>()
 
     private val _state = MutableStateFlow<S>(initialState)
     val state = _state.asStateFlow()
@@ -56,12 +32,12 @@ open class Store <S: State, A: Action, C: Command> (
 
         middlewares.forEach { middleware ->
             coroutineScope.launch {
-                middleware.bind(coroutineScope, state, _actions::emit)
+                middleware.bind(coroutineScope, state, actions::send)
             }
         }
 
         coroutineScope.launch {
-            actions.map { action ->
+            actions.receiveAsFlow().map { action ->
                 val currentState = state.value
                 middlewares.forEach { middleware ->
                     // we want to do things in parallel here so we can call reducer.reduce immediately
@@ -70,7 +46,7 @@ open class Store <S: State, A: Action, C: Command> (
                         middleware.process(
                             action,
                             currentState,
-                            _actions::emit,
+                            actions::send,
                             _commands::emit
                         )
                     }
@@ -90,7 +66,7 @@ open class Store <S: State, A: Action, C: Command> (
      * We can receive actions from both UI and external sources (such as middleware)
      */
     suspend fun dispatch(action: A){
-        _actions.emit(action)
+        actions.send(action)
     }
 
     /**
