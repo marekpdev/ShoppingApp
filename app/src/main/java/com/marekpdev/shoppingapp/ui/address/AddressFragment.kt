@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.address
 
+import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -67,6 +68,12 @@ class AddressFragment : BaseFragment<AddressState, AddressAction, AddressCommand
             tvPostcode.setTextIfDifferent(state.postcode)
             tvCity.setTextIfDifferent(state.city)
             tvCountry.setTextIfDifferent(state.country)
+
+            tvAddressLine1.isEnabled = !state.loading
+            tvAddressLine2.isEnabled = !state.loading
+            tvPostcode.isEnabled = !state.loading
+            tvCity.isEnabled = !state.loading
+            tvCountry.isEnabled = !state.loading
 
             btnAdd.visibility = if(state.mode == Mode.ADD) View.VISIBLE else View.GONE
             btnUpdate.visibility = if(state.mode == Mode.UPDATE) View.VISIBLE else View.GONE

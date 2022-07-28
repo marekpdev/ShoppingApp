@@ -42,8 +42,8 @@ class AddressViewModel @AssistedInject constructor(
     }
 
     init {
-        Log.d("FEO33", "INIT AddressViewModel")
         val mode = if(addressId > 0)  Mode.UPDATE else Mode.ADD
+        Log.d("FEO55", "INIT AddressViewModel $mode")
         dispatch(AddressAction.Initialize(mode))
         if(mode == Mode.UPDATE){
             dispatch(AddressAction.FetchAddress(addressId))

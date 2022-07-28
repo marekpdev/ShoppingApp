@@ -34,7 +34,11 @@ open class Store <S: State, A: Action, C: Command> (
     // 4) because we sent FetchProduct before the coroutine has been launched and because actions is hot observable
     // then we don't receive the action
     // To make a quick fix for that I set replay = 1 but might need to look into a better solution
-    private val _actions = MutableSharedFlow<A>(replay = 1, extraBufferCapacity = 20)
+    // UPDATE: when in AddressViewModel when we are editing item we are firing two actions at the same time
+    // so we need to change the replay to 2 - but preferably we want to be able to fire even more actions
+    // so I just set the value replay to 10. Need to fix it later on so we don't need to use hacks to process
+    // all needed actions
+    private val _actions = MutableSharedFlow<A>(replay = 10, extraBufferCapacity = 20)
     val actions = _actions.asSharedFlow()
 
     private val _state = MutableStateFlow<S>(initialState)
