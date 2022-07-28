@@ -8,8 +8,16 @@ import com.marekpdev.shoppingapp.mvi.Action
  */
 sealed class AddressAction : Action {
 
+    data class OnContentChanged(
+        val line1: String,
+        val line2: String,
+        val postcode: String,
+        val city: String,
+        val country: String
+    ): AddressAction()
+
     data class FetchAddress(val addressId: Long): AddressAction()
-    data class InitializeMode(val mode: Mode): AddressAction()
+    data class Initialize(val mode: Mode): AddressAction()
     object Loading: AddressAction()
 
     data class AddressFetched(val address: Address): AddressAction()

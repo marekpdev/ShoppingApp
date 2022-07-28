@@ -97,7 +97,7 @@ class ProductFragment : BaseFragment<ProductState, ProductAction, ProductCommand
             productCard.apply {
 
                 val (contentVisibility, progressBarVisibility) = when (state.loading){
-                    true -> View.GONE to View.VISIBLE
+                    true -> View.VISIBLE to View.GONE
                     else -> View.VISIBLE to View.GONE
                 }
 

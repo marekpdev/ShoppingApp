@@ -1,13 +1,16 @@
 package com.marekpdev.shoppingapp.ui.address
 
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentAddressBinding
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.product.ProductFragmentArgs
 import com.marekpdev.shoppingapp.ui.product.ProductViewModel
+import com.marekpdev.shoppingapp.ui.search.SearchAction
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,6 +36,21 @@ class AddressFragment : BaseFragment<AddressState, AddressAction, AddressCommand
     override fun initLayout(binding: FragmentAddressBinding) = with(binding){
         btnAdd.setOnClickListener { viewModel.dispatch(AddressAction.AddAddress) }
         btnUpdate.setOnClickListener { viewModel.dispatch(AddressAction.UpdateAddress) }
+
+        val onContentChanged = {
+            viewModel.dispatch(AddressAction.OnContentChanged(
+                line1 = tvAddressLine1.text.toString(),
+                line2 = tvAddressLine2.text.toString(),
+                postcode = tvPostcode.text.toString(),
+                city = tvCity.text.toString(),
+                country = tvCountry.text.toString(),
+            ))
+
+        }
+
+        listOf(tvAddressLine1, tvAddressLine2, tvPostcode, tvCity, tvCountry).forEach {
+            it.doAfterTextChanged { onContentChanged() }
+        }
     }
 
     override fun render(state: AddressState) {
@@ -41,6 +59,8 @@ class AddressFragment : BaseFragment<AddressState, AddressAction, AddressCommand
                 Mode.ADD -> "Add Address"
                 Mode.UPDATE -> "Update Address"
             }
+
+            pbLoading.visibility = if(state.loading) View.VISIBLE else View.GONE
 
             tvAddressLine1.setTextIfDifferent(state.line1)
             tvAddressLine2.setTextIfDifferent(state.line2)
@@ -56,7 +76,7 @@ class AddressFragment : BaseFragment<AddressState, AddressAction, AddressCommand
     override fun onCommand(command: AddressCommand) {
         when(command){
             is AddressCommand.GoBackToAddressesScreen -> {
-                // todo
+                findNavController().navigate(R.id.action_addressFragment_to_addressesFragment)
             }
         }
     }

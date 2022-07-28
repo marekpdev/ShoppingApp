@@ -18,7 +18,7 @@ data class AddressCreator(
     val line2: String,
     val postcode: String,
     val city: String,
-    val country: String,
+    val country: String
 )
 
 fun AddressCreator.toAddress(id: Long, userId: Long) = Address(

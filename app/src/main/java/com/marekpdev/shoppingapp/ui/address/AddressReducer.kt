@@ -9,8 +9,24 @@ class AddressReducer: Reducer<AddressState, AddressAction> {
 
     override fun reduce(currentState: AddressState, action: AddressAction): AddressState {
         return when (action){
-            is AddressAction.InitializeMode -> {
-                currentState.copy(mode = action.mode)
+            is AddressAction.Initialize -> {
+                currentState.copy(
+                    mode = action.mode,
+                    line1 = "",
+                    line2 = "",
+                    postcode = "",
+                    city = "",
+                    country = ""
+                )
+            }
+            is AddressAction.OnContentChanged -> {
+                currentState.copy(
+                    line1 = action.line1,
+                    line2 = action.line2,
+                    postcode = action.postcode,
+                    city = action.city,
+                    country = action.country
+                )
             }
             is AddressAction.Loading -> {
                 currentState.copy(loading = true)
