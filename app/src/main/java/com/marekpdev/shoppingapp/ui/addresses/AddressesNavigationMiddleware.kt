@@ -27,6 +27,7 @@ class AddressesNavigationMiddleware @Inject constructor() :
     ) {
         when(action){
             is AddressesAction.AddressClicked -> requestCommand(AddressesCommand.GoToAddressDetails(action.address))
+            is AddressesAction.AddAddressClicked -> requestCommand(AddressesCommand.GoToAddAddressScreen)
         }
     }
 }

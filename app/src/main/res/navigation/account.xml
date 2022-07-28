@@ -86,6 +86,9 @@
             android:name="addressId"
             app:argType="long"
             android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_addressFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
 
     </fragment>
     <fragment

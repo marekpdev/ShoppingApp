@@ -9,6 +9,9 @@ import com.marekpdev.shoppingapp.databinding.FragmentAddressesBinding
 import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.address.AddressAction
+import com.marekpdev.shoppingapp.ui.addresses.adapters.AddAddress
+import com.marekpdev.shoppingapp.ui.addresses.adapters.AddAddressAdapterDelegate
 import com.marekpdev.shoppingapp.ui.addresses.adapters.AddressAdapterDelegate
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,9 +28,14 @@ class AddressesFragment : BaseFragment<AddressesState, AddressesAction, Addresse
         viewModel.dispatch(AddressesAction.AddressClicked(it))
     }
 
+    private val onAddAddressClicked: () -> Unit = {
+        viewModel.dispatch(AddressesAction.AddAddressClicked)
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
             .addDelegate(AddressAdapterDelegate(onAddressClicked))
+            .addDelegate(AddAddressAdapterDelegate(onAddAddressClicked))
     )
 
     override fun initLayout(binding: FragmentAddressesBinding) = with(binding){
@@ -38,7 +46,7 @@ class AddressesFragment : BaseFragment<AddressesState, AddressesAction, Addresse
     override fun render(state: AddressesState) {
         binding.apply {
             pbAddresses.visibility = if(state.loading) View.VISIBLE else View.GONE
-            adapter.replaceData(state.addresses)
+            adapter.replaceData(listOf(AddAddress) + state.addresses)
         }
     }
 
@@ -46,6 +54,9 @@ class AddressesFragment : BaseFragment<AddressesState, AddressesAction, Addresse
         when (command) {
             is AddressesCommand.GoToAddressDetails -> {
                 findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddressFragment(addressId = command.address.id))
+            }
+            is AddressesCommand.GoToAddAddressScreen -> {
+                findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddressFragment())
             }
             AddressesCommand.GoBackToAccountScreen -> {
                 // todo
