@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.ui.addresses
 
 import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.mvi.Action
+import com.marekpdev.shoppingapp.ui.address.AddressAction
 
 /**
  * Created by Marek Pszczolka on 26/07/2022.
@@ -14,4 +15,5 @@ sealed class AddressesAction : Action {
 
     data class AddressClicked(val address: Address): AddressesAction()
 
+    object AddAddressClicked: AddressesAction()
 }
