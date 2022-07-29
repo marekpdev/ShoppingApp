@@ -43,14 +43,6 @@ class ProductFragment : BaseFragment<ProductState, ProductAction, ProductCommand
         )
     }
 
-    // TODO
-    // issue with
-    // open ProductFragment with product1
-    // loading product for 2 sec (need to change loading time in ProductsRepositoryImpl)
-    // close ProductFragment
-    // open ProductFragment with product2
-    // the product1 is still being shown and after 2 seconds we can see product2
-
     override fun initLayout(binding: FragmentProductBinding) = with(binding) {
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.setOnMenuItemClickListener { menuItem ->
@@ -97,7 +89,7 @@ class ProductFragment : BaseFragment<ProductState, ProductAction, ProductCommand
             productCard.apply {
 
                 val (contentVisibility, progressBarVisibility) = when (state.loading){
-                    true -> View.VISIBLE to View.GONE
+                    true -> View.GONE to View.VISIBLE
                     else -> View.VISIBLE to View.GONE
                 }
 

@@ -19,9 +19,6 @@ import dagger.assisted.AssistedInject
 // more info why we needed to remove @HiltViewModel to make AssistedInject work:
 // https://stackoverflow.com/questions/68649447/viewmodel-constructor-should-be-annotated-with-inject-instead-of-assistedinjec
 class ProductViewModel @AssistedInject constructor(
-    // todo need to use this variable in the constructor with 'assisted injection'? rather than
-    // setting it via setter
-    // need to use this with dagger
     store: ProductStore,
     @Assisted private val productId: Long,
 ) : BaseViewModel<ProductState, ProductAction, ProductCommand>(store) {
@@ -43,13 +40,6 @@ class ProductViewModel @AssistedInject constructor(
             }
         }
     }
-
-    // FROM times when i had LiveData here
-    // TODO need to add that whenever product is changed the selected size and color is reset?
-    // TODO what about handling empty value? should i use null? or is there some better way like LiveData.EMPTY or something similar?
-    //
-    //private val _selectedSize = MutableLiveData<Size?>(null)
-    //val selectedSize = _selectedSize.asLiveData()
 
     init {
         Log.d("FEO33", "INIT ProductViewModel")
