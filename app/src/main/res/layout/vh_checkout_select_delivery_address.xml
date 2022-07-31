@@ -5,53 +5,44 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <ImageView
-            android:id="@+id/ivPaymentMethod"
+            android:id="@+id/ivShipping"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="16dp"
-            android:src="@drawable/outline_credit_card_24"
-            app:layout_constraintBottom_toBottomOf="@id/tvPaymentMethodLabel"
+            android:src="@drawable/outline_local_shipping_24"
+            app:layout_constraintBottom_toBottomOf="@id/tvDeliveryAddressLabel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvPaymentMethodLabel" />
+            app:layout_constraintTop_toTopOf="@id/tvDeliveryAddressLabel" />
 
         <TextView
-            android:id="@+id/tvPaymentMethodLabel"
+            android:id="@+id/tvDeliveryAddressLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Payment Method"
+            android:text="Delivery Address"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/ivEdit"
-            app:layout_constraintStart_toEndOf="@id/ivPaymentMethod"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivShipping"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvPaymentMethod"
+            android:id="@+id/tvDeliveryAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:text="Payment Method"
+            android:text="Select delivery address"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivEdit"
-            app:layout_constraintStart_toStartOf="@id/tvPaymentMethodLabel"
-            app:layout_constraintTop_toBottomOf="@id/tvPaymentMethodLabel" />
-
-        <ImageView
-            android:id="@+id/ivEdit"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="16dp"
-            android:src="@drawable/outline_edit_24"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/tvDeliveryAddressLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvDeliveryAddressLabel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

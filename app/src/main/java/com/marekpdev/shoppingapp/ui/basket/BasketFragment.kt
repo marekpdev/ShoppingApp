@@ -61,7 +61,7 @@ class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, Fr
         when (command){
             is BasketCommand.ContinueCheckout -> {
                 Log.d("FEO33", "onContinueCheckout 2")
-                findNavController().navigate(R.id.action_checkoutFragment_to_checkoutOrderDetailsFragment)
+                findNavController().navigate(R.id.action_basketFragment_to_checkoutFragment)
             }
         }
     }
