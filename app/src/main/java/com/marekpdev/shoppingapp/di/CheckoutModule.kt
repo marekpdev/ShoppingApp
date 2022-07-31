@@ -36,7 +36,7 @@ object CheckoutModule {
         checkoutNavigationMiddleware: CheckoutNavigationMiddleware
     ): CheckoutStore {
         return CheckoutStore(
-            CheckoutState(null,  null, 0.0, false),
+            CheckoutState(emptyList(), null, emptyList(), null, 0.0, false),
             listOf(
                 checkoutMiddleware,
                 checkoutNavigationMiddleware

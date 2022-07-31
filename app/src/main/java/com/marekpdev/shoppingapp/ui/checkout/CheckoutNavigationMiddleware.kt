@@ -31,6 +31,13 @@ class CheckoutNavigationMiddleware @Inject constructor() :
         requestAction: suspend (CheckoutAction) -> Unit,
         requestCommand: suspend (CheckoutCommand) -> Unit
     ) {
-
+        when(action){
+            is CheckoutAction.SelectDeliveryAddressClicked -> {
+                requestCommand(CheckoutCommand.ShowDeliveryAddressBottomSheet)
+            }
+            is CheckoutAction.SelectPaymentMethodClicked -> {
+                requestCommand(CheckoutCommand.ShowPaymentMethodBottomSheet)
+            }
+        }
     }
 }

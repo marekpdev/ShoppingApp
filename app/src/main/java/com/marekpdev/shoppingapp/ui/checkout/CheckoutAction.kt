@@ -1,6 +1,8 @@
 package com.marekpdev.shoppingapp.ui.checkout
 
+import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.models.order.Order
+import com.marekpdev.shoppingapp.models.payments.PaymentCard
 import com.marekpdev.shoppingapp.mvi.Action
 
 /**
@@ -10,4 +12,9 @@ sealed class CheckoutAction : Action {
 
     object Loading: CheckoutAction()
 
+    object SelectDeliveryAddressClicked: CheckoutAction()
+    object SelectPaymentMethodClicked: CheckoutAction()
+
+    data class SelectDeliveryAddress(val address: Address): CheckoutAction()
+    data class SelectPaymentCard(val paymentCard: PaymentCard): CheckoutAction()
 }

@@ -18,6 +18,8 @@ import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.checkout.adapters.*
+import com.marekpdev.shoppingapp.ui.checkout.deliveryaddress.DeliveryAddressBottomSheet
+import com.marekpdev.shoppingapp.ui.checkout.paymentmethod.PaymentMethodBottomSheet
 import com.marekpdev.shoppingapp.ui.orders.OrdersAction
 import com.marekpdev.shoppingapp.ui.orders.OrdersCommand
 import com.marekpdev.shoppingapp.ui.orders.OrdersState
@@ -37,8 +39,8 @@ class CheckoutFragment : BaseFragment<CheckoutState, CheckoutAction, CheckoutCom
             .addDelegate(CheckoutDeliveryAddressDelegate {})
             .addDelegate(CheckoutPaymentMethodDelegate {})
             .addDelegate(CheckoutPlaceOrderAdapterDelegate {})
-            .addDelegate(CheckoutSelectDeliveryAddressDelegate {})
-            .addDelegate(CheckoutSelectPaymentMethodDelegate {})
+            .addDelegate(CheckoutSelectDeliveryAddressDelegate { viewModel.dispatch(CheckoutAction.SelectDeliveryAddressClicked)})
+            .addDelegate(CheckoutSelectPaymentMethodDelegate { viewModel.dispatch(CheckoutAction.SelectPaymentMethodClicked)})
     )
 
     override fun initLayout(binding: FragmentCheckoutBinding) = with(binding){
@@ -51,8 +53,8 @@ class CheckoutFragment : BaseFragment<CheckoutState, CheckoutAction, CheckoutCom
             pbCheckout.visibility = if(state.loading) View.VISIBLE else View.GONE
 
             val items = mutableListOf<Any>().apply {
-                add(state.deliveryAddress ?: SelectDeliveryAddress)
-                add(state.paymentMethod ?: SelectPaymentMethod)
+                add(state.selectedDeliveryAddress ?: SelectDeliveryAddress)
+                add(state.selectedPaymentMethod ?: SelectPaymentMethod)
                 add(PlaceOrder)
             }
             adapter.replaceData(items)
@@ -60,6 +62,13 @@ class CheckoutFragment : BaseFragment<CheckoutState, CheckoutAction, CheckoutCom
     }
 
     override fun onCommand(command: CheckoutCommand) {
-
+        when(command){
+            is CheckoutCommand.ShowDeliveryAddressBottomSheet -> {
+                DeliveryAddressBottomSheet().show(parentFragmentManager, DeliveryAddressBottomSheet.TAG)
+            }
+            is CheckoutCommand.ShowPaymentMethodBottomSheet -> {
+                PaymentMethodBottomSheet().show(parentFragmentManager, PaymentMethodBottomSheet.TAG)
+            }
+        }
     }
 }
