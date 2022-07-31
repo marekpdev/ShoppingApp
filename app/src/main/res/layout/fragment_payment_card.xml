@@ -1,43 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:background="@color/screen_background">
 
-        <EditText
-            android:id="@+id/tvCardNumber"
+        <Space
+            android:id="@+id/statusBarSpace"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_bar_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/rubik_medium"
+            android:text="Add Card"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusBarSpace" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineButtonsStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="card number"
-            android:textSize="20sp" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="64dp" />
 
-        <EditText
-            android:id="@+id/tvExpiryDate"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineButtonsEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="expiry date"
-            android:textSize="20sp" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="64dp" />
 
-        <EditText
-            android:id="@+id/tvCVC"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fieldCardNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="cvc"
-            android:textSize="20sp" />
+            android:layout_marginBottom="8dp"
+            android:hint="Card number"
+            app:layout_constraintBottom_toTopOf="@id/fieldCvcCode"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/tvHeader"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvCardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fieldCvcCode"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:hint="CVC Code"
+            app:layout_constraintBottom_toTopOf="@id/btnUpdate"
+            app:layout_constraintEnd_toStartOf="@id/fieldExpiryDate"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/fieldCardNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvCvcCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fieldExpiryDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:hint="Expiry Date"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/fieldCvcCode"
+            app:layout_constraintTop_toTopOf="@id/fieldCvcCode">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvExpiryDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnUpdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="UPDATE"
+            app:layout_constraintBottom_toTopOf="@id/btnAdd"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/fieldCvcCode" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ADD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toBottomOf="@id/btnUpdate" />
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UPDATE" />
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/fieldCvcCode"
+            app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
+            app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
+            app:layout_constraintTop_toTopOf="@id/fieldCardNumber" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

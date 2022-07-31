@@ -4,7 +4,8 @@ import com.marekpdev.shoppingapp.models.*
 import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.models.order.OrderProduct
 import com.marekpdev.shoppingapp.models.order.OrderStatus
-import com.marekpdev.shoppingapp.models.order.PaymentMethod
+import com.marekpdev.shoppingapp.models.payments.PaymentCard
+import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
@@ -138,7 +139,7 @@ object Data {
             products = products,
             totalCost = products.sumOf { it.price },
             deliveryAddress = getDeliveryAddress(),
-            paymentMethod = PaymentMethod(1, 1, "Visa **** 1234"),
+            paymentMethod = PaymentCard(1, userId, "XXX", "VISA", "4444"),
             createdAt = createdAt,
             status = OrderStatus.IN_PROGRESS
         )

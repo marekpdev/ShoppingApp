@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.VhPaymentCardBinding
-import com.marekpdev.shoppingapp.models.PaymentCard
+import com.marekpdev.shoppingapp.models.payments.PaymentCard
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
 

@@ -1,6 +1,10 @@
 package com.marekpdev.shoppingapp.repository.paymentmethods
 
-import com.marekpdev.shoppingapp.models.order.PaymentMethod
+import com.marekpdev.shoppingapp.models.Address
+import com.marekpdev.shoppingapp.models.AddressCreator
+import com.marekpdev.shoppingapp.models.payments.PaymentCard
+import com.marekpdev.shoppingapp.models.payments.PaymentCardCreator
+import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 import kotlinx.coroutines.flow.StateFlow
 
 /**
@@ -11,4 +15,8 @@ interface PaymentMethodsRepository {
     suspend fun getPaymentMethods(userId: Long): StateFlow<List<PaymentMethod>>
 
     suspend fun getPaymentMethod(paymentMethodId: Long): PaymentMethod?
+
+    suspend fun addPaymentCard(userId: Long, newPaymentMethodCreator: PaymentCardCreator)
+
+    suspend fun updatePaymentCard(paymentCardToUpdate: PaymentCard, updatedPaymentMethodCreator: PaymentCardCreator)
 }
