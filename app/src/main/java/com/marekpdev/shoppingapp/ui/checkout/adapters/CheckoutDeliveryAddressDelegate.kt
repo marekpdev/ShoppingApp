@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.checkout
+package com.marekpdev.shoppingapp.ui.checkout.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -13,6 +13,6 @@
     </fragment>
     <fragment
         android:id="@+id/checkoutOrderDetailsFragment"
-        android:name="com.marekpdev.shoppingapp.ui.checkout.orderdetails.CheckoutOrderDetailsFragment"
+        android:name="com.marekpdev.shoppingapp.ui.ordersummary.OrderSummaryFragment"
         android:label="CheckoutOrderDetailsFragment" />
 </navigation>
