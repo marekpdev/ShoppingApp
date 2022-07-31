@@ -13,6 +13,8 @@ import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.addresses.AddressesCommand
 import com.marekpdev.shoppingapp.ui.addresses.AddressesFragmentDirections
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.AddPaymentCard
+import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.AddPaymentCardAdapterDelegate
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentCardAdapterDelegate
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentMethodAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,10 +35,15 @@ class PaymentMethodsFragment : BaseFragment<PaymentMethodsState, PaymentMethodsA
         viewModel.dispatch(PaymentMethodsAction.PaymentCardClicked(it))
     }
 
+    private val onAddPaymentCardClicked: () -> Unit = {
+        viewModel.dispatch(PaymentMethodsAction.AddPaymentCardClicked)
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
 //            .addDelegate(PaymentMethodAdapterDelegate(onPaymentMethodClicked))
             .addDelegate(PaymentCardAdapterDelegate(onPaymentCardClicked))
+            .addDelegate(AddPaymentCardAdapterDelegate(onAddPaymentCardClicked))
     )
 
     override fun initLayout(binding: FragmentPaymentMethodsBinding) = with(binding){
@@ -47,7 +54,7 @@ class PaymentMethodsFragment : BaseFragment<PaymentMethodsState, PaymentMethodsA
     override fun render(state: PaymentMethodsState) {
         binding.apply {
             pbPaymentMethods.visibility = if(state.loading) View.VISIBLE else View.GONE
-            adapter.replaceData(state.paymentMethods)
+            adapter.replaceData(listOf(AddPaymentCard) + state.paymentMethods)
         }
     }
 

@@ -48,8 +48,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fieldCardNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:hint="Card number"
             app:layout_constraintBottom_toTopOf="@id/fieldCvcCode"
             app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
@@ -67,8 +69,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fieldCvcCode"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
             android:hint="CVC Code"
             app:layout_constraintBottom_toTopOf="@id/btnUpdate"
             app:layout_constraintEnd_toStartOf="@id/fieldExpiryDate"
@@ -85,8 +89,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fieldExpiryDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:hint="Expiry Date"
             app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
             app:layout_constraintStart_toEndOf="@id/fieldCvcCode"
@@ -124,10 +130,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/tvCountry"
+            app:layout_constraintBottom_toBottomOf="@id/fieldCvcCode"
             app:layout_constraintEnd_toStartOf="@id/guidelineButtonsEnd"
             app:layout_constraintStart_toEndOf="@id/guidelineButtonsStart"
-            app:layout_constraintTop_toTopOf="@id/tvAddressLine1" />
+            app:layout_constraintTop_toTopOf="@id/fieldCardNumber" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
