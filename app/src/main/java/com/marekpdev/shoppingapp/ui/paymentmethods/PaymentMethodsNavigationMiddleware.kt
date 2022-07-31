@@ -27,6 +27,7 @@ class PaymentMethodsNavigationMiddleware @Inject constructor() :
     ) {
         when(action){
             is PaymentMethodsAction.PaymentMethodClicked -> requestCommand(PaymentMethodsCommand.GoToPaymentMethodDetails(action.paymentMethod))
+            is PaymentMethodsAction.PaymentCardClicked -> requestCommand(PaymentMethodsCommand.GoToPaymentCardDetails(action.paymentCard))
         }
     }
 }

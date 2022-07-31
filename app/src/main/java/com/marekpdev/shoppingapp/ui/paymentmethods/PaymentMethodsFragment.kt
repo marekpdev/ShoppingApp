@@ -2,13 +2,18 @@ package com.marekpdev.shoppingapp.ui.paymentmethods
 
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentPaymentMethodsBinding
-import com.marekpdev.shoppingapp.models.order.PaymentMethod
+import com.marekpdev.shoppingapp.models.payments.PaymentCard
+import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
+import com.marekpdev.shoppingapp.ui.addresses.AddressesCommand
+import com.marekpdev.shoppingapp.ui.addresses.AddressesFragmentDirections
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentCardAdapterDelegate
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentMethodAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,9 +29,14 @@ class PaymentMethodsFragment : BaseFragment<PaymentMethodsState, PaymentMethodsA
         viewModel.dispatch(PaymentMethodsAction.PaymentMethodClicked(it))
     }
 
+    private val onPaymentCardClicked: (PaymentCard) -> Unit = {
+        viewModel.dispatch(PaymentMethodsAction.PaymentCardClicked(it))
+    }
+
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(PaymentMethodAdapterDelegate(onPaymentMethodClicked))
+//            .addDelegate(PaymentMethodAdapterDelegate(onPaymentMethodClicked))
+            .addDelegate(PaymentCardAdapterDelegate(onPaymentCardClicked))
     )
 
     override fun initLayout(binding: FragmentPaymentMethodsBinding) = with(binding){
@@ -43,9 +53,11 @@ class PaymentMethodsFragment : BaseFragment<PaymentMethodsState, PaymentMethodsA
 
     override fun onCommand(command: PaymentMethodsCommand) {
         when(command){
-            is PaymentMethodsCommand.GoToPaymentMethodDetails -> {
-                // todo
-                //findNavController().navigate(R.id.action_paymentMethodsFragment_to_paymentCardFragment)
+            is PaymentMethodsCommand.GoToPaymentCardDetails -> {
+                findNavController().navigate(PaymentMethodsFragmentDirections.actionPaymentMethodsFragmentToPaymentCardFragment(paymentCardId = command.paymentCard.id))
+            }
+            is PaymentMethodsCommand.GoToAddPaymentCardScreen -> {
+                findNavController().navigate(PaymentMethodsFragmentDirections.actionPaymentMethodsFragmentToPaymentCardFragment())
             }
         }
     }

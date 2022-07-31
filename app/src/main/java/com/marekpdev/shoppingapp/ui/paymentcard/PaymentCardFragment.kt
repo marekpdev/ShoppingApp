@@ -1,47 +1,80 @@
 package com.marekpdev.shoppingapp.ui.paymentcard
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentPaymentCardBinding
+import com.marekpdev.shoppingapp.ui.base.BaseFragment
+import com.marekpdev.shoppingapp.utils.setTextIfDifferent
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
  */
-class PaymentCardFragment : Fragment() {
-    private lateinit var binding: FragmentPaymentCardBinding
+@AndroidEntryPoint
+class PaymentCardFragment : BaseFragment<PaymentCardState, PaymentCardAction, PaymentCardCommand, FragmentPaymentCardBinding>(R.layout.fragment_payment_card) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_payment_card, container, false)
-        return binding.root
+    private val navArgs: PaymentCardFragmentArgs by navArgs()
+
+    @Inject
+    lateinit var paymentCardViewModelFactory: PaymentCardViewModel.Factory
+
+    override val viewModel by viewModels<PaymentCardViewModel> {
+        PaymentCardViewModel.provideFactory(
+            assistedFactory = paymentCardViewModelFactory,
+            paymentCardId = navArgs.paymentCardId
+        )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initLayout(binding: FragmentPaymentCardBinding) = with(binding){
+        btnAdd.setOnClickListener { viewModel.dispatch(PaymentCardAction.AddPaymentCard) }
+        btnUpdate.setOnClickListener { viewModel.dispatch(PaymentCardAction.UpdatePaymentCard) }
 
-        binding.apply {
-            lifecycleOwner = this@PaymentCardFragment
-//            productViewModel = viewModel
-//            btnLogin.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-//            }
-//
-//            btnRegistration.setOnClickListener {
-//                findNavController().navigate(R.id.action_accountFragment_to_registrationFragment)
-//            }
-            initLayout(this)
+        val onContentChanged = {
+            viewModel.dispatch(PaymentCardAction.OnContentChanged(
+                cardNumber = tvCardNumber.text.toString(),
+                cvc = tvCvcCode.text.toString(),
+                expiryDate = tvExpiryDate.text.toString()
+            ))
+        }
+
+        listOf(tvCardNumber, tvCvcCode, tvExpiryDate).forEach {
+            it.doAfterTextChanged { onContentChanged() }
         }
     }
 
-    private fun initLayout(binding: FragmentPaymentCardBinding) = binding.apply {
+    override fun render(state: PaymentCardState) {
+        binding.apply {
+            tvHeader.text = when(state.mode){
+                Mode.ADD -> "Add Payment Card"
+                Mode.UPDATE -> "Update Payment Card"
+            }
 
+            pbLoading.visibility = if(state.loading) View.VISIBLE else View.GONE
+
+            tvCardNumber.setTextIfDifferent(state.cardNumber)
+            tvCvcCode.setTextIfDifferent(state.cvc)
+            tvExpiryDate.setTextIfDifferent(state.expiryDate)
+
+            tvCardNumber.isEnabled = !state.loading
+            tvCvcCode.isEnabled = !state.loading
+            tvExpiryDate.isEnabled = !state.loading
+
+            btnAdd.visibility = if(state.mode == Mode.ADD) View.VISIBLE else View.GONE
+            btnUpdate.visibility = if(state.mode == Mode.UPDATE) View.VISIBLE else View.GONE
+        }
+    }
+
+    override fun onCommand(command: PaymentCardCommand) {
+        when(command){
+            is PaymentCardCommand.GoBackToPaymentMethodsScreen -> {
+                findNavController().navigateUp()
+            }
+        }
     }
 
 }

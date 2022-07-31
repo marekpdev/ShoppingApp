@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.ui.paymentmethods
 
-import com.marekpdev.shoppingapp.models.order.PaymentMethod
+import com.marekpdev.shoppingapp.models.payments.PaymentCard
+import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 import com.marekpdev.shoppingapp.mvi.Action
 
 /**
@@ -13,5 +14,7 @@ sealed class PaymentMethodsAction : Action {
     data class RefreshData(val paymentMethods: List<PaymentMethod>): PaymentMethodsAction()
 
     data class PaymentMethodClicked(val paymentMethod: PaymentMethod): PaymentMethodsAction()
+
+    data class PaymentCardClicked(val paymentCard: PaymentCard): PaymentMethodsAction()
 
 }

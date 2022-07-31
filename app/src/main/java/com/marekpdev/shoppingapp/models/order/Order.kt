@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.models.order
 
 import com.marekpdev.shoppingapp.models.Address
+import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 
 /**
  * Created by Marek Pszczolka on 14/04/2021.
