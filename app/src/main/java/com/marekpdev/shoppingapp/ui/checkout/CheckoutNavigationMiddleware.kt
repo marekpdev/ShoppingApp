@@ -38,6 +38,12 @@ class CheckoutNavigationMiddleware @Inject constructor() :
             is CheckoutAction.SelectPaymentMethodClicked -> {
                 requestCommand(CheckoutCommand.ShowPaymentMethodBottomSheet)
             }
+            is CheckoutAction.SelectDeliveryAddress -> {
+                requestCommand(CheckoutCommand.HideDeliveryAddressBottomSheet)
+            }
+            is CheckoutAction.SelectPaymentCard -> {
+                requestCommand(CheckoutCommand.HidePaymentMethodBottomSheet)
+            }
         }
     }
 }

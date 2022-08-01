@@ -36,11 +36,11 @@ class CheckoutFragment : BaseFragment<CheckoutState, CheckoutAction, CheckoutCom
 
     private val adapter = BaseAdapter(
         delegatesManager = AdapterDelegatesManager()
-            .addDelegate(CheckoutDeliveryAddressDelegate {})
-            .addDelegate(CheckoutPaymentMethodDelegate {})
-            .addDelegate(CheckoutPlaceOrderAdapterDelegate {})
+            .addDelegate(CheckoutDeliveryAddressDelegate { viewModel.dispatch(CheckoutAction.SelectDeliveryAddressClicked)})
+            .addDelegate(CheckoutPaymentMethodDelegate { viewModel.dispatch(CheckoutAction.SelectPaymentMethodClicked)})
             .addDelegate(CheckoutSelectDeliveryAddressDelegate { viewModel.dispatch(CheckoutAction.SelectDeliveryAddressClicked)})
             .addDelegate(CheckoutSelectPaymentMethodDelegate { viewModel.dispatch(CheckoutAction.SelectPaymentMethodClicked)})
+            .addDelegate(CheckoutPlaceOrderAdapterDelegate {})
     )
 
     override fun initLayout(binding: FragmentCheckoutBinding) = with(binding){
@@ -50,7 +50,7 @@ class CheckoutFragment : BaseFragment<CheckoutState, CheckoutAction, CheckoutCom
 
     override fun render(state: CheckoutState) {
         binding.apply {
-            pbCheckout.visibility = if(state.loading) View.VISIBLE else View.GONE
+//            pbCheckout.visibility = if(state.loading) View.VISIBLE else View.GONE
 
             val items = mutableListOf<Any>().apply {
                 add(state.selectedDeliveryAddress ?: SelectDeliveryAddress)

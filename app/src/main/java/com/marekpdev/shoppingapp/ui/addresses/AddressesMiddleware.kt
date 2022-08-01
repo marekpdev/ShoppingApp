@@ -32,9 +32,9 @@ class AddressesMiddleware @Inject constructor(
                     user?.let {
                         Log.d("FEO33", "Orders middleware id ${it.id}")
                         requestAction(AddressesAction.Loading)
-                        addressesRepository.getAddresses(it.id).collectLatest { orders ->
-                            Log.d("FEO33", "get latest middleware ${orders.size}")
-                            requestAction(AddressesAction.RefreshData(orders))
+                        addressesRepository.getAddresses(it.id).collectLatest { addresses ->
+                            Log.d("FEO33", "get latest middleware ${addresses.size}")
+                            requestAction(AddressesAction.RefreshData(addresses))
                         }
                     }
                 }

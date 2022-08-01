@@ -9,8 +9,23 @@ class CheckoutReducer: Reducer<CheckoutState, CheckoutAction> {
 
     override fun reduce(currentState: CheckoutState, action: CheckoutAction): CheckoutState {
         return when (action){
-            is CheckoutAction.Loading -> {
-                currentState.copy(loading = true)
+            is CheckoutAction.LoadingDeliveryAddresses -> {
+                currentState.copy(loadingDeliveryAddresses = true)
+            }
+            is CheckoutAction.LoadingPaymentMethods -> {
+                currentState.copy(loadingPaymentMethods = true)
+            }
+            is CheckoutAction.RefreshDeliveryAddresses -> {
+                currentState.copy(deliveryAddresses = action.addresses, loadingDeliveryAddresses = false)
+            }
+            is CheckoutAction.RefreshPaymentMethods -> {
+                currentState.copy(paymentMethods = action.paymentMethods, loadingPaymentMethods = false)
+            }
+            is CheckoutAction.SelectDeliveryAddress -> {
+                currentState.copy(selectedDeliveryAddress = action.address)
+            }
+            is CheckoutAction.SelectPaymentCard -> {
+                currentState.copy(selectedPaymentMethod = action.paymentCard)
             }
             else -> {
                 currentState

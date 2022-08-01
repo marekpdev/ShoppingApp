@@ -14,5 +14,6 @@ data class CheckoutState(
     val paymentMethods: List<PaymentMethod>,
     val selectedPaymentMethod: PaymentMethod?,
     val totalToPay: Double,
-    val loading: Boolean
+    val loadingPaymentMethods: Boolean,
+    val loadingDeliveryAddresses: Boolean
 ): State

@@ -3,6 +3,7 @@ package com.marekpdev.shoppingapp.di
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepositoryImpl
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
+import com.marekpdev.shoppingapp.repository.paymentmethods.PaymentMethodsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import com.marekpdev.shoppingapp.ui.address.*
 import com.marekpdev.shoppingapp.ui.addresses.*
@@ -23,7 +24,11 @@ object CheckoutModule {
 
     @Provides
     @Singleton
-    fun provideCheckoutMiddleware(userRepository: UserRepository, basketRepository: BasketRepository) = CheckoutMiddleware(userRepository, basketRepository)
+    fun provideCheckoutMiddleware(userRepository: UserRepository,
+                                  basketRepository: BasketRepository,
+                                  addressesRepository: AddressesRepository,
+                                  paymentMethodsRepository: PaymentMethodsRepository) =
+        CheckoutMiddleware(userRepository, basketRepository, addressesRepository, paymentMethodsRepository)
 
     @Provides
     @Singleton
@@ -36,7 +41,7 @@ object CheckoutModule {
         checkoutNavigationMiddleware: CheckoutNavigationMiddleware
     ): CheckoutStore {
         return CheckoutStore(
-            CheckoutState(emptyList(), null, emptyList(), null, 0.0, false),
+            CheckoutState(emptyList(), null, emptyList(), null, 0.0, false, false),
             listOf(
                 checkoutMiddleware,
                 checkoutNavigationMiddleware

@@ -32,9 +32,9 @@ class PaymentMethodsMiddleware @Inject constructor(
                     user?.let {
                         Log.d("FEO33", "Orders middleware id ${it.id}")
                         requestAction(PaymentMethodsAction.Loading)
-                        paymentMethodsRepository.getPaymentMethods(it.id).collectLatest { orders ->
-                            Log.d("FEO33", "get latest middleware ${orders.size}")
-                            requestAction(PaymentMethodsAction.RefreshData(orders))
+                        paymentMethodsRepository.getPaymentMethods(it.id).collectLatest { paymentMethods ->
+                            Log.d("FEO33", "get latest middleware ${paymentMethods.size}")
+                            requestAction(PaymentMethodsAction.RefreshData(paymentMethods))
                         }
                     }
                 }

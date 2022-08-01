@@ -1,5 +1,6 @@
 package com.marekpdev.shoppingapp.ui.checkout.paymentmethod
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -36,7 +37,7 @@ import kotlin.math.abs
 class PaymentMethodBottomSheet: BaseBottomSheetDialogFragment<CheckoutState, CheckoutAction, CheckoutCommand, BottomSheetCheckoutPaymentMethodBinding>(R.layout.bottom_sheet_checkout_payment_method) {
 
     companion object {
-        const val TAG = "ModalBottomSheetFilter"
+        const val TAG = "ModalBottomSheetPaymentMethod"
     }
 
     override val viewModel by viewModels<PaymentMethodBottomSheetViewModel>()
@@ -59,6 +60,7 @@ class PaymentMethodBottomSheet: BaseBottomSheetDialogFragment<CheckoutState, Che
 
     override fun render(state: CheckoutState) {
         binding.apply {
+            Log.d("FEO66", "Paymentds ${state.paymentMethods}")
             adapter.replaceData(state.paymentMethods)
         }
     }

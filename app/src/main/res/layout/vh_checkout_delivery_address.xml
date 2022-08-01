@@ -13,9 +13,8 @@
             android:layout_height="24dp"
             android:layout_margin="16dp"
             android:src="@drawable/outline_local_shipping_24"
-            app:layout_constraintBottom_toBottomOf="@id/tvDeliveryAddressLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvDeliveryAddressLabel" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvDeliveryAddressLabel"

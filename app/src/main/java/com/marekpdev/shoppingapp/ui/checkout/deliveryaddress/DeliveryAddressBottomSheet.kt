@@ -33,7 +33,7 @@ import kotlin.math.abs
 class DeliveryAddressBottomSheet: BaseBottomSheetDialogFragment<CheckoutState, CheckoutAction, CheckoutCommand, BottomSheetCheckoutDeliveryAddressBinding>(R.layout.bottom_sheet_checkout_delivery_address) {
 
     companion object {
-        const val TAG = "ModalBottomSheetFilter"
+        const val TAG = "ModalBottomSheetDeliveryAddress"
     }
 
     override val viewModel by viewModels<DeliveryAddressBottomSheetViewModel>()
