@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.api
+package com.marekpdev.shoppingapp.api.old
 
 import com.marekpdev.shoppingapp.domain.LoginUserResponse
 import com.marekpdev.shoppingapp.domain.LogoutUserResponse
