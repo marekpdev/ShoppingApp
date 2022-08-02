@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.ui.checkout
 
 import android.util.Log
+import com.marekpdev.shoppingapp.models.order.OrderCreator
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class CheckoutMiddleware @Inject constructor(private val userRepository: UserRepository,
                                              private val basketRepository: BasketRepository,
                                              private val addressesRepository: AddressesRepository,
-                                             private val paymentMethodsRepository: PaymentMethodsRepository
+                                             private val paymentMethodsRepository: PaymentMethodsRepository,
+                                             private val ordersRepository: OrdersRepository
     ) :
     Middleware<CheckoutState, CheckoutAction, CheckoutCommand> {
 
@@ -65,6 +67,17 @@ class CheckoutMiddleware @Inject constructor(private val userRepository: UserRep
         requestAction: suspend (CheckoutAction) -> Unit,
         requestCommand: suspend (CheckoutCommand) -> Unit
     ) {
+        val userId = userRepository.getUser().value?.id ?: return
+        if(currentState.selectedDeliveryAddress == null) return
+        if(currentState.selectedPaymentMethod == null) return
 
+        val orderCreator = OrderCreator(
+            userId = userId,
+            products = basketRepository.observeBasketProducts().value,
+            deliveryAddress = currentState.selectedDeliveryAddress,
+            paymentMethod = currentState.selectedPaymentMethod
+        )
+        val newOrder = ordersRepository.placeOrder(orderCreator)
+        requestCommand(CheckoutCommand.GoToOrderCompleteScreen(newOrder.id))
     }
 }

@@ -3,6 +3,7 @@ package com.marekpdev.shoppingapp.di
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepositoryImpl
 import com.marekpdev.shoppingapp.repository.basket.BasketRepository
+import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.paymentmethods.PaymentMethodsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import com.marekpdev.shoppingapp.ui.address.*
@@ -27,8 +28,9 @@ object CheckoutModule {
     fun provideCheckoutMiddleware(userRepository: UserRepository,
                                   basketRepository: BasketRepository,
                                   addressesRepository: AddressesRepository,
-                                  paymentMethodsRepository: PaymentMethodsRepository) =
-        CheckoutMiddleware(userRepository, basketRepository, addressesRepository, paymentMethodsRepository)
+                                  paymentMethodsRepository: PaymentMethodsRepository,
+                                  ordersRepository: OrdersRepository) =
+        CheckoutMiddleware(userRepository, basketRepository, addressesRepository, paymentMethodsRepository, ordersRepository)
 
     @Provides
     @Singleton

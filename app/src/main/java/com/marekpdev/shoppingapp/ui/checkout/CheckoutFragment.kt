@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentCheckoutBinding
-import com.marekpdev.shoppingapp.databinding.FragmentOrderSummaryDetailsBinding
 import com.marekpdev.shoppingapp.databinding.FragmentOrdersBinding
 import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
