@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.basket
 
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,7 +44,6 @@ class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, Fr
     }
 
     override fun render(state: BasketState) {
-        Log.d("FEO33", "Render basket" + System.currentTimeMillis())
         binding.apply {
             val items = mutableListOf<Any>().apply {
                 state.basketProducts.forEach { add(it) }
@@ -60,7 +58,6 @@ class BasketFragment : BaseFragment<BasketState, BasketAction, BasketCommand, Fr
     override fun onCommand(command: BasketCommand) {
         when (command){
             is BasketCommand.ContinueCheckout -> {
-                Log.d("FEO33", "onContinueCheckout 2")
                 findNavController().navigate(R.id.action_basketFragment_to_checkoutFragment)
             }
         }

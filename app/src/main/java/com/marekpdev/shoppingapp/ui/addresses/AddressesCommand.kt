@@ -2,7 +2,6 @@ package com.marekpdev.shoppingapp.ui.addresses
 
 import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.mvi.Command
-import com.marekpdev.shoppingapp.ui.address.AddressCommand
 
 /**
  * Created by Marek Pszczolka on 26/07/2022.

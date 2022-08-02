@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.paymentmethods
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.paymentmethods.PaymentMethodsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
@@ -30,10 +29,8 @@ class PaymentMethodsMiddleware @Inject constructor(
             userRepository.getUser()
                 .collectLatest { user ->
                     user?.let {
-                        Log.d("FEO33", "Orders middleware id ${it.id}")
                         requestAction(PaymentMethodsAction.Loading)
                         paymentMethodsRepository.getPaymentMethods(it.id).collectLatest { paymentMethods ->
-                            Log.d("FEO33", "get latest middleware ${paymentMethods.size}")
                             requestAction(PaymentMethodsAction.RefreshData(paymentMethods))
                         }
                     }

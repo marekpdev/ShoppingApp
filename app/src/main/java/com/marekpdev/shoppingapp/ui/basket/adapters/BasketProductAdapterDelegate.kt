@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.basket.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -48,7 +47,6 @@ class BasketProductAdapterDelegate(private val onBasketProductClicked: (BasketPr
                 // the SpinnerItemListener is called multiple times
                 // so it deselects previously selected item
                 onItemSelectedListener = SpinnerItemListener(item.availableSizes) { size ->
-                    Log.d("FEO33", "Size selected for ${item.id}")
                     onUpdateSize(item, size)
                 }
             }
@@ -61,7 +59,6 @@ class BasketProductAdapterDelegate(private val onBasketProductClicked: (BasketPr
                 )
 
                 onItemSelectedListener = SpinnerItemListener(item.availableColors) { color ->
-                    Log.d("FEO33", "color selected for ${item.id}")
                     onUpdateColor(item, color)
                 }
             }

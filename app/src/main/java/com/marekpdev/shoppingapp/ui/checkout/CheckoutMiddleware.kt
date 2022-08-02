@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.checkout
 
-import android.util.Log
 import com.marekpdev.shoppingapp.models.order.OrderCreator
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
@@ -8,8 +7,6 @@ import com.marekpdev.shoppingapp.repository.basket.BasketRepository
 import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.paymentmethods.PaymentMethodsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
-import com.marekpdev.shoppingapp.ui.addresses.AddressesAction
-import com.marekpdev.shoppingapp.ui.paymentmethods.PaymentMethodsAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +35,6 @@ class CheckoutMiddleware @Inject constructor(private val userRepository: UserRep
             userRepository.getUser()
                 .collectLatest { user ->
                     user?.let {
-                        Log.d("FEO66", "loading payment methods 111")
                         requestAction(CheckoutAction.LoadingDeliveryAddresses)
                         addressesRepository.getAddresses(it.id).collectLatest { addresses ->
                             requestAction(CheckoutAction.RefreshDeliveryAddresses(addresses))
@@ -51,9 +47,7 @@ class CheckoutMiddleware @Inject constructor(private val userRepository: UserRep
                 .collectLatest { user ->
                     user?.let {
                         requestAction(CheckoutAction.LoadingPaymentMethods)
-                        Log.d("FEO66", "loading payment methods 1")
                         paymentMethodsRepository.getPaymentMethods(it.id).collectLatest { paymentMethods ->
-                            Log.d("FEO66", "loading payment methods 2: ${paymentMethods}")
                             requestAction(CheckoutAction.RefreshPaymentMethods(paymentMethods))
                         }
                     }

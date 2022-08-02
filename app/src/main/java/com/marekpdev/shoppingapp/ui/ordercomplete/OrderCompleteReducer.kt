@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.ui.ordercomplete
 
 import com.marekpdev.shoppingapp.mvi.Reducer
-import com.marekpdev.shoppingapp.ui.order.OrderAction
 
 /**
  * Created by Marek Pszczolka on 26/07/2022.

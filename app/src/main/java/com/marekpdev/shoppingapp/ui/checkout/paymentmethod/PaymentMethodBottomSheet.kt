@@ -1,34 +1,19 @@
 package com.marekpdev.shoppingapp.ui.checkout.paymentmethod
 
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.chip.Chip
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.BottomSheetCheckoutDeliveryAddressBinding
 import com.marekpdev.shoppingapp.databinding.BottomSheetCheckoutPaymentMethodBinding
-import com.marekpdev.shoppingapp.databinding.BottomSheetFilterBinding
-import com.marekpdev.shoppingapp.models.Address
-import com.marekpdev.shoppingapp.models.Color
-import com.marekpdev.shoppingapp.models.Size
 import com.marekpdev.shoppingapp.models.payments.PaymentCard
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.addresses.AddressesAction
-import com.marekpdev.shoppingapp.ui.addresses.adapters.AddAddressAdapterDelegate
-import com.marekpdev.shoppingapp.ui.addresses.adapters.AddressAdapterDelegate
 import com.marekpdev.shoppingapp.ui.base.BaseBottomSheetDialogFragment
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutAction
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutCommand
 import com.marekpdev.shoppingapp.ui.checkout.CheckoutState
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentCardAdapterDelegate
-import com.marekpdev.shoppingapp.ui.search.SearchAction
-import com.marekpdev.shoppingapp.ui.search.SearchCommand
-import com.marekpdev.shoppingapp.ui.search.SearchState
-import com.marekpdev.shoppingapp.views.ChipsHelper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.abs
 
 /**
  * Created by Marek Pszczolka on 07/06/2022.
@@ -60,7 +45,6 @@ class PaymentMethodBottomSheet: BaseBottomSheetDialogFragment<CheckoutState, Che
 
     override fun render(state: CheckoutState) {
         binding.apply {
-            Log.d("FEO66", "Paymentds ${state.paymentMethods}")
             adapter.replaceData(state.paymentMethods)
         }
     }

@@ -1,29 +1,16 @@
 package com.marekpdev.shoppingapp.ui.checkout
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentCheckoutBinding
-import com.marekpdev.shoppingapp.databinding.FragmentOrdersBinding
-import com.marekpdev.shoppingapp.models.Product
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.checkout.adapters.*
 import com.marekpdev.shoppingapp.ui.checkout.deliveryaddress.DeliveryAddressBottomSheet
 import com.marekpdev.shoppingapp.ui.checkout.paymentmethod.PaymentMethodBottomSheet
-import com.marekpdev.shoppingapp.ui.orders.OrdersAction
-import com.marekpdev.shoppingapp.ui.orders.OrdersCommand
-import com.marekpdev.shoppingapp.ui.orders.OrdersState
-import com.marekpdev.shoppingapp.ui.orders.OrdersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

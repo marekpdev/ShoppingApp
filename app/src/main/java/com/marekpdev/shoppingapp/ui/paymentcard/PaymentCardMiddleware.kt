@@ -1,10 +1,8 @@
 package com.marekpdev.shoppingapp.ui.paymentcard
 
-import com.marekpdev.shoppingapp.models.AddressCreator
 import com.marekpdev.shoppingapp.models.payments.PaymentCard
 import com.marekpdev.shoppingapp.models.payments.PaymentCardCreator
 import com.marekpdev.shoppingapp.mvi.Middleware
-import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
 import com.marekpdev.shoppingapp.repository.paymentmethods.PaymentMethodsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope

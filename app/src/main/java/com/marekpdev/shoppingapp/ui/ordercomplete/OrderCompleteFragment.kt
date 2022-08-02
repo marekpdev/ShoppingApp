@@ -4,11 +4,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.FragmentOrderBinding
 import com.marekpdev.shoppingapp.databinding.FragmentOrderCompleteBinding
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
-import com.marekpdev.shoppingapp.ui.order.OrderAction
-import com.marekpdev.shoppingapp.ui.order.OrderState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

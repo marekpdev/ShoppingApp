@@ -1,10 +1,6 @@
 package com.marekpdev.shoppingapp.ui.ordercomplete
 
 import com.marekpdev.shoppingapp.mvi.Middleware
-import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
-import com.marekpdev.shoppingapp.repository.user.UserRepository
-import com.marekpdev.shoppingapp.ui.orders.OrdersAction
-import com.marekpdev.shoppingapp.ui.orders.OrdersCommand
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

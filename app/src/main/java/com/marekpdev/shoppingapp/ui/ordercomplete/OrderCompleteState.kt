@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.ordercomplete
 
-import com.marekpdev.shoppingapp.models.BasketProduct
 import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.mvi.State
 

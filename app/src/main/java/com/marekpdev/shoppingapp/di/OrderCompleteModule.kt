@@ -2,10 +2,6 @@ package com.marekpdev.shoppingapp.di
 
 import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
-import com.marekpdev.shoppingapp.ui.order.OrderMiddleware
-import com.marekpdev.shoppingapp.ui.order.OrderReducer
-import com.marekpdev.shoppingapp.ui.order.OrderState
-import com.marekpdev.shoppingapp.ui.order.OrderStore
 import com.marekpdev.shoppingapp.ui.ordercomplete.*
 import dagger.Module
 import dagger.Provides

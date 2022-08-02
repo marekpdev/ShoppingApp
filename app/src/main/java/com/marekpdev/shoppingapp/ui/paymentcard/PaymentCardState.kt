@@ -1,7 +1,5 @@
 package com.marekpdev.shoppingapp.ui.paymentcard
 
-import com.marekpdev.shoppingapp.models.Address
-import com.marekpdev.shoppingapp.models.AddressCreator
 import com.marekpdev.shoppingapp.models.payments.PaymentCard
 import com.marekpdev.shoppingapp.mvi.State
 

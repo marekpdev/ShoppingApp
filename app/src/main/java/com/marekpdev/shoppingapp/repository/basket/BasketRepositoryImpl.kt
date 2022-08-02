@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.repository.basket
 
-import android.util.Log
 import com.marekpdev.shoppingapp.models.BasketProduct
 import com.marekpdev.shoppingapp.models.Color
 import com.marekpdev.shoppingapp.models.Product
@@ -51,7 +50,6 @@ class BasketRepositoryImpl @Inject constructor(): BasketRepository {
     }
 
     override suspend fun updateSize(basketProduct: BasketProduct, size: Size) {
-        Log.d("FEO33", "Update size" + size)
         val updatedBasketProducts = basketProducts.value.map {
             when (it.id == basketProduct.id) {
                 true -> it.copy(selectedSize = size)
@@ -62,7 +60,6 @@ class BasketRepositoryImpl @Inject constructor(): BasketRepository {
     }
 
     override suspend fun updateColor(basketProduct: BasketProduct, color: Color) {
-        Log.d("FEO33", "Update color" + color + "for ${basketProduct.id}")
         val updatedBasketProducts = basketProducts.value.map {
             when (it.id == basketProduct.id) {
                 true -> it.copy(selectedColor = color)

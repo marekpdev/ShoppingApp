@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.order
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.marekpdev.shoppingapp.ui.base.BaseViewModel
@@ -35,7 +34,6 @@ class OrderViewModel @AssistedInject constructor(
     }
 
     init {
-        Log.d("FEO33", "INIT OrderViewModel")
         dispatch(OrderAction.FetchOrder(orderId))
     }
 }

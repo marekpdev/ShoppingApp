@@ -5,7 +5,6 @@ import com.marekpdev.shoppingapp.models.order.Order
 import com.marekpdev.shoppingapp.models.order.OrderProduct
 import com.marekpdev.shoppingapp.models.order.OrderStatus
 import com.marekpdev.shoppingapp.models.payments.PaymentCard
-import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 

@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.editprofile
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +47,6 @@ class EditProfileMiddleware @Inject constructor(private val userRepository: User
         requestCommand: suspend (EditProfileCommand) -> Unit
     ) {
         requestAction(EditProfileAction.Loading)
-        Log.d("FEO33", "Current name ${currentState.name}")
         userRepository.updateUserData(currentState.name, currentState.surname)
         requestAction(EditProfileAction.ProfileUpdated)
     }

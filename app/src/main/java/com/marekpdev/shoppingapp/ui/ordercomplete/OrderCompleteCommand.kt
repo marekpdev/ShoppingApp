@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.ui.ordercomplete
 
 import com.marekpdev.shoppingapp.mvi.Command
-import com.marekpdev.shoppingapp.ui.orders.OrdersCommand
 
 /**
  * Created by Marek Pszczolka on 25/07/2022.

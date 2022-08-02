@@ -1,7 +1,6 @@
 package com.marekpdev.shoppingapp.ui.address
 
 import com.marekpdev.shoppingapp.models.Address
-import com.marekpdev.shoppingapp.models.AddressCreator
 import com.marekpdev.shoppingapp.mvi.State
 
 /**

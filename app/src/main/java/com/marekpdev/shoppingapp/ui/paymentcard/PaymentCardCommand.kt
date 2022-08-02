@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.paymentcard
 
-import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.mvi.Command
 
 /**

@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.basket
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +26,6 @@ class BasketNavigationMiddleware: Middleware<BasketState, BasketAction, BasketCo
         when(action){
             is BasketAction.BasketProductClicked -> requestCommand(BasketCommand.EditBasketProduct(action.basketProduct.id))
             is BasketAction.ContinueCheckout -> {
-                Log.d("FEO33", "onContinueCheckout middleware")
                 requestCommand(BasketCommand.ContinueCheckout)
             }
         }

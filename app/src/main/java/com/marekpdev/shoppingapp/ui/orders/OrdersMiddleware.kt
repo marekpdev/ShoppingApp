@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.orders
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
@@ -29,10 +28,8 @@ class OrdersMiddleware @Inject constructor(private val userRepository: UserRepos
             userRepository.getUser()
                 .collectLatest { user ->
                     user?.let {
-                        Log.d("FEO33", "Orders middleware id ${it.id}")
                         requestAction(OrdersAction.Loading)
                         ordersRepository.getOrders(it.id).collectLatest { orders ->
-                            Log.d("FEO33", "get latest middleware ${orders.size}")
                             requestAction(OrdersAction.RefreshData(orders))
                         }
                     }
