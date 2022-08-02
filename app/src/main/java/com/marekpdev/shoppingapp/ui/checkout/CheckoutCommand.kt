@@ -14,4 +14,6 @@ sealed class CheckoutCommand: Command {
     object HideDeliveryAddressBottomSheet : CheckoutCommand()
     object ShowPaymentMethodBottomSheet : CheckoutCommand()
     object HidePaymentMethodBottomSheet : CheckoutCommand()
+
+    data class GoToOrderCompleteScreen(val orderId: Long): CheckoutCommand()
 }

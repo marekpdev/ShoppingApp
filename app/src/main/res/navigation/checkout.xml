@@ -14,5 +14,20 @@
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.marekpdev.shoppingapp.ui.checkout.CheckoutFragment"
-        android:label="CheckoutFragment" />
+        android:label="CheckoutFragment" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_orderCompleteFragment"
+            app:destination="@id/orderCompleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderCompleteFragment"
+        android:name="com.marekpdev.shoppingapp.ui.ordercomplete.OrderCompleteFragment"
+        android:label="OrderCompleteFragment" >
+
+        <argument
+            android:name="orderId"
+            app:argType="long"
+            android:defaultValue="0L" />
+
+    </fragment>
 </navigation>

@@ -22,4 +22,8 @@ sealed class CheckoutAction : Action {
 
     data class SelectDeliveryAddress(val address: Address): CheckoutAction()
     data class SelectPaymentCard(val paymentCard: PaymentCard): CheckoutAction()
+
+    object PlaceOrder: CheckoutAction()
+    object OrderPlaced: CheckoutAction()
+
 }

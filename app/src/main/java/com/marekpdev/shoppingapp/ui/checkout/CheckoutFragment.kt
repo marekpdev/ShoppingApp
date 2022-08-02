@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marekpdev.shoppingapp.R
@@ -40,7 +41,7 @@ class CheckoutFragment : BaseFragment<CheckoutState, CheckoutAction, CheckoutCom
             .addDelegate(CheckoutPaymentMethodDelegate { viewModel.dispatch(CheckoutAction.SelectPaymentMethodClicked)})
             .addDelegate(CheckoutSelectDeliveryAddressDelegate { viewModel.dispatch(CheckoutAction.SelectDeliveryAddressClicked)})
             .addDelegate(CheckoutSelectPaymentMethodDelegate { viewModel.dispatch(CheckoutAction.SelectPaymentMethodClicked)})
-            .addDelegate(CheckoutPlaceOrderAdapterDelegate {})
+            .addDelegate(CheckoutPlaceOrderAdapterDelegate { viewModel.dispatch(CheckoutAction.PlaceOrder)})
     )
 
     override fun initLayout(binding: FragmentCheckoutBinding) = with(binding){
@@ -68,6 +69,9 @@ class CheckoutFragment : BaseFragment<CheckoutState, CheckoutAction, CheckoutCom
             }
             is CheckoutCommand.ShowPaymentMethodBottomSheet -> {
                 PaymentMethodBottomSheet().show(parentFragmentManager, PaymentMethodBottomSheet.TAG)
+            }
+            is CheckoutCommand.GoToOrderCompleteScreen -> {
+                findNavController().navigate(CheckoutFragmentDirections.actionCheckoutFragmentToOrderCompleteFragment(orderId = command.orderId))
             }
         }
     }
