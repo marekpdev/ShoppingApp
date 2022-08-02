@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.addresses
 
-import android.util.Log
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
@@ -30,11 +29,9 @@ class AddressesMiddleware @Inject constructor(
             userRepository.getUser()
                 .collectLatest { user ->
                     user?.let {
-                        Log.d("FEO33", "Orders middleware id ${it.id}")
                         requestAction(AddressesAction.Loading)
-                        addressesRepository.getAddresses(it.id).collectLatest { orders ->
-                            Log.d("FEO33", "get latest middleware ${orders.size}")
-                            requestAction(AddressesAction.RefreshData(orders))
+                        addressesRepository.getAddresses(it.id).collectLatest { addresses ->
+                            requestAction(AddressesAction.RefreshData(addresses))
                         }
                     }
                 }

@@ -4,10 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.marekpdev.shoppingapp.R
-import com.marekpdev.shoppingapp.databinding.VhAddAddressBinding
 import com.marekpdev.shoppingapp.databinding.VhAddPaymentCardBinding
-import com.marekpdev.shoppingapp.databinding.VhAddressBinding
-import com.marekpdev.shoppingapp.models.Address
 import com.marekpdev.shoppingapp.rvutils.BaseAdapterDelegate
 import com.marekpdev.shoppingapp.rvutils.BaseViewHolder
 

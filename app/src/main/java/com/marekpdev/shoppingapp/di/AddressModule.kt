@@ -1,11 +1,8 @@
 package com.marekpdev.shoppingapp.di
 
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
-import com.marekpdev.shoppingapp.repository.addresses.AddressesRepositoryImpl
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import com.marekpdev.shoppingapp.ui.address.*
-import com.marekpdev.shoppingapp.ui.addresses.*
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

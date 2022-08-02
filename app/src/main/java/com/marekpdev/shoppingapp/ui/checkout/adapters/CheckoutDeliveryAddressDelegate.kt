@@ -1,4 +1,4 @@
-package com.marekpdev.shoppingapp.ui.checkout
+package com.marekpdev.shoppingapp.ui.checkout.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ class CheckoutDeliveryAddressDelegate(private val onEditAddress: (Address) -> Un
         holder.bind {
             ivEdit.setOnClickListener { onEditAddress(item) }
 
-            tvDeliveryAddressLabel.text = "Delivery Address X"
+            tvDeliveryAddressLabel.text = "Delivery Address"
             val sbAddress = StringBuilder()
             sbAddress.appendLine(item.line1)
             sbAddress.appendLine(item.line2)

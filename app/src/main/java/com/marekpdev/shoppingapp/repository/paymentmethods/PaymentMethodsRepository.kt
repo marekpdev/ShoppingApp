@@ -1,7 +1,5 @@
 package com.marekpdev.shoppingapp.repository.paymentmethods
 
-import com.marekpdev.shoppingapp.models.Address
-import com.marekpdev.shoppingapp.models.AddressCreator
 import com.marekpdev.shoppingapp.models.payments.PaymentCard
 import com.marekpdev.shoppingapp.models.payments.PaymentCardCreator
 import com.marekpdev.shoppingapp.models.payments.PaymentMethod

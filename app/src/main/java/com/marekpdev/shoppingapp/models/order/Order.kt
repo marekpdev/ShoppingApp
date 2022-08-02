@@ -1,6 +1,7 @@
 package com.marekpdev.shoppingapp.models.order
 
 import com.marekpdev.shoppingapp.models.Address
+import com.marekpdev.shoppingapp.models.BasketProduct
 import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 
 /**
@@ -16,3 +17,8 @@ data class Order (
     val createdAt: Long, // timestamp in ms
     val status: OrderStatus
 )
+
+data class OrderCreator(val userId: Long,
+                        val products: List<BasketProduct>,
+                        val deliveryAddress: Address,
+                        val paymentMethod: PaymentMethod)

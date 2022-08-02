@@ -10,13 +10,10 @@ import com.marekpdev.shoppingapp.models.payments.PaymentCard
 import com.marekpdev.shoppingapp.models.payments.PaymentMethod
 import com.marekpdev.shoppingapp.rvutils.AdapterDelegatesManager
 import com.marekpdev.shoppingapp.rvutils.BaseAdapter
-import com.marekpdev.shoppingapp.ui.addresses.AddressesCommand
-import com.marekpdev.shoppingapp.ui.addresses.AddressesFragmentDirections
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.AddPaymentCard
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.AddPaymentCardAdapterDelegate
 import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentCardAdapterDelegate
-import com.marekpdev.shoppingapp.ui.paymentmethods.adapters.PaymentMethodAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

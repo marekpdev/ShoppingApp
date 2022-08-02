@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/checkout"
-    app:startDestination="@id/checkoutFragment">
+    app:startDestination="@id/basketFragment">
 
     <fragment
-        android:id="@+id/checkoutFragment"
+        android:id="@+id/basketFragment"
         android:name="com.marekpdev.shoppingapp.ui.basket.BasketFragment"
-        android:label="CheckoutFragment" >
+        android:label="BasketFragment" >
         <action
-            android:id="@+id/action_checkoutFragment_to_checkoutOrderDetailsFragment"
-            app:destination="@id/checkoutOrderDetailsFragment" />
+            android:id="@+id/action_basketFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
-        android:id="@+id/checkoutOrderDetailsFragment"
-        android:name="com.marekpdev.shoppingapp.ui.checkout.orderdetails.CheckoutOrderDetailsFragment"
-        android:label="CheckoutOrderDetailsFragment" />
+        android:id="@+id/checkoutFragment"
+        android:name="com.marekpdev.shoppingapp.ui.checkout.CheckoutFragment"
+        android:label="CheckoutFragment" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_orderCompleteFragment"
+            app:destination="@id/orderCompleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderCompleteFragment"
+        android:name="com.marekpdev.shoppingapp.ui.ordercomplete.OrderCompleteFragment"
+        android:label="OrderCompleteFragment" >
+
+        <argument
+            android:name="orderId"
+            app:argType="long"
+            android:defaultValue="0L" />
+
+    </fragment>
 </navigation>

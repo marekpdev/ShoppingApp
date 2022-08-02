@@ -1,6 +1,5 @@
 package com.marekpdev.shoppingapp.ui.address
 
-import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -9,9 +8,6 @@ import androidx.navigation.fragment.navArgs
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentAddressBinding
 import com.marekpdev.shoppingapp.ui.base.BaseFragment
-import com.marekpdev.shoppingapp.ui.product.ProductFragmentArgs
-import com.marekpdev.shoppingapp.ui.product.ProductViewModel
-import com.marekpdev.shoppingapp.ui.search.SearchAction
 import com.marekpdev.shoppingapp.utils.setTextIfDifferent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

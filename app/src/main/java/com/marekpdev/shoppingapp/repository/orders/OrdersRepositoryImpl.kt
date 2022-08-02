@@ -1,6 +1,9 @@
 package com.marekpdev.shoppingapp.repository.orders
 
 import com.marekpdev.shoppingapp.models.order.Order
+import com.marekpdev.shoppingapp.models.order.OrderCreator
+import com.marekpdev.shoppingapp.models.order.OrderProduct
+import com.marekpdev.shoppingapp.models.order.OrderStatus
 import com.marekpdev.shoppingapp.repository.Data
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -8,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
+import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
 /**
@@ -53,5 +57,42 @@ class OrdersRepositoryImpl @Inject constructor(): OrdersRepository{
             Data.getOrder(userId, currentTime.minusDays(100).millis, 2),
             Data.getOrder(userId, currentTime.minusDays(120).millis, 3),
         )
+    }
+
+    private var orderId = AtomicLong(100000) // test value
+
+    override suspend fun placeOrder(orderCreator: OrderCreator): Order {
+        delay(2000L) //todo just for testing
+
+        val orderProducts = orderCreator.products.map {
+            OrderProduct(
+                it.id,
+                it.productId,
+                it.name,
+                it.description,
+                it.price,
+                it.currency,
+                it.images,
+                it.selectedSize,
+                it.selectedColor
+            )
+        }
+
+        val newOrder = Order(
+            id = orderId.getAndIncrement(),
+            userId = orderCreator.userId,
+            products = orderProducts,
+            totalCost = orderProducts.sumOf { it.price },
+            deliveryAddress = orderCreator.deliveryAddress,
+            paymentMethod = orderCreator.paymentMethod,
+            createdAt = DateTime.now().millis,
+            status = OrderStatus.IN_PROGRESS
+        )
+
+        val oldOrders = ordersPerUser[orderCreator.userId] ?: MutableStateFlow(emptyList())
+        val newOrders = oldOrders.value.toMutableList().apply { add(newOrder) }
+        ordersPerUser[orderCreator.userId]?.emit(newOrders)
+
+        return newOrder
     }
 }
