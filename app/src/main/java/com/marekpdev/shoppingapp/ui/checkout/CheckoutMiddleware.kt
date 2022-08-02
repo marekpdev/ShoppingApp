@@ -61,6 +61,17 @@ class CheckoutMiddleware @Inject constructor(private val userRepository: UserRep
         requestAction: suspend (CheckoutAction) -> Unit,
         requestCommand: suspend (CheckoutCommand) -> Unit
     ) {
+        when(action) {
+            is CheckoutAction.PlaceOrder -> onPlaceOrder(action, currentState, requestAction, requestCommand)
+        }
+    }
+
+    private suspend fun onPlaceOrder(
+        action: CheckoutAction.PlaceOrder,
+        currentState: CheckoutState,
+        requestAction: suspend (CheckoutAction) -> Unit,
+        requestCommand: suspend (CheckoutCommand) -> Unit
+    ) {
         val userId = userRepository.getUser().value?.id ?: return
         if(currentState.selectedDeliveryAddress == null) return
         if(currentState.selectedPaymentMethod == null) return
