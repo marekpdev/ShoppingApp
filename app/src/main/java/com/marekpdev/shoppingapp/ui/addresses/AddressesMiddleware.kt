@@ -4,8 +4,7 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.addresses.AddressesRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,6 +35,14 @@ class AddressesMiddleware @Inject constructor(
                     }
                 }
         }
+
+        // TODO use this instead?
+        userRepository.getUser()
+            .onEach { requestAction(AddressesAction.Loading) }
+            .filterNotNull()
+            .flatMapLatest { user -> addressesRepository.getAddresses(user.id) }
+            .onEach { addresses -> requestAction(AddressesAction.RefreshData(addresses)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

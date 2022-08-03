@@ -2,6 +2,7 @@ package com.marekpdev.shoppingapp.mvi
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ open class Store <S: State, A: Action, C: Command> (
     // use DI
     // https://medium.com/androiddevelopers/create-an-application-coroutinescope-using-hilt-dd444e721528
     // https://developer.android.com/kotlin/coroutines/coroutines-best-practices#create-coroutines-data-layer
-    private val coroutineScope = CoroutineScope(Dispatchers.Main) // TODO use DI
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob()) // TODO use DI
 
     init {
 
