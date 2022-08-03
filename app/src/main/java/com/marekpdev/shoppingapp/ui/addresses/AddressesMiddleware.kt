@@ -36,11 +36,11 @@ class AddressesMiddleware @Inject constructor(
                 }
         }
 
-        // TODO use this instead?
+        // TODO use this instead? check if this works
         userRepository.getUser()
-            .onEach { requestAction(AddressesAction.Loading) }
+            .onEach { requestAction(AddressesAction.Loading) } // TODO use onStart on onEach?
             .filterNotNull()
-            .flatMapLatest { user -> addressesRepository.getAddresses(user.id) }
+            .flatMapLatest { user -> addressesRepository.getAddresses(user.id) } // TODO which flatmap type to use?
             .onEach { addresses -> requestAction(AddressesAction.RefreshData(addresses)) }
             .launchIn(coroutineScope)
     }
