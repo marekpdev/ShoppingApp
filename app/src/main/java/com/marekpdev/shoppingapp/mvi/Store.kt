@@ -1,11 +1,8 @@
 package com.marekpdev.shoppingapp.mvi
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 /**
  * Created by Marek Pszczolka on 04/06/2022.
@@ -13,7 +10,8 @@ import kotlinx.coroutines.launch
 open class Store <S: State, A: Action, C: Command> (
     initialState: S,
     private val middlewares: List<Middleware<S, A, C>>,
-    private val reducer: Reducer<S, A>
+    private val reducer: Reducer<S, A>,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main // TODO use DI?
 ) {
 
     private val actions = Channel<A>()
@@ -32,18 +30,18 @@ open class Store <S: State, A: Action, C: Command> (
     init {
 
         middlewares.forEach { middleware ->
-            coroutineScope.launch {
+            coroutineScope.launch(dispatcher) {
                 middleware.bind(coroutineScope, state, actions::send)
             }
         }
 
-        coroutineScope.launch {
+        coroutineScope.launch(dispatcher) {
             actions.receiveAsFlow().map { action ->
                 val currentState = state.value
                 middlewares.forEach { middleware ->
                     // we want to do things in parallel here so we can call reducer.reduce immediately
                     // and not block the workflow here
-                    launch {
+                    launch(dispatcher) {
                         middleware.process(
                             action,
                             currentState,
