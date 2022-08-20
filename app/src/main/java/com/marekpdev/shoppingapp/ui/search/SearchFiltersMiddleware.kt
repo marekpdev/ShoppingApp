@@ -28,6 +28,8 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
         // TODO this only works if we add buffer() - not sure why, need to investigate
         // seems like collectLatest() internally uses buffer() as well so that's why the other solution works
         // (if we changed the other solution to just collect() it doesn't work either)
+        // Also might need to change it to coroutineScope.launch(dispatcher) instead of launchIn() chain
+        // so we can use custom dispatcher if needed (e.g. for testing)
         productsRepository.getAllMenu()
             .map { menu -> getInitFiltersAction(menu.products) }
             .distinctUntilChanged()
