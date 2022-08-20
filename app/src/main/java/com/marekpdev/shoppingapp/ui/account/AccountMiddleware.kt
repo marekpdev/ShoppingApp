@@ -5,6 +5,8 @@ import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,12 +21,9 @@ class AccountMiddleware @Inject constructor(val userRepository: UserRepository) 
         state: StateFlow<AccountState>,
         requestAction: suspend (AccountAction) -> Unit
     ) {
-        coroutineScope.launch {
-            userRepository.getUser()
-                .collectLatest { user ->
-                    requestAction(AccountAction.RefreshUserData(user?.name ?: "N/A"))
-                }
-        }
+        userRepository.getUser()
+            .onEach { user -> requestAction(AccountAction.RefreshUserData(user?.name ?: "N/A")) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

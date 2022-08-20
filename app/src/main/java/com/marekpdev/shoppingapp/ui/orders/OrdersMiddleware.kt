@@ -4,8 +4,7 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,27 +13,19 @@ import javax.inject.Inject
  */
 class OrdersMiddleware @Inject constructor(private val userRepository: UserRepository,
                                            private val ordersRepository: OrdersRepository
-    ) :
-    Middleware<OrdersState, OrdersAction, OrdersCommand> {
+    ) : Middleware<OrdersState, OrdersAction, OrdersCommand> {
 
     override suspend fun bind(
         coroutineScope: CoroutineScope,
         state: StateFlow<OrdersState>,
         requestAction: suspend (OrdersAction) -> Unit
     ) {
-        coroutineScope.launch {
-            // todo figure out a better way to chain these flows
-            // userRepository.getUser() & ordersRepository.getOrders(it.id)
-            userRepository.getUser()
-                .collectLatest { user ->
-                    user?.let {
-                        requestAction(OrdersAction.Loading)
-                        ordersRepository.getOrders(it.id).collectLatest { orders ->
-                            requestAction(OrdersAction.RefreshData(orders))
-                        }
-                    }
-                }
-        }
+        userRepository.getUser()
+            .filterNotNull()
+            .onEach { requestAction(OrdersAction.Loading) }
+            .flatMapLatest { user -> ordersRepository.getOrders(user.id) }
+            .onEach { orders -> requestAction(OrdersAction.RefreshData(orders)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

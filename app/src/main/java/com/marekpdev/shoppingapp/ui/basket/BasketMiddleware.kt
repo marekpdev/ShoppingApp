@@ -6,6 +6,8 @@ import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,28 +26,25 @@ class BasketMiddleware @Inject constructor(private val productsRepository: Produ
         state: StateFlow<BasketState>,
         requestAction: suspend (BasketAction) -> Unit
     ) {
-        coroutineScope.launch {
-            basketRepository.observeBasketProducts()
-                .collectLatest { basketProducts ->
-                    requestAction(BasketAction.RefreshData(basketProducts, basketProducts.sumOf { it.price }))
-                }
-        }
+        basketRepository.observeBasketProducts()
+            .onEach { basketProducts -> requestAction(BasketAction.RefreshData(basketProducts, basketProducts.sumOf { it.price })) }
+            .launchIn(coroutineScope)
 
-        coroutineScope.launch {
-            productsRepository.getAllMenu()
-                .collectLatest { menu ->
-                    if(!testProductsAdded) {
-                        menu.products.take(3).forEach {
-                            basketRepository.addToBasket(
-                                it,
-                                it.availableSizes.firstOrNull(),
-                                it.availableColors.firstOrNull()
-                            )
-                        }
-                        testProductsAdded = true
+        // TODO only for testing
+        productsRepository.getAllMenu()
+            .onEach { menu ->
+                if(!testProductsAdded) {
+                    menu.products.take(3).forEach {
+                        basketRepository.addToBasket(
+                            it,
+                            it.availableSizes.firstOrNull(),
+                            it.availableColors.firstOrNull()
+                        )
                     }
+                    testProductsAdded = true
                 }
-        }
+            }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

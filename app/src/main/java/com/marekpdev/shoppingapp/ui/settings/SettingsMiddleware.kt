@@ -3,8 +3,7 @@ package com.marekpdev.shoppingapp.ui.settings
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,13 +20,10 @@ class SettingsMiddleware @Inject constructor(
         state: StateFlow<SettingsState>,
         requestAction: suspend (SettingsAction) -> Unit
     ) {
-        coroutineScope.launch {
-            requestAction(SettingsAction.Loading)
-            settingsRepository.getSettings()
-                .collectLatest { settings ->
-                    requestAction(SettingsAction.RefreshData(settings))
-                }
-        }
+        settingsRepository.getSettings()
+            .onStart { requestAction(SettingsAction.Loading) }
+            .onEach { settings -> requestAction(SettingsAction.RefreshData(settings)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(
