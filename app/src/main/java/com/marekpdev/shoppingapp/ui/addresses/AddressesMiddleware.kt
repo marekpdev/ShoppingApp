@@ -22,25 +22,10 @@ class AddressesMiddleware @Inject constructor(
         state: StateFlow<AddressesState>,
         requestAction: suspend (AddressesAction) -> Unit
     ) {
-        coroutineScope.launch {
-            // todo figure out a better way to chain these flows
-            // userRepository.getUser() & addressesRepository.getOrders(it.id)
-            userRepository.getUser()
-                .collectLatest { user ->
-                    user?.let {
-                        requestAction(AddressesAction.Loading)
-                        addressesRepository.getAddresses(it.id).collectLatest { addresses ->
-                            requestAction(AddressesAction.RefreshData(addresses))
-                        }
-                    }
-                }
-        }
-
-        // TODO use this instead? check if this works
         userRepository.getUser()
-            .onEach { requestAction(AddressesAction.Loading) } // TODO use onStart on onEach?
             .filterNotNull()
-            .flatMapLatest { user -> addressesRepository.getAddresses(user.id) } // TODO which flatmap type to use?
+            .onEach { requestAction(AddressesAction.Loading) } // TODO use onStart or onEach?
+            .flatMapLatest { user -> addressesRepository.getAddresses(user.id) }
             .onEach { addresses -> requestAction(AddressesAction.RefreshData(addresses)) }
             .launchIn(coroutineScope)
     }

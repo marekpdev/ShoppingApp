@@ -4,8 +4,7 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.paymentmethods.PaymentMethodsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,19 +22,12 @@ class PaymentMethodsMiddleware @Inject constructor(
         state: StateFlow<PaymentMethodsState>,
         requestAction: suspend (PaymentMethodsAction) -> Unit
     ) {
-        coroutineScope.launch {
-            // todo figure out a better way to chain these flows
-            // userRepository.getUser() & paymentMethodsRepository.getOrders(it.id)
-            userRepository.getUser()
-                .collectLatest { user ->
-                    user?.let {
-                        requestAction(PaymentMethodsAction.Loading)
-                        paymentMethodsRepository.getPaymentMethods(it.id).collectLatest { paymentMethods ->
-                            requestAction(PaymentMethodsAction.RefreshData(paymentMethods))
-                        }
-                    }
-                }
-        }
+        userRepository.getUser()
+            .filterNotNull()
+            .onEach { requestAction(PaymentMethodsAction.Loading) }
+            .flatMapLatest { user -> paymentMethodsRepository.getPaymentMethods(user.id) }
+            .onEach { paymentMethods -> requestAction(PaymentMethodsAction.RefreshData(paymentMethods)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

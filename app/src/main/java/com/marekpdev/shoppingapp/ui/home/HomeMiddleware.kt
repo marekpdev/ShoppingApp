@@ -7,6 +7,8 @@ import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,23 +24,19 @@ class HomeMiddleware @Inject constructor(private val productsRepository: Product
         state: StateFlow<HomeState>,
         requestAction: suspend (HomeAction) -> Unit
     ) {
-        coroutineScope.launch {
-            productsRepository.getAllMenu()
-                .collectLatest { allMenu ->
-                    val productRecommendations = allMenu.categories
-                        .filter { category -> category.displayPlace == DisplayPlace.HOME }
-                        .map { category -> category to allMenu.products.filter { product -> category.id in product.parentCategoryIds } }
+        productsRepository.getAllMenu()
+            .onEach { allMenu ->
+                val productRecommendations = allMenu.categories
+                    .filter { category -> category.displayPlace == DisplayPlace.HOME }
+                    .map { category -> category to allMenu.products.filter { product -> category.id in product.parentCategoryIds } }
 
-                    requestAction(HomeAction.RefreshProductRecommendations(productRecommendations))
-                }
-        }
+                requestAction(HomeAction.RefreshProductRecommendations(productRecommendations))
+            }
+            .launchIn(coroutineScope)
 
-        coroutineScope.launch {
-            homeBannersRepository.getHomeBanners()
-                .collectLatest { homeBanners ->
-                    requestAction(HomeAction.RefreshHomeBanners(homeBanners))
-                }
-        }
+        homeBannersRepository.getHomeBanners()
+            .onEach { homeBanners -> requestAction(HomeAction.RefreshHomeBanners(homeBanners)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

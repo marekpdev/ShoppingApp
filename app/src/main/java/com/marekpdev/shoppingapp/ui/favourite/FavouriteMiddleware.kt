@@ -5,6 +5,8 @@ import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,14 +21,12 @@ class FavouriteMiddleware @Inject constructor(private val productsRepository: Pr
         state: StateFlow<FavouriteState>,
         requestAction: suspend (FavouriteAction) -> Unit
     ) {
-        coroutineScope.launch {
-            productsRepository.getAllMenu()
-                .collectLatest { menu ->
-                    val currentState = state.value
-                    val favouredProducts = menu.products.filter { it.isFavoured }
-                    requestAction(FavouriteAction.RefreshData(favouredProducts))
-                }
-        }
+        productsRepository.getAllMenu()
+            .onEach { menu ->
+                val favouredProducts = menu.products.filter { it.isFavoured }
+                requestAction(FavouriteAction.RefreshData(favouredProducts))
+            }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

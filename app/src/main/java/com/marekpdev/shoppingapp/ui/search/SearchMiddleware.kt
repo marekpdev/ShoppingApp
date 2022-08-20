@@ -38,6 +38,7 @@ class SearchMiddleware @Inject constructor(private val productsRepository: Produ
         state: StateFlow<SearchState>,
         requestAction: suspend (SearchAction) -> Unit // TODO can remove 'suspend' from here?
     ) {
+        // TODO change to chain with launchIn(coroutineScope) instead of coroutineScope.launch {}
         coroutineScope.launch {
             searchQueryChangedActions
                 .debounce(400L)

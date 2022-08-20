@@ -3,8 +3,7 @@ package com.marekpdev.shoppingapp.ui.editprofile
 import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,14 +18,10 @@ class EditProfileMiddleware @Inject constructor(private val userRepository: User
         state: StateFlow<EditProfileState>,
         requestAction: suspend (EditProfileAction) -> Unit
     ) {
-        coroutineScope.launch {
-            userRepository.getUser()
-                .collectLatest { user ->
-                    user?.let {
-                        requestAction(EditProfileAction.RefreshUserData(it))
-                    }
-                }
-        }
+        userRepository.getUser()
+            .filterNotNull()
+            .onEach { user -> requestAction(EditProfileAction.RefreshUserData(user)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

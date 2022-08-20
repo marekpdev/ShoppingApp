@@ -7,10 +7,7 @@ import com.marekpdev.shoppingapp.mvi.Middleware
 import com.marekpdev.shoppingapp.repository.products.ProductsRepository
 import com.marekpdev.shoppingapp.ui.search.filter.Filters
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.ceil
@@ -28,12 +25,11 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
         state: StateFlow<SearchState>,
         requestAction: suspend (SearchAction) -> Unit
     ) {
-        coroutineScope.launch {
-            productsRepository.getAllMenu()
-                .map { menu -> getInitFiltersAction(menu.products) }
-                .distinctUntilChanged()
-                .collectLatest { filters -> requestAction(SearchAction.InitFilters(filters)) }
-        }
+        productsRepository.getAllMenu()
+            .map { menu -> getInitFiltersAction(menu.products) }
+            .distinctUntilChanged()
+            .onEach { filters -> requestAction(SearchAction.InitFilters(filters)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(

@@ -8,8 +8,7 @@ import com.marekpdev.shoppingapp.repository.orders.OrdersRepository
 import com.marekpdev.shoppingapp.repository.paymentmethods.PaymentMethodsRepository
 import com.marekpdev.shoppingapp.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,30 +28,19 @@ class CheckoutMiddleware @Inject constructor(private val userRepository: UserRep
         state: StateFlow<CheckoutState>,
         requestAction: suspend (CheckoutAction) -> Unit
     ) {
-        coroutineScope.launch {
-            // todo figure out a better way to chain these flows
-            // userRepository.getUser() & addressesRepository.getOrders(it.id)
-            userRepository.getUser()
-                .collectLatest { user ->
-                    user?.let {
-                        requestAction(CheckoutAction.LoadingDeliveryAddresses)
-                        addressesRepository.getAddresses(it.id).collectLatest { addresses ->
-                            requestAction(CheckoutAction.RefreshDeliveryAddresses(addresses))
-                        }
-                    }
-                }
-        }
-        coroutineScope.launch {
-            userRepository.getUser()
-                .collectLatest { user ->
-                    user?.let {
-                        requestAction(CheckoutAction.LoadingPaymentMethods)
-                        paymentMethodsRepository.getPaymentMethods(it.id).collectLatest { paymentMethods ->
-                            requestAction(CheckoutAction.RefreshPaymentMethods(paymentMethods))
-                        }
-                    }
-                }
-        }
+        userRepository.getUser()
+            .filterNotNull()
+            .onEach { requestAction(CheckoutAction.LoadingDeliveryAddresses) }
+            .flatMapLatest { user -> addressesRepository.getAddresses(user.id) }
+            .onEach { addresses -> requestAction(CheckoutAction.RefreshDeliveryAddresses(addresses)) }
+            .launchIn(coroutineScope)
+
+        userRepository.getUser()
+            .filterNotNull()
+            .onEach { requestAction(CheckoutAction.LoadingPaymentMethods) }
+            .flatMapLatest { user -> paymentMethodsRepository.getPaymentMethods(user.id) }
+            .onEach { paymentMethods -> requestAction(CheckoutAction.RefreshPaymentMethods(paymentMethods)) }
+            .launchIn(coroutineScope)
     }
 
     override suspend fun process(
