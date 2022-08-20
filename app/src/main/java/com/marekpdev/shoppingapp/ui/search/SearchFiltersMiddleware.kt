@@ -25,11 +25,23 @@ class SearchFiltersMiddleware @Inject constructor(private val productsRepository
         state: StateFlow<SearchState>,
         requestAction: suspend (SearchAction) -> Unit
     ) {
+        // TODO this only works if we add buffer() - not sure why, need to investigate
+        // seems like collectLatest() internally uses buffer() as well so that's why the other solution works
+        // (if we changed the other solution to just collect() it doesn't work either)
         productsRepository.getAllMenu()
             .map { menu -> getInitFiltersAction(menu.products) }
             .distinctUntilChanged()
             .onEach { filters -> requestAction(SearchAction.InitFilters(filters)) }
+            .buffer(0)
             .launchIn(coroutineScope)
+
+        // TODO this worked well
+//        coroutineScope.launch {
+//            productsRepository.getAllMenu()
+//                .map { menu -> getInitFiltersAction(menu.products) }
+//                .distinctUntilChanged()
+//                .collectLatest { filters -> requestAction(SearchAction.InitFilters(filters)) }
+//        }
     }
 
     override suspend fun process(
