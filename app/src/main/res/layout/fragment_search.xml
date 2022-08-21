@@ -82,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/statusBarSpace" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.marekpdev.shoppingapp.views.AutoStretchTabLayout
             android:id="@+id/tabLayoutCategories"
             android:layout_width="0dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:text="Accessories" />
 
-        </com.google.android.material.tabs.TabLayout>
+        </com.marekpdev.shoppingapp.views.AutoStretchTabLayout>
 
         <TextView
             android:id="@+id/tvSummary"
