@@ -2,9 +2,7 @@ package com.marekpdev.shoppingapp.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.core.view.*
 import com.google.android.material.tabs.TabLayout
 
@@ -21,35 +19,13 @@ class AutoStretchTabLayout : TabLayout {
         defStyleAttr
     )
 
-    init {
-//        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                Log.d("FEO600", "globalLayoutListener" + System.currentTimeMillis())
-//                stretchTabs()
-//            }
-//        }
-//        viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
-
-//        doOnNextLayout {
-//            Log.d("FEO600", "doOnNextLayout" + System.currentTimeMillis())
-//            stretchTabs()
-//        }
+    fun updateTabs(tabs: Collection<Tab>){
+        doOnNextLayout { stretchTabs() }
+        removeAllTabs()
+        tabs.forEach { addTab(it) }
     }
 
-    fun requestStretchTabs() {
-        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
-                Log.d("FEO600", "globalLayoutListener" + System.currentTimeMillis())
-                stretchTabs()
-            }
-        }
-        viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
-    }
-
-    fun stretchTabs() {
-        Log.d("FEO600", "stretchTabs" + System.currentTimeMillis())
+    private fun stretchTabs() {
         val tabLayout = this[0] as ViewGroup
 
         if(tabLayout.childCount == 0) return

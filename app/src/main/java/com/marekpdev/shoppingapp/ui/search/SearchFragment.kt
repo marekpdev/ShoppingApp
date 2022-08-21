@@ -85,7 +85,7 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
         return@with
     }
 
-    private val tabsMappings = mutableMapOf<String, TabLayout.Tab>()
+    private val tabsViewMappings = mutableMapOf<String, TabLayout.Tab>()
 
     override fun render(state: SearchState) {
         binding.apply {
@@ -103,29 +103,16 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
                 else -> View.GONE
             }
 
-            val tabs = listOf("Men", "Women", "Kids", "Accessories")
-            if(!tabsMappings.keys.containsAll(tabs)){
-//                tabLayoutCategories.requestStretchTabs() // works as well
-                tabLayoutCategories.doOnNextLayout { tabLayoutCategories.stretchTabs() }
-                Log.d("FEO600", "Adding tabs")
-                tabsMappings.clear()
-                tabLayoutCategories.removeAllTabs()
-                tabs.forEach { tabLabel ->
-                    val tab = tabLayoutCategories.newTab().setText(tabLabel)
-                    tabLayoutCategories.addTab(tab)
-                    tabsMappings[tabLabel] = tab
+            val tabs = listOf("Men", "Women", "Kids", "Accessories") // todo use real data
+            if(!tabsViewMappings.keys.containsAll(tabs)){
+                tabsViewMappings.clear()
+                val tabViews = tabs.map { tabLabel ->
+                    val tabView = tabLayoutCategories.newTab().setText(tabLabel)
+                    tabsViewMappings[tabLabel] = tabView
+                    tabView
                 }
+                tabLayoutCategories.updateTabs(tabViews)
             }
-
-            // TODO remove?
-//            val child = tabLayoutCategories[0] as ViewGroup
-//            tabLayoutCategories.requestLayout()
-//            child.requestLayout()
-//            tabLayoutCategories.invalidate()
-//            child.invalidate()
-//            tabLayoutCategories.viewTreeObserver.dispatchOnGlobalLayout()
-//            child.viewTreeObserver.dispatchOnGlobalLayout()
-//            tabLayoutCategories.stretch()
         }
     }
 
