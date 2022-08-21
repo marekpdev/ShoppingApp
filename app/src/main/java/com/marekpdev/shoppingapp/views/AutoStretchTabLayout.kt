@@ -22,34 +22,32 @@ class AutoStretchTabLayout : TabLayout {
     )
 
     init {
-//        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                Log.d("FEO600", "globalLayoutListener" + System.currentTimeMillis())
-//                val tabLayout = this@AutoStretchTabLayout[0] as ViewGroup
-//
-//                val tabsTotalWidth = tabLayout.children.sumOf { it.width }
-//
-//                val freeWidth = tabLayout.width - tabsTotalWidth
-//                val freeWidthPerTab = freeWidth / tabLayout.childCount
-//
-//                if(freeWidthPerTab > 0) {
-//                    tabLayout.children.forEach {
-//                        val layoutParams = it.layoutParams
-//                        layoutParams.width = it.width + freeWidthPerTab
-//                        it.layoutParams = layoutParams
-//                    }
-//                }
-//            }
+        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                Log.d("FEO600", "globalLayoutListener" + System.currentTimeMillis())
+                stretchTabs()
+            }
+        }
+        viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+
+//        doOnNextLayout {
+//            Log.d("FEO600", "doOnNextLayout" + System.currentTimeMillis())
+//            stretchTabs()
 //        }
-//        viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
-        doOnLayout {
-            Log.d("FEO600", "doOnLayout" + System.currentTimeMillis())
-            val tabLayout = this[0] as ViewGroup
+    }
 
-            val tabsTotalWidth = tabLayout.children.sumOf { it.width }
+    fun stretchTabs() {
+        Log.d("FEO600", "stretchTabs" + System.currentTimeMillis())
+        val tabLayout = this[0] as ViewGroup
 
-            val freeWidth = tabLayout.width - tabsTotalWidth
+        if(tabLayout.childCount == 0) return
+
+        val tabsTotalWidth = tabLayout.children.sumOf { it.width }
+
+        val freeWidth = tabLayout.width - tabsTotalWidth
+
+        if(freeWidth > 0) {
             val freeWidthPerTab = freeWidth / tabLayout.childCount
 
             if(freeWidthPerTab > 0) {

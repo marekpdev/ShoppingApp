@@ -105,13 +105,16 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
             tabs.forEach { tabLabel ->
                 tabLayoutCategories.addTab(tabLayoutCategories.newTab().setText(tabLabel))
             }
-            val child = tabLayoutCategories[0] as ViewGroup
-            tabLayoutCategories.requestLayout()
-            child.requestLayout()
-            tabLayoutCategories.invalidate()
-            child.invalidate()
-            tabLayoutCategories.viewTreeObserver.dispatchOnGlobalLayout()
-            child.viewTreeObserver.dispatchOnGlobalLayout()
+
+            // TODO remove?
+//            val child = tabLayoutCategories[0] as ViewGroup
+//            tabLayoutCategories.requestLayout()
+//            child.requestLayout()
+//            tabLayoutCategories.invalidate()
+//            child.invalidate()
+//            tabLayoutCategories.viewTreeObserver.dispatchOnGlobalLayout()
+//            child.viewTreeObserver.dispatchOnGlobalLayout()
+//            tabLayoutCategories.stretch()
         }
     }
 
