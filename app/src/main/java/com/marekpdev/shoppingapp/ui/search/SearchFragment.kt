@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.core.view.children
 import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.get
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -84,6 +85,8 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
         return@with
     }
 
+    private val tabsMappings = mutableMapOf<String, TabLayout.Tab>()
+
     override fun render(state: SearchState) {
         binding.apply {
             etSearch.setTextIfDifferent(state.searchQuery)
@@ -100,10 +103,18 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
                 else -> View.GONE
             }
 
-            val tabs = listOf("Text", "Text2ffe", "Text3f", "Text4")
-            tabLayoutCategories.removeAllTabs()
-            tabs.forEach { tabLabel ->
-                tabLayoutCategories.addTab(tabLayoutCategories.newTab().setText(tabLabel))
+            val tabs = listOf("Men", "Women", "Kids", "Accessories")
+            if(!tabsMappings.keys.containsAll(tabs)){
+//                tabLayoutCategories.requestStretchTabs() // works as well
+                tabLayoutCategories.doOnNextLayout { tabLayoutCategories.stretchTabs() }
+                Log.d("FEO600", "Adding tabs")
+                tabsMappings.clear()
+                tabLayoutCategories.removeAllTabs()
+                tabs.forEach { tabLabel ->
+                    val tab = tabLayoutCategories.newTab().setText(tabLabel)
+                    tabLayoutCategories.addTab(tab)
+                    tabsMappings[tabLabel] = tab
+                }
             }
 
             // TODO remove?

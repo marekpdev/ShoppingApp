@@ -22,6 +22,22 @@ class AutoStretchTabLayout : TabLayout {
     )
 
     init {
+//        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+//            override fun onGlobalLayout() {
+//                viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                Log.d("FEO600", "globalLayoutListener" + System.currentTimeMillis())
+//                stretchTabs()
+//            }
+//        }
+//        viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+
+//        doOnNextLayout {
+//            Log.d("FEO600", "doOnNextLayout" + System.currentTimeMillis())
+//            stretchTabs()
+//        }
+    }
+
+    fun requestStretchTabs() {
         val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -30,11 +46,6 @@ class AutoStretchTabLayout : TabLayout {
             }
         }
         viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
-
-//        doOnNextLayout {
-//            Log.d("FEO600", "doOnNextLayout" + System.currentTimeMillis())
-//            stretchTabs()
-//        }
     }
 
     fun stretchTabs() {
