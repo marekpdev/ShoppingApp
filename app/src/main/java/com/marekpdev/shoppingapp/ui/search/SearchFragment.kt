@@ -99,6 +99,19 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
                 true -> View.VISIBLE
                 else -> View.GONE
             }
+
+            val tabs = listOf("Text", "Text2ffe", "Text3f", "Text4")
+            tabLayoutCategories.removeAllTabs()
+            tabs.forEach { tabLabel ->
+                tabLayoutCategories.addTab(tabLayoutCategories.newTab().setText(tabLabel))
+            }
+            val child = tabLayoutCategories[0] as ViewGroup
+            tabLayoutCategories.requestLayout()
+            child.requestLayout()
+            tabLayoutCategories.invalidate()
+            child.invalidate()
+            tabLayoutCategories.viewTreeObserver.dispatchOnGlobalLayout()
+            child.viewTreeObserver.dispatchOnGlobalLayout()
         }
     }
 
