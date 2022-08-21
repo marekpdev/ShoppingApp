@@ -1,10 +1,17 @@
 package com.marekpdev.shoppingapp.ui.search
 
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import androidx.core.view.children
+import androidx.core.view.doOnLayout
+import androidx.core.view.get
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.marekpdev.shoppingapp.R
 import com.marekpdev.shoppingapp.databinding.FragmentSearchBinding
 import com.marekpdev.shoppingapp.models.Category
@@ -71,6 +78,28 @@ class SearchFragment : BaseFragment<SearchState, SearchAction, SearchCommand, Fr
         etSearch.doAfterTextChanged {
             viewModel.dispatch(SearchAction.SearchQueryChanged(it.toString()))
         }
+
+        tabLayoutCategories.doOnLayout {
+            val tabLayout = tabLayoutCategories[0] as ViewGroup
+            Log.d("FEO600", "tabLayout ${tabLayout.width}")
+            Log.d("FEO600", "tabLayout children ${tabLayout.childCount}")
+            var tabsWidth = 0
+            tabLayout.children.forEachIndexed { index, view ->
+                Log.d("FEO600", "Child $index has ${view.width}")
+                tabsWidth += view.width
+            }
+            val freeWidth = tabLayout.width - tabsWidth
+            if(freeWidth > 0) {
+                Log.d("FEO600", "We have free width $freeWidth")
+                val freeWidthPerTab = freeWidth / tabLayout.childCount
+                tabLayout.children.forEach {
+                    val layoutParams = it.layoutParams
+                    layoutParams.width = it.width + freeWidthPerTab
+                    it.layoutParams = layoutParams
+                }
+            }
+        }
+
         // TODO need to use some different scope function so i don't need to
         // explicitly say 'return@with' - maybe create my own?
         return@with
